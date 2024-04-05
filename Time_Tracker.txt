@@ -1,0 +1,10 @@
+This is a file that will be deleted by the end of the project.
+It will only be used to track how long different parts took to do.
+
+05/04/24
+
+The player moving within the boundary of the screen using 4 keys.:
+- Estimated 30 min. Start 17:20. End: 19:38 Act: 2hrs20mins Got a bit distracted!
+
+The player should look in the direction it is facing.
+- Estimated 2hrs. Start 19:40. End: 20:58 Act: 1hr18mins. Okay, gettin' somewhere.

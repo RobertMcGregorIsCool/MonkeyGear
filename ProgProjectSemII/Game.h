@@ -16,17 +16,22 @@ class Game
 
 	// put your game objects here eg player object and 
 	// array of enemy objects etc.
+	bool m_exitGame = false;
 
-	sf::RenderWindow window;
+	sf::RenderWindow m_window;
+
+	Player player;
 
 public:
 	sf::Font m_font;  // font for writing text
 	sf::Text m_message;  // text to write on the screen
+	sf::Vector2f m_desiredDir; // Vector 2 for players desired direction set by input events
 
 public:	  // declaration of member functions	
 	Game(); // default constructor
 	void	loadContent();
 	void	run();
-	void	update();
+	void	update(sf::Time t_deltaTime);
+	void	processEvents(sf::Event event);
 	void	draw();
 };
