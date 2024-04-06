@@ -8,3 +8,12 @@ The player moving within the boundary of the screen using 4 keys.:
 
 The player should look in the direction it is facing.
 - Estimated 2hrs. Start 19:40. End: 20:58 Act: 1hr18mins. Okay, gettin' somewhere.
+
+Refactoring programming stub so render is handled in another class.
+- Estimated 1hr. Start 14:08. End: 14:53. Act: 45mins. Nice and tidy.
+
+Move Input into its own class
+- Estimated 40mins. Start 14:58. End: 15:35. Act: 37mins. Bit awkward.
+
+One of the NPCs(enemy) types moving around within the boundary of the screen.
+- Estimated 1hr. Start: 15:40. PAUSE: 16:48 End:

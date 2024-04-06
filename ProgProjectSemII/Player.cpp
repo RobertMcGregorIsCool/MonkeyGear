@@ -4,7 +4,7 @@
 
 // Player function definitions here
 
-Player::Player()
+Player::Player(sf::Vector2f t_posStart)
 {
 	// m_rectShape.setFillColor(sf::Color::Red);
 	m_rectShape.setSize(sf::Vector2f(32.0f, 32.0f));
@@ -26,10 +26,11 @@ Player::~Player()
 
 void Player::move(sf::Time t_deltaTime, sf::Vector2f t_desiredDir)
 {
-	sf::Vector2f newVelocity = t_desiredDir * m_speedWalk * t_deltaTime.asSeconds();
+	sf::Vector2f newVelocity = t_desiredDir * M_SPEED_WALK * t_deltaTime.asSeconds();
 
 	sf::Vector2f testPos = m_rectShape.getPosition() + newVelocity;
 
+	// Screen bounds test
 	testPos.x = testPos.x > SCREEN_WIDTH ? SCREEN_WIDTH : testPos.x;
 	testPos.x = testPos.x < 0 ? 0 : testPos.x;
 	testPos.y = testPos.y > SCREEN_HEIGHT ? SCREEN_HEIGHT : testPos.y;
@@ -37,18 +38,17 @@ void Player::move(sf::Time t_deltaTime, sf::Vector2f t_desiredDir)
 
 	m_rectShape.setPosition(testPos);
 
+	// Orientation test from movement
 	if (std::abs(t_desiredDir.x) > 0.01f || std::abs(t_desiredDir.y) > 0.01f)
 	{// We have player input
 		if (std::abs(t_desiredDir.x) > std::abs(t_desiredDir.y))
 		{// We're facing horizontal
 			if (t_desiredDir.x > 0.0f)
 			{// We're facing right
-				std::cout << "Right\n\n";
 				m_intRect = { 18, 178, 42, 60 };
 			}
 			else
 			{// We're facing left
-				std::cout << "Left\n\n";
 				m_intRect = { 18, 92, 42, 60 };
 			}
 		}
@@ -56,13 +56,11 @@ void Player::move(sf::Time t_deltaTime, sf::Vector2f t_desiredDir)
 		{// We're facing vertical
 			if (t_desiredDir.y > 0.0f)
 			{// We're facing down
-				std::cout << "Down\n\n";
 				m_intRect = {18, 15, 42, 60};
 				
 			}
 			else
 			{// We're facing up
-				std::cout << "Up\n\n";
 				m_intRect = { 18, 258, 42, 60 };
 			}
 		}

@@ -7,12 +7,12 @@
 class Player
 {
 	// private data members
-	float m_speedWalk = 128.0f;
+	const float M_SPEED_WALK = 128.0f;
 
 	sf::Texture m_spriteSheet;
 
 public:
-	Player();
+	Player(sf::Vector2f t_posStart);
 	~Player();
 
 	void move(sf::Time t_deltaTime, sf::Vector2f t_desiredDir);

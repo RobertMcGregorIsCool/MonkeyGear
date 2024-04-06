@@ -1,6 +1,6 @@
 // Mon 8nd of April demo
-// The player moving within the boundary of the screen using 4 keys.
-// The player should look in the direction it is facing.
+// x The player moving within the boundary of the screen using 4 keys.
+// x The player should look in the direction it is facing.
 // One of the NPCs(enemy) types moving around within the boundary of the screen.
 // You should have more than one object of this NPC type moving on the screen.
 //
