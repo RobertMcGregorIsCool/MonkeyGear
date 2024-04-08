@@ -146,6 +146,20 @@ sf::Vector2f Hlp::v2fPerpendicularAntiClockwise(sf::Vector2f vec)
 	return sf::Vector2f(-vec.y, vec.x);
 }
 
+//int Hlp::randomRange(int from, int to)
+//{
+//	int orderedFrom = std::min(from, to);
+//	int orderedTo = std::max(to, from);
+//
+//
+//
+//	int randomNumber = rand();
+//	int toMinusFrom = orderedTo - orderedFrom;
+//	int randNumModulod = randomNumber % abs(toMinusFrom);
+//	int output = randNumModulod + orderedFrom;
+//	return output;
+//}
+
 /// <summary>
 /// Random range between two ints
 /// </summary>
@@ -157,8 +171,22 @@ int Hlp::randomRange(int from, int to)
 	int orderedFrom = std::min(from, to);
 	int orderedTo = std::max(to, from);
 
-	int randomNumber = rand() % abs(orderedTo - orderedFrom) + orderedFrom;
-	return randomNumber;
+	//int offsetFrom = orderedFrom + abs(orderedFrom); // If minus
+	//int offsetTo = orderedTo + abs(orderedFrom);
+
+	//int randomNumber = rand();
+
+	//int toMinusFrom = offsetTo - offsetFrom;
+	//int randNumModulod = randomNumber % abs(toMinusFrom);
+	//int output = randNumModulod - abs(orderedFrom);
+
+	//int output = orderedFrom + (rand() % (int)(orderedTo - orderedFrom + 1));
+	int moduloNumber = orderedTo - orderedFrom + 1;
+	int randomNumber = rand();
+	int modulodRand = randomNumber % moduloNumber;
+	int output = orderedFrom + modulodRand;
+
+	return output;
 }
 
 /// <summary>
@@ -174,5 +202,7 @@ float Hlp::randomRange(float from, float to)
 
 	float output = static_cast<float>(randomRange(static_cast<int>(from), static_cast<int>(to)));
 
-	return output * 0.0001f;
+	float returnable = output * 0.001f;
+
+	return returnable;
 }

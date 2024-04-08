@@ -8,7 +8,7 @@ Input::~Input()
 {
 }
 
-void Input::onUpdate(sf::Time t_deltaTime)
+void Input::onUpdate()
 {
     m_desiredDir = VEC2F_ZERO; // Reinitialise m_desiredDir to zero.
 
@@ -29,7 +29,10 @@ void Input::onUpdate(sf::Time t_deltaTime)
     }
 
     // update any game variables here ...
-    m_level01.m_player01.move(t_deltaTime, m_desiredDir);
+    m_level01.m_player01.setDesiredDir(m_desiredDir);
+
+
+    // m_level01.m_player01.move(m_desiredDir); t_deltaTime,
 }
 
 void Input::onProcessEvents(sf::Event event)

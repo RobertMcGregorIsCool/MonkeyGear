@@ -30,6 +30,7 @@ void Render::onDraw()
     m_window.draw(m_message);  // write message to the screen
     m_window.draw(m_level01.m_player01.m_rectShape);
     m_window.draw(m_level01.m_monkey01.m_rectShape);
+    m_window.draw(m_level01.m_monkey01.m_circShape);
 
     m_window.display();
 }

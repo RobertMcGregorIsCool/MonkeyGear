@@ -8,7 +8,9 @@ class Level01
 
 public:
 
+	void onUpdate(sf::Time t_deltaTime);
+
 	Player m_player01{ sf::Vector2f(SCREEN_WIDTH * 0.5f, SCREEN_HEIGHT * 0.5f) };
-	NPC_Monkey m_monkey01{ sf::Vector2f(SCREEN_WIDTH * 0.25f, SCREEN_HEIGHT * 0.25f), 100.0f };
+	NPC_Monkey m_monkey01{ sf::Vector2f(SCREEN_WIDTH * 0.25f, SCREEN_HEIGHT * 0.25f), 50.0f };
 };
 

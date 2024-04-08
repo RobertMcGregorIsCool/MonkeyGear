@@ -92,7 +92,8 @@ void Game::update(sf::Time t_deltaTime)
         m_render.m_window.close();
     }
 
-    m_input.onUpdate(t_deltaTime);
+    m_input.onUpdate();
+    m_level01.onUpdate(t_deltaTime);
 }
 
 /// <summary>

@@ -14,7 +14,7 @@ public:
 	Input(Level01& t_level01, Render& m_render);
 	~Input();
 
-	void onUpdate(sf::Time t_deltaTime);
+	void onUpdate();
 
 	void onProcessEvents(sf::Event event);
 

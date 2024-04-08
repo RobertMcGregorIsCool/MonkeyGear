@@ -24,9 +24,19 @@ Player::~Player()
 {
 }
 
-void Player::move(sf::Time t_deltaTime, sf::Vector2f t_desiredDir)
+void Player::setDesiredDir(sf::Vector2f t_desiredDir)
 {
-	sf::Vector2f newVelocity = t_desiredDir * M_SPEED_WALK * t_deltaTime.asSeconds();
+	m_desiredDir = t_desiredDir;
+}
+
+void Player::onUpdate(sf::Time t_deltaTime)
+{
+	move(t_deltaTime);
+}
+
+void Player::move(sf::Time t_deltaTime) // sf::Vector2f t_desiredDir,
+{
+	sf::Vector2f newVelocity = m_desiredDir * M_SPEED_WALK * t_deltaTime.asSeconds();
 
 	sf::Vector2f testPos = m_rectShape.getPosition() + newVelocity;
 
@@ -39,11 +49,11 @@ void Player::move(sf::Time t_deltaTime, sf::Vector2f t_desiredDir)
 	m_rectShape.setPosition(testPos);
 
 	// Orientation test from movement
-	if (std::abs(t_desiredDir.x) > 0.01f || std::abs(t_desiredDir.y) > 0.01f)
+	if (std::abs(m_desiredDir.x) > 0.01f || std::abs(m_desiredDir.y) > 0.01f)
 	{// We have player input
-		if (std::abs(t_desiredDir.x) > std::abs(t_desiredDir.y))
+		if (std::abs(m_desiredDir.x) > std::abs(m_desiredDir.y))
 		{// We're facing horizontal
-			if (t_desiredDir.x > 0.0f)
+			if (m_desiredDir.x > 0.0f)
 			{// We're facing right
 				m_intRect = { 18, 178, 42, 60 };
 			}
@@ -54,7 +64,7 @@ void Player::move(sf::Time t_deltaTime, sf::Vector2f t_desiredDir)
 		}
 		else
 		{// We're facing vertical
-			if (t_desiredDir.y > 0.0f)
+			if (m_desiredDir.y > 0.0f)
 			{// We're facing down
 				m_intRect = {18, 15, 42, 60};
 				
