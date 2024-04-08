@@ -15,7 +15,7 @@ class NPC_Monkey
 	sf::IntRect m_intRect{ 18, 15, 42, 60 };
 
 	float m_patrolRadius = 0.0f;	
-	float m_patrolPeriod = 0.25f;	// Time to patrol before changing destination
+	float m_patrolPeriod = 5.0f;	// Time to patrol before changing destination
 	float m_patrolTimer	=0.0f;
 
 	sf::Vector2f m_patrolDestination = VEC2F_ZERO; // Place monkey patrols to.

@@ -171,22 +171,8 @@ int Hlp::randomRange(int from, int to)
 	int orderedFrom = std::min(from, to);
 	int orderedTo = std::max(to, from);
 
-	//int offsetFrom = orderedFrom + abs(orderedFrom); // If minus
-	//int offsetTo = orderedTo + abs(orderedFrom);
-
-	//int randomNumber = rand();
-
-	//int toMinusFrom = offsetTo - offsetFrom;
-	//int randNumModulod = randomNumber % abs(toMinusFrom);
-	//int output = randNumModulod - abs(orderedFrom);
-
-	//int output = orderedFrom + (rand() % (int)(orderedTo - orderedFrom + 1));
-	int moduloNumber = orderedTo - orderedFrom + 1;
-	int randomNumber = rand();
-	int modulodRand = randomNumber % moduloNumber;
-	int output = orderedFrom + modulodRand;
-
-	return output;
+	int randomNumber = rand() % abs(orderedTo - orderedFrom) + orderedFrom;
+	return randomNumber;
 }
 
 /// <summary>
@@ -205,4 +191,11 @@ float Hlp::randomRange(float from, float to)
 	float returnable = output * 0.001f;
 
 	return returnable;
+}
+
+float Hlp::randomFloatRange(float min, float max) // Courtesy of Jay on the GameMakers Discord!
+{	// Create random scalar using max random value
+	const float random = static_cast<float>(rand()) / static_cast<float>(RAND_MAX);
+	// The desired range is multiplied by rand scalar and min is added to make sure result is > min.
+	return (max - min) * random + min;
 }

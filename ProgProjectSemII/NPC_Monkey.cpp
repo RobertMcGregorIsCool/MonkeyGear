@@ -15,6 +15,7 @@ NPC_Monkey::NPC_Monkey(sf::Vector2f t_posStart, float t_patrolRadius)
 	m_rectShape.setTexture(&m_spriteSheet);
 	m_rectShape.setTextureRect(m_intRect);
 
+	m_posStart = t_posStart;
 	m_patrolRadius = t_patrolRadius;
 }
 
@@ -31,15 +32,16 @@ void NPC_Monkey::move(sf::Time t_deltaTime, sf::Vector2f t_playerPos)
 	{
 		m_patrolTimer = m_patrolPeriod;
 		// Set random coord.
-		// std::cout << "Patrol Radius is: " << std::to_string(m_patrolRadius);
-		m_patrolDestination.x = Hlp::randomRange(-m_patrolRadius, m_patrolRadius);
-		m_patrolDestination.y = Hlp::randomRange(-m_patrolRadius, m_patrolRadius);
-		std::cout << "New destination is: " << std::to_string(m_patrolDestination.x) << ":" << std::to_string(m_patrolDestination.y) << ".\n\n";
+		m_patrolDestination.x = Hlp::randomFloatRange(-m_patrolRadius, m_patrolRadius);
+		m_patrolDestination.y = Hlp::randomFloatRange(-m_patrolRadius, m_patrolRadius);
 		// Turn coord into a normalised dir
 		m_patrolDestination = Hlp::v2fGetNormal(m_patrolDestination);
 		// Move in that random direction a random amount within radius range
-		m_patrolDestination *= Hlp::randomRange(-m_patrolRadius, m_patrolRadius);
+		m_patrolDestination *= Hlp::randomFloatRange(-m_patrolRadius, m_patrolRadius);
+
 		m_patrolDestination += m_posStart; // Destination now relative to start pos
+		std::cout << "Start Pos is: " << std::to_string(m_posStart.x) << ":" << std::to_string(m_patrolDestination.y) << ".\n\n";
+		std::cout << "New destination is: " << std::to_string(m_patrolDestination.x) << ":" << std::to_string(m_patrolDestination.y) << ".\n\n";
 		
 		m_circShape.setPosition(m_patrolDestination);
 	}

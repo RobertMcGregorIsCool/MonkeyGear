@@ -27,5 +27,6 @@ public:
 	static sf::Vector2f v2fPerpendicularAntiClockwise(sf::Vector2f vec);
 	static int			randomRange(int from, int to); // Helper function returns int between two ints. Reacts BADLY to floats.
 	static float		randomRange(float from, float to);
+	static float		randomFloatRange(float min, float max);
 };
 
