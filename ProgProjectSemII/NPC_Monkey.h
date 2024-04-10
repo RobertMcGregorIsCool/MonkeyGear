@@ -5,6 +5,13 @@
 #include "Globals.h"   // include Global header file
 #include "Hlp.h"
 
+enum MonkeyState
+{
+	None,
+	Patrol,
+	Chase
+};
+
 class NPC_Monkey
 {
 	// private data members
@@ -22,12 +29,20 @@ class NPC_Monkey
 	sf::Vector2f m_desiredDirection = VEC2F_ZERO; // 
 
 public:
+	MonkeyState myState{ MonkeyState::Patrol};
+
 	NPC_Monkey(sf::Vector2f t_posStart, float t_patrolRadius);
 	~NPC_Monkey();
 
 	void onUpdate(sf::Time t_deltaTime, sf::Vector2f t_playerPos);
 
-	void move(sf::Time t_deltaTime, sf::Vector2f t_playerPos);
+	void patrol(sf::Time t_deltaTime);
+
+	void chase(sf::Time t_deltaTime, sf::Vector2f t_playerPos);
+
+	void move(sf::Time t_deltaTime, sf::Vector2f t_destination);
+
+	void animateSprite(sf::Time t_deltaTime);
 
 	sf::RectangleShape m_rectShape;
 

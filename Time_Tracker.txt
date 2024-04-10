@@ -16,4 +16,7 @@ Move Input into its own class
 - Estimated 40mins. Start 14:58. End: 15:35. Act: 37mins. Bit awkward.
 
 One of the NPCs(enemy) types moving around within the boundary of the screen.
-- Estimated 1hr. Start: 15:40. PAUSE: 16:48 End:
+- Estimated 1hr. Start: 15:40. PAUSE: 16:48 End: 10:30am 10/04/2024. Act: DAYS. Problems with my random helper class. =(
+
+States and State Changing For Monkeys
+- Estimated 1hr. Start: 10:38. 
