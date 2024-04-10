@@ -9,49 +9,79 @@ Input::~Input()
 }
 
 void Input::onUpdate()
-{
-    m_desiredDir = VEC2F_ZERO; // Reinitialise m_desiredDir to zero.
+{// This can be flagged as a keylogger, apparently!
+    //m_desiredDir = VEC2F_ZERO; // Reinitialise m_desiredDir to zero.
 
-    // get keyboard input
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
-        m_desiredDir.x = -1.0f;
-    }
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
-        m_desiredDir.x = 1.0f;
-    }
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
-    {
-        m_desiredDir.y = -1.0f;
-    }
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
-    {
-        m_desiredDir.y = 1.0f;
-    }
+    //// get keyboard input
+    //if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
+    //    m_desiredDir.x = -1.0f;
+    //}
+    //if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
+    //    m_desiredDir.x = 1.0f;
+    //}
+    //if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
+    //{
+    //    m_desiredDir.y = -1.0f;
+    //}
+    //if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
+    //{
+    //    m_desiredDir.y = 1.0f;
+    //}
 
-    // update any game variables here ...
-    m_level01.m_player01.setDesiredDir(m_desiredDir);
-
-
-    // m_level01.m_player01.move(m_desiredDir); t_deltaTime,
+    //// update any game variables here ...
+    //m_level01.m_player01.setDesiredDir(m_desiredDir);
 }
 
-void Input::onProcessEvents(sf::Event event)
+// void Input::onProcessEvents(sf::Event event)
+void Input::onProcessEvents()
 {
+    //m_desiredDir = VEC2F_ZERO; // Reinitialise m_desiredDir to zero.
+
+    sf::Event event;
+
     while (m_render.m_window.pollEvent(event))
     {
-        std::cout << "Event is polled.";
+        if (event.type == sf::Event::Closed) m_render.m_window.close();
 
         //m_mouseCur.x = newEvent.mouseMove.x;
         //m_mouseCur.y = newEvent.mouseMove.y;
 
-        if (sf::Event::Closed == event.type) // window message
+        switch (event.type)
         {
+        case sf::Event::Closed:
             m_render.m_exitGame = true;
-        }
-        if (sf::Event::KeyReleased == event.type)
-        {
+            break;
+        case sf::Event::KeyPressed:
+            onKeyPressed(event);
+            break;
+        case sf::Event::KeyReleased:
             onKeyReleased(event);
+            break;
+        default:
+            break;
         }
+    }
+
+    m_level01.m_player01.setDesiredDir(m_desiredDir);
+}
+
+void Input::onKeyPressed(sf::Event event)
+{
+    if (sf::Keyboard::Left == event.key.code || sf::Keyboard::A == event.key.code)
+    {
+        m_desiredDir.x = -1.0f;
+    }
+    if (sf::Keyboard::Right == event.key.code || sf::Keyboard::D == event.key.code)
+    {
+        m_desiredDir.x = 1.0f;
+    }
+    if (sf::Keyboard::Up == event.key.code || sf::Keyboard::W == event.key.code)
+    {
+        m_desiredDir.y = -1.0f;
+    }
+    if (sf::Keyboard::Down == event.key.code || sf::Keyboard::S == event.key.code)
+    {
+        m_desiredDir.y = 1.0f;
     }
 }
 
@@ -60,7 +90,23 @@ void Input::onKeyReleased(sf::Event event)
     if(sf::Keyboard::Escape == event.key.code)
     {
         m_render.m_exitGame = true;
+    }
 
+    if (sf::Keyboard::Left == event.key.code || sf::Keyboard::A == event.key.code)
+    {
+        if(m_desiredDir.x == -1.0f) m_desiredDir.x = 0.0f;
+    }
+    if (sf::Keyboard::Right == event.key.code || sf::Keyboard::D == event.key.code)
+    {
+        if (m_desiredDir.x == 1.0f) m_desiredDir.x = 0.0f;
+    }
+    if (sf::Keyboard::Up == event.key.code || sf::Keyboard::W == event.key.code)
+    {
+        if (m_desiredDir.y == -1.0f) m_desiredDir.y = 0.0f;
+    }
+    if (sf::Keyboard::Down == event.key.code || sf::Keyboard::S == event.key.code)
+    {
+        if (m_desiredDir.y == 1.0f) m_desiredDir.y = 0.0f;
     }
 }
 

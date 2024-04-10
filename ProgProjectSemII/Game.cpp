@@ -62,12 +62,8 @@ void Game::run()
 
   while (m_render.m_window.isOpen()) {
     // check if the close window button is clicked on
-    sf::Event event;
     
-    while (m_render.m_window.pollEvent(event)) {
-      if (event.type == sf::Event::Closed) m_render.m_window.close();
-    }
-    processEvents(event); // Process as many events as possible
+    processEvents(); // Process as many events as possible
 
     // get the time since last update and restart the clock
     timeSinceLastUpdate += clock.restart();
@@ -101,7 +97,7 @@ void Game::update(sf::Time t_deltaTime)
 /// get key presses/ mouse moves etc. from OS
 /// and user :: Don't do game update here
 /// </summary>
-void Game::processEvents(sf::Event event)
+void Game::processEvents()
 {
-    m_input.onProcessEvents(event);
-}    
+    m_input.onProcessEvents();
+}

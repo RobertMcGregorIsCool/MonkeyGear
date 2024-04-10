@@ -23,22 +23,45 @@ NPC_Monkey::~NPC_Monkey(){}
 
 void NPC_Monkey::onUpdate(sf::Time t_deltaTime, sf::Vector2f t_playerPos)
 {
+	detect(t_playerPos);
+
 	switch (myState)
 	{
 	case None:
 		std::cout << "This monkey is in an unhandled state! Handle it!\n\n";
 		break;
 	case Patrol:
+		m_speedCur = M_SPEED_WALK;
 		patrol(t_deltaTime);
 		break;
 	case Chase:
+		m_speedCur = M_SPEED_RUN;
 		chase(t_deltaTime, t_playerPos);
 		break;
 	default:
 		std::cout << "This monkey is in an unhandled state! Handle it!\n\n";
 		break;
 	}
-	move(t_deltaTime, t_playerPos);
+}
+
+void NPC_Monkey::detect(sf::Vector2f t_playerPos)
+{
+	float detectDistance = Hlp::v2fGetMagnitude(m_rectShape.getPosition() - t_playerPos);
+
+	if (detectDistance <= m_detectRadiusCur)
+	{
+		if (myState != MonkeyState::Chase)
+		{
+			myState = MonkeyState::Chase;
+		}
+	}
+	else
+	{
+		if (myState == MonkeyState::Chase)
+		{
+			myState = MonkeyState::Patrol;
+		}
+	}
 }
 
 void NPC_Monkey::patrol(sf::Time t_deltaTime)
@@ -61,6 +84,7 @@ void NPC_Monkey::patrol(sf::Time t_deltaTime)
 		m_patrolTimer -= t_deltaTime.asSeconds();
 	}
 	m_circShape.setPosition(m_patrolDestination);
+	
 	move(t_deltaTime, m_patrolDestination);
 }
 
@@ -73,13 +97,13 @@ void NPC_Monkey::move(sf::Time t_deltaTime, sf::Vector2f t_destination)
 {//Move towards destination.
 	m_desiredDirection = t_destination - m_rectShape.getPosition();
 	
-	if (std::abs(m_desiredDirection.x) > 0.1f || std::abs(m_desiredDirection.y) > 0.1f)
+	if (std::abs(m_desiredDirection.x) > 1.0f || std::abs(m_desiredDirection.y) > 1.0f)
 	{
 		animateSprite(t_deltaTime);
 
 		m_desiredDirection = Hlp::v2fGetNormal(m_desiredDirection);
 
-		sf::Vector2f newVelocity = m_desiredDirection * M_SPEED_WALK * t_deltaTime.asSeconds();
+		sf::Vector2f newVelocity = m_desiredDirection * m_speedCur * t_deltaTime.asSeconds();
 
 		sf::Vector2f testPos = m_rectShape.getPosition() + newVelocity;
 
@@ -88,7 +112,7 @@ void NPC_Monkey::move(sf::Time t_deltaTime, sf::Vector2f t_destination)
 		testPos.y = testPos.y > SCREEN_HEIGHT ? SCREEN_HEIGHT : testPos.y;
 		testPos.y = testPos.y < 0 ? 0 : testPos.y;
 
-		m_rectShape.setPosition(testPos);		
+		m_rectShape.setPosition(testPos);	
 	}
 }
 

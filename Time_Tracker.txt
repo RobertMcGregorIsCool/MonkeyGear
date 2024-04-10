@@ -18,5 +18,8 @@ Move Input into its own class
 One of the NPCs(enemy) types moving around within the boundary of the screen.
 - Estimated 1hr. Start: 15:40. PAUSE: 16:48 End: 10:30am 10/04/2024. Act: DAYS. Problems with my random helper class. =(
 
-States and State Changing For Monkeys
-- Estimated 1hr. Start: 10:38. 
+Initial States and State Changing For Monkeys
+- Estimated 1hr. Start: 10:38. End: 19:19. Act: Couple of hours with college in between. Problem where move was called twice.
+
+Improve Input so I can close the game by pressing Esc
+- Est. 20mins. Start: 19:21. End: 21:07. Act: 1hr46mins. Learned a bit about SFML Events. Some stick keys, annoying.

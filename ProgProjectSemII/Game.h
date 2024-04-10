@@ -34,5 +34,5 @@ public:	  // declaration of member functions
 	void	loadContent();
 	void	run();
 	void	update(sf::Time t_deltaTime);
-	void	processEvents(sf::Event event);
+	void	processEvents();
 };
