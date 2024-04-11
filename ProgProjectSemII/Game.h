@@ -9,7 +9,8 @@
 #include "Player.h" // include Player header file
 #include "Render.h"	// Include class that does our rendering tasks
 #include "Input.h"	// Include header for input
-#include "Level01.h"// Include header for level container
+#include "Level.h"// Include header for level container
+#include "Assets.h" // Include header for ASSETS jesus christ
 
 class Game
 {
@@ -18,8 +19,8 @@ class Game
 	// put your game objects here eg player object and 
 	// array of enemy objects etc.
 	
-
-	Level01 m_level01;
+	Assets m_assets;
+	Level m_level01{ m_assets };
 	
 	Render m_render{ m_level01 };
 	Input m_input{ m_level01, m_render };

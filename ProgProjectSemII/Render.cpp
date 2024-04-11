@@ -1,9 +1,9 @@
 #include "Render.h"
 #include <iostream>
 
-Render::Render(Level01& t_level01): m_window(sf::VideoMode(static_cast<int>(SCREEN_WIDTH),
+Render::Render(Level& t_level) : m_window(sf::VideoMode(static_cast<int>(SCREEN_WIDTH),
     static_cast<int>(SCREEN_HEIGHT)),
-    "Monkey Gear", sf::Style::Default), m_level01(t_level01)
+    "Monkey Gear", sf::Style::Default), m_level(t_level)
 {
     if (!m_font.loadFromFile("ASSETS/FONTS/BebasNeue.otf")) {
         std::cout << "error with font file file";
@@ -28,9 +28,15 @@ void Render::onDraw()
 
     m_message.setString("Game Play");
     m_window.draw(m_message);  // write message to the screen
-    m_window.draw(m_level01.m_player01.m_rectShape);
-    m_window.draw(m_level01.m_monkey01.m_rectShape);
-    m_window.draw(m_level01.m_monkey01.m_circShape);
+    m_window.draw(m_level.m_player01.m_rectShape);
+
+    for (int i = 0; i < m_level.m_monkeys.size(); i++)
+    {
+        m_window.draw(m_level.m_monkeys[i].m_rectShape);
+        m_window.draw(m_level.m_monkeys[i].m_circShape);
+    }
+
+    
 
     m_window.display();
 }

@@ -2,7 +2,7 @@
 
 #include "SFML/Graphics.hpp"
 #include "Globals.h"
-#include "Level01.h"
+#include "Level.h"
 class Render
 {
 	
@@ -15,9 +15,9 @@ public:
 	sf::Font m_font;	// font for writing text
 	sf::Text m_message; // text to write on the screen
 
-	Level01& m_level01;	// Reference to Level container
+	Level& m_level;	// Reference to Level container
 
-	Render(Level01& t_level01);
+	Render(Level& t_level);
 	~Render();
 
 	void onDraw();

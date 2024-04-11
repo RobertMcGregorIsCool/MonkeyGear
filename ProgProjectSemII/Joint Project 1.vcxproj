@@ -123,20 +123,24 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Assets.cpp" />
+    <ClCompile Include="Collision.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="Hlp.cpp" />
     <ClCompile Include="Input.cpp" />
-    <ClCompile Include="Level01.cpp" />
+    <ClCompile Include="Level.cpp" />
     <ClCompile Include="NPC_Monkey.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Render.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Assets.h" />
+    <ClInclude Include="Collision.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="Globals.h" />
     <ClInclude Include="Hlp.h" />
     <ClInclude Include="Input.h" />
-    <ClInclude Include="Level01.h" />
+    <ClInclude Include="Level.h" />
     <ClInclude Include="NPC_Monkey.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="Render.h" />

@@ -1,6 +1,6 @@
 #include "Input.h"
 
-Input::Input(Level01& t_level01, Render& t_render) : m_level01{t_level01}, m_render{t_render}
+Input::Input(Level& t_level01, Render& t_render) : m_level01{t_level01}, m_render{t_render}
 {
 }
 

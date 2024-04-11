@@ -1,22 +1,26 @@
 #include "NPC_Monkey.h"
 
-NPC_Monkey::NPC_Monkey(sf::Vector2f t_posStart, float t_patrolRadius)
+namespace {
+	const float M_SPEED_WALK = 16.0f; // Walking speed for Monkey
+	const float M_SPEED_RUN = 100.0f; // Running speed for Monkey
+}
+
+//NPC_Monkey::NPC_Monkey(){}
+
+NPC_Monkey::NPC_Monkey(sf::Vector2f t_posStart, float t_patrolRadius, Assets& t_assets)
 {
 	// m_rectShape.setFillColor(sf::Color::Red);
 	m_rectShape.setSize(sf::Vector2f(32.0f, 32.0f));
 	m_rectShape.setOrigin(m_rectShape.getSize() * 0.5f);
 	m_rectShape.setPosition(t_posStart);
 
-	if (!m_spriteSheet.loadFromFile("ASSETS/PROJECT_SPRITES/enemy1.png"))
-	{
-		std::cout << "enemy1.png failed to load."; // 42x60
-	}
-
-	m_rectShape.setTexture(&m_spriteSheet);
+	m_rectShape.setTexture(&t_assets.m_spriteSheet);
 	m_rectShape.setTextureRect(m_intRect);
 
 	m_posStart = t_posStart;
 	m_patrolRadius = t_patrolRadius;
+
+	m_speedCur = M_SPEED_WALK;
 }
 
 NPC_Monkey::~NPC_Monkey(){}

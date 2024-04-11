@@ -1,5 +1,5 @@
 #pragma once
-#include "Level01.h"
+#include "Level.h"
 #include "Render.h"
 class Input
 {
@@ -8,10 +8,10 @@ class Input
 
 public:
 
-	Level01& m_level01;
+	Level& m_level01;
 	Render& m_render;
 
-	Input(Level01& t_level01, Render& m_render);
+	Input(Level& t_level01, Render& m_render);
 	~Input();
 
 	void onUpdate();
