@@ -25,4 +25,4 @@ Improve Input so I can close the game by pressing Esc
 - Est. 20mins. Start: 19:21. End: 21:07. Act: 1hr46mins. Learned a bit about SFML Events. Some stick keys, annoying.
 
 Character Collision
- -Est. 2hrs. Start: 18:58. PAUSE: 21:36
+ -Est. 2hrs. Start: 18:58. PAUSE: 21:36 RESTART: 14:27. PAUSE: 21:27

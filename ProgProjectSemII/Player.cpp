@@ -3,26 +3,17 @@
 #include "Player.h"   // include Player header file
 
 // Player function definitions here
-
-Player::Player(sf::Vector2f t_posStart)
+Player::Player(Assets& t_assets, sf::Vector2f t_posStart) : m_assets{t_assets}
 {
-	// m_rectShape.setFillColor(sf::Color::Red);
-	m_rectShape.setSize(sf::Vector2f(32.0f, 32.0f));
+	m_rectShape.setSize(sf::Vector2f(8.0f * 4.0f, 16.0f * 4.0f));
 	m_rectShape.setOrigin(m_rectShape.getSize() * 0.5f);
 	m_rectShape.setPosition(SCREEN_WIDTH * 0.5f, SCREEN_HEIGHT * 0.5f);
 
-	if (!m_spriteSheet.loadFromFile("ASSETS/PROJECT_SPRITES/player.png"))
-	{
-		std::cout << "player.png failed to load."; // 42x60
-	}
-
-	m_rectShape.setTexture(&m_spriteSheet);
+	m_rectShape.setTexture(&t_assets.m_spriteSheet);
 	m_rectShape.setTextureRect(m_intRect);
 }
 
-Player::~Player()
-{
-}
+Player::~Player(){}
 
 void Player::setDesiredDir(sf::Vector2f t_desiredDir)
 {
@@ -55,23 +46,23 @@ void Player::move(sf::Time t_deltaTime) // sf::Vector2f t_desiredDir,
 		{// We're facing horizontal
 			if (m_desiredDir.x > 0.0f)
 			{// We're facing right
-				m_intRect = { 18, 178, 42, 60 };
+				m_intRect = { 0, 32, 8, 16 };
 			}
 			else
 			{// We're facing left
-				m_intRect = { 18, 92, 42, 60 };
+				m_intRect = { 0, 48, 8, 16 };
 			}
 		}
 		else
 		{// We're facing vertical
 			if (m_desiredDir.y > 0.0f)
 			{// We're facing down
-				m_intRect = {18, 15, 42, 60};
+				m_intRect = { 0, 0, 8, 16 };
 				
 			}
 			else
 			{// We're facing up
-				m_intRect = { 18, 258, 42, 60 };
+				m_intRect = { 0, 16, 8, 16 };
 			}
 		}
 	}

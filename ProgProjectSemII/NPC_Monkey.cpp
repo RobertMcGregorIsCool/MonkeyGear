@@ -2,7 +2,7 @@
 
 namespace {
 	const float M_SPEED_WALK = 16.0f; // Walking speed for Monkey
-	const float M_SPEED_RUN = 100.0f; // Running speed for Monkey
+	const float M_SPEED_RUN = 75.0f; // Running speed for Monkey
 }
 
 //NPC_Monkey::NPC_Monkey(){}
@@ -10,7 +10,7 @@ namespace {
 NPC_Monkey::NPC_Monkey(sf::Vector2f t_posStart, float t_patrolRadius, Assets& t_assets)
 {
 	// m_rectShape.setFillColor(sf::Color::Red);
-	m_rectShape.setSize(sf::Vector2f(32.0f, 32.0f));
+	m_rectShape.setSize(sf::Vector2f(8.0f * 4.0f, 16.0f * 4.0f));
 	m_rectShape.setOrigin(m_rectShape.getSize() * 0.5f);
 	m_rectShape.setPosition(t_posStart);
 
@@ -126,22 +126,22 @@ void NPC_Monkey::animateSprite(sf::Time t_deltaTime)
 	{// We're facing horizontal
 		if (m_desiredDirection.x > 0.0f)
 		{// We're facing right
-			m_intRect = { 18, 178, 42, 60 };
+			m_intRect = { 0, 176, 8, 16 };
 		}
 		else
 		{// We're facing left
-			m_intRect = { 18, 92, 42, 60 };
+			m_intRect = { 0, 160, 8, 16 };
 		}
 	}
 	else
 	{// We're facing vertical
 		if (m_desiredDirection.y > 0.0f)
 		{// We're facing down
-			m_intRect = { 18, 15, 42, 60 };
+			m_intRect = { 0, 128, 8, 16 };
 		}
 		else
 		{// We're facing up
-			m_intRect = { 18, 258, 42, 60 };
+			m_intRect = { 0, 144, 8, 16 };
 		}
 	}
 	m_rectShape.setTextureRect(m_intRect);
