@@ -90,6 +90,7 @@ void Game::update(sf::Time t_deltaTime)
 
     m_input.onUpdate();
     m_level01.onUpdate(t_deltaTime);
+    m_collision.onUpdate();
 }
 
 /// <summary>

@@ -16,6 +16,9 @@ void Level::onUpdate(sf::Time t_deltaTime)
 
 	for (int i = 0; i < m_monkeys.size(); i++)
 	{
-		m_monkeys[i].onUpdate(t_deltaTime, m_player01.m_rectShape.getPosition());
+		if (m_monkeys[i].isActive)
+		{
+			m_monkeys[i].onUpdate(t_deltaTime, m_player01.m_rectShape.getPosition());
+		}
 	}
 }

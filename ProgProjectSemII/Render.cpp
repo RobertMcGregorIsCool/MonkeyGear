@@ -32,8 +32,11 @@ void Render::onDraw()
 
     for (int i = 0; i < m_level.m_monkeys.size(); i++)
     {
-        m_window.draw(m_level.m_monkeys[i].m_rectShape);
-        m_window.draw(m_level.m_monkeys[i].m_circShape);
+        if (m_level.m_monkeys[i].isActive)
+        {
+            m_window.draw(m_level.m_monkeys[i].m_rectShape);
+            m_window.draw(m_level.m_monkeys[i].m_circShape);
+        }
     }
 
     

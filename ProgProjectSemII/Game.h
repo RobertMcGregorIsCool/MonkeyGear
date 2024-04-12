@@ -11,6 +11,7 @@
 #include "Input.h"	// Include header for input
 #include "Level.h"// Include header for level container
 #include "Assets.h" // Include header for ASSETS jesus christ
+#include "Collision.h" // Include collision header.
 
 class Game
 {
@@ -21,7 +22,7 @@ class Game
 	
 	Assets m_assets;
 	Level m_level01{ m_assets };
-	
+	Collision m_collision{ m_level01 };
 	Render m_render{ m_level01 };
 	Input m_input{ m_level01, m_render };
 	

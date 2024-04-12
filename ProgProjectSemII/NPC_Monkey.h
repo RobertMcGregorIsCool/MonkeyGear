@@ -31,6 +31,8 @@ class NPC_Monkey
 	sf::Vector2f m_desiredDirection = VEC2F_ZERO; // 
 
 public:
+	bool isActive = true;
+
 	MonkeyState myState{ MonkeyState::Patrol};
 
 	// NPC_Monkey();
