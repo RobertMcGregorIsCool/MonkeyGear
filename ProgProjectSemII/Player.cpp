@@ -5,7 +5,7 @@
 // Player function definitions here
 Player::Player(Assets& t_assets, sf::Vector2f t_posStart) : m_assets{t_assets}
 {
-	m_rectShape.setSize(sf::Vector2f(8.0f * 4.0f, 16.0f * 4.0f));
+	m_rectShape.setSize(sf::Vector2f(8.0f * SCREEN_SCALAR, 16.0f * SCREEN_SCALAR));
 	m_rectShape.setOrigin(m_rectShape.getSize() * 0.5f);
 	m_rectShape.setPosition(SCREEN_WIDTH * 0.5f, SCREEN_HEIGHT * 0.5f);
 

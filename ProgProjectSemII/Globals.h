@@ -27,7 +27,8 @@ const int static EAST = 2;
 const int static NORTH = 3;  // direction north
 const int static SOUTH = 4;
 // the size of the screen in pixels used in the game
-const float SCREEN_WIDTH = 160 * 4.0f;// Previous Value = 800;   // Original value 1500
-const float SCREEN_HEIGHT = 144 * 4.0f; // Previous Value = 480;  // Original value 800
+const float SCREEN_SCALAR = 4.0f;
+const float SCREEN_WIDTH = 160 * SCREEN_SCALAR;// Previous Value = 800;   // Original value 1500
+const float SCREEN_HEIGHT = 144 * SCREEN_SCALAR; // Previous Value = 480;  // Original value 800
 
 const sf::Vector2f VEC2F_ZERO = sf::Vector2f(0.0f, 0.0f);

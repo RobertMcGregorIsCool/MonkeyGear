@@ -2,15 +2,12 @@
 
 namespace {
 	const float M_SPEED_WALK = 16.0f; // Walking speed for Monkey
-	const float M_SPEED_RUN = 75.0f; // Running speed for Monkey
+	const float M_SPEED_RUN = 80.0f; // Running speed for Monkey
 }
-
-//NPC_Monkey::NPC_Monkey(){}
 
 NPC_Monkey::NPC_Monkey(sf::Vector2f t_posStart, float t_patrolRadius, Assets& t_assets)
 {
-	// m_rectShape.setFillColor(sf::Color::Red);
-	m_rectShape.setSize(sf::Vector2f(8.0f * 4.0f, 16.0f * 4.0f));
+	m_rectShape.setSize(sf::Vector2f(8.0f * SCREEN_SCALAR, 16.0f * SCREEN_SCALAR));
 	m_rectShape.setOrigin(m_rectShape.getSize() * 0.5f);
 	m_rectShape.setPosition(t_posStart);
 
@@ -72,7 +69,7 @@ void NPC_Monkey::patrol(sf::Time t_deltaTime)
 {// This needs to time the patrol and give move it's destination
 	if (m_patrolTimer <= 0.0f)
 	{
-		m_patrolTimer = m_patrolPeriod;
+		m_patrolTimer = Hlp::randomFloatRange(M_PATROL_PERIOD_MIN, M_PATROL_PERIOD_MAX);
 		// Set random coord.
 		m_patrolDestination.x = Hlp::randomFloatRange(-m_patrolRadius, m_patrolRadius);
 		m_patrolDestination.y = Hlp::randomFloatRange(-m_patrolRadius, m_patrolRadius);

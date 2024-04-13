@@ -1,12 +1,8 @@
 #include "Input.h"
 
-Input::Input(Level& t_level01, Render& t_render) : m_level01{t_level01}, m_render{t_render}
-{
-}
+Input::Input(Level& t_level01, Render& t_render) : m_level01{t_level01}, m_render{t_render}{}
 
-Input::~Input()
-{
-}
+Input::~Input(){}
 
 void Input::onUpdate()
 {// This can be flagged as a keylogger, apparently!
@@ -35,8 +31,6 @@ void Input::onUpdate()
 // void Input::onProcessEvents(sf::Event event)
 void Input::onProcessEvents()
 {
-    //m_desiredDir = VEC2F_ZERO; // Reinitialise m_desiredDir to zero.
-
     sf::Event event;
 
     while (m_render.m_window.pollEvent(event))
@@ -61,7 +55,6 @@ void Input::onProcessEvents()
             break;
         }
     }
-
     m_level01.m_player01.setDesiredDir(m_desiredDir);
 }
 

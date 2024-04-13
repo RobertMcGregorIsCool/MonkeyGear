@@ -25,11 +25,6 @@ class Game
 	Collision m_collision{ m_level01 };
 	Render m_render{ m_level01 };
 	Input m_input{ m_level01, m_render };
-	
-
-public:
-	
-	
 
 public:	  // declaration of member functions	
 	Game(); // default constructor

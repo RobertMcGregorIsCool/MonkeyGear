@@ -29,9 +29,5 @@ public:
 	~Collision();
 
 	void onUpdate();
-
-	
-
-
 };
 

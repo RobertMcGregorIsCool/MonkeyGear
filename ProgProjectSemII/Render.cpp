@@ -16,9 +16,7 @@ Render::Render(Level& t_level) : m_window(sf::VideoMode(static_cast<int>(SCREEN_
     m_message.setPosition(10, 10);             // its position on the screen
 }
 
-Render::~Render()
-{
-}
+Render::~Render(){}
 
 void Render::onDraw()
 // This function draws the game world
@@ -35,11 +33,8 @@ void Render::onDraw()
         if (m_level.m_monkeys[i].isActive)
         {
             m_window.draw(m_level.m_monkeys[i].m_rectShape);
-            m_window.draw(m_level.m_monkeys[i].m_circShape);
+            //m_window.draw(m_level.m_monkeys[i].m_circShape);
         }
     }
-
-    
-
     m_window.display();
 }
