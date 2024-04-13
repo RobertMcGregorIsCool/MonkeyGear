@@ -5,15 +5,38 @@ Render::Render(Level& t_level) : m_window(sf::VideoMode(static_cast<int>(SCREEN_
     static_cast<int>(SCREEN_HEIGHT)),
     "Monkey Gear", sf::Style::Default), m_level(t_level)
 {
-    if (!m_font.loadFromFile("ASSETS/FONTS/BebasNeue.otf")) {
-        std::cout << "error with font file file";
+    if (!m_font01.loadFromFile("ASSETS/FONTS/Silkscreen/slkscr.ttf")) {
+        std::cout << "Error loading slkscr.ttf";
+    }
+    if (!m_font02.loadFromFile("ASSETS/FONTS/Silkscreen/slkscreb.ttf")) {
+        std::cout << "Error loading slkscreb.ttf";
     }
 
     // set up the message string
-    m_message.setFont(m_font);                 // set the font for the text
-    m_message.setCharacterSize(24);            // set the text size
-    m_message.setFillColor(sf::Color::White);  // set the text colour
-    m_message.setPosition(10, 10);             // its position on the screen
+    m_hudLives.setFont(m_font01);                                                   // set the font for the text
+    m_hudLives.setCharacterSize(24);                                                // set the text size
+    m_hudLives.setFillColor(sf::Color(255,248,220,255));                            // set the text colour
+    m_hudLives.setPosition(SCREEN_WIDTH * 0.01f, SCREEN_HEIGHT * 0.01f);            // its position on the screen
+
+    m_hudVisitors.setFont(m_font01);
+    m_hudVisitors.setCharacterSize(24);
+    m_hudVisitors.setFillColor(sf::Color(255, 248, 220, 255));
+    m_hudVisitors.setPosition(SCREEN_WIDTH * 0.33f, SCREEN_HEIGHT * 0.01f);
+
+    m_hudFruit.setFont(m_font01);
+    m_hudFruit.setCharacterSize(24);
+    m_hudFruit.setFillColor(sf::Color(255, 248, 220, 255));
+    m_hudFruit.setPosition(SCREEN_WIDTH * 0.73f, SCREEN_HEIGHT * 0.01f);
+
+    m_time.setFont(m_font02);
+    m_time.setCharacterSize(24);
+    m_time.setFillColor(sf::Color(255, 248, 220, 255));
+    m_time.setPosition(SCREEN_WIDTH * 0.25f, SCREEN_HEIGHT * 0.92f);
+
+    setHudLives(3);
+    setHudVisitors(4);
+    setHudFruit(4);
+    setHudTime(5.0f);
 }
 
 Render::~Render(){}
@@ -24,9 +47,9 @@ void Render::onDraw()
     // Clear the screen and draw your game sprites
     m_window.clear();
 
-    m_message.setString("Game Play");
-    m_window.draw(m_message);  // write message to the screen
-    m_window.draw(m_level.m_player01.m_rectShape);
+    // DRAW CHARACTERS
+    m_window.draw(m_level.m_player01.m_rectShapeVis);
+    //m_window.draw(m_level.m_player01.m_rectShapeCol);
 
     for (int i = 0; i < m_level.m_monkeys.size(); i++)
     {
@@ -36,5 +59,42 @@ void Render::onDraw()
             //m_window.draw(m_level.m_monkeys[i].m_circShape);
         }
     }
+
+    // DRAW HUD
+    m_window.draw(m_hudLives);
+    m_window.draw(m_hudVisitors);
+    m_window.draw(m_hudFruit);
+    m_window.draw(m_time);
+
     m_window.display();
+}
+
+void Render::onUpdate()
+{
+    
+}
+
+void Render::setHudLives(int lives)
+{
+    std::string output = "Lives: " + std::to_string(lives) + " / 3";
+    m_hudLives.setString(output);
+    
+}
+
+void Render::setHudVisitors(int visitors)
+{
+    std::string output = "Visitors: " + std::to_string(visitors) + " / 4";
+    m_hudVisitors.setString(output);
+}
+
+void Render::setHudFruit(int fruit)
+{
+    std::string output = "Fruit: " + std::to_string(fruit) + " / 3";
+    m_hudFruit.setString(output);
+}
+
+void Render::setHudTime(float time)
+{
+    std::string output = "TIME LEFT: " + std::to_string(time);
+    m_time.setString(output);
 }

@@ -12,8 +12,12 @@ public:
 
 	sf::RenderWindow m_window;
 
-	sf::Font m_font;	// font for writing text
-	sf::Text m_message; // text to write on the screen
+	sf::Font m_font01;		// font for writing text
+	sf::Font m_font02;		
+	sf::Text m_hudLives;	// Number of player lives remaining
+	sf::Text m_hudVisitors; // Number of visitors to rescue
+	sf::Text m_hudFruit;	// Amount of fruit player has
+	sf::Text m_time;		// Time remaining before losing a life
 
 	Level& m_level;	// Reference to Level container
 
@@ -21,5 +25,12 @@ public:
 	~Render();
 
 	void onDraw();
+
+	void onUpdate();
+
+	void setHudLives(int lives);
+	void setHudVisitors(int visitors);
+	void setHudFruit(int fruit);
+	void setHudTime(float time);
 };
 

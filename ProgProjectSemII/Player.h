@@ -9,6 +9,7 @@ class Player
 {
 	// private data members
 	const float M_SPEED_WALK = 128.0f;
+	const float M_COLLIDE_SCALE = 0.6f;
 
 	sf::Texture m_spriteSheet;
 	sf::IntRect m_intRect{ 0, 0, 8, 16 };
@@ -27,5 +28,6 @@ public:
 
 	void onUpdate(sf::Time t_deltaTime);
 
-	sf::RectangleShape m_rectShape;
+	sf::RectangleShape m_rectShapeVis;
+	sf::RectangleShape m_rectShapeCol;
 };

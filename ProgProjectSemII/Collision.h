@@ -23,7 +23,7 @@ class Collision
 	void visitorSafeZone();
 
 public:
-	Level m_level;
+	Level& m_level;
 
 	Collision(Level& t_level);
 	~Collision();

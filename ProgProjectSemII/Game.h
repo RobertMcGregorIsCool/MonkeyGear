@@ -26,10 +26,21 @@ class Game
 	Render m_render{ m_level01 };
 	Input m_input{ m_level01, m_render };
 
+	const int M_DEF_LIVES = 3;
+	const int M_DEF_VISITORS = 4;
+	const int M_DEF_FRUIT = 3;
+	const float M_DEF_TIME = 5.0f;
+
 public:	  // declaration of member functions	
 	Game(); // default constructor
 	void	loadContent();
 	void	run();
 	void	update(sf::Time t_deltaTime);
 	void	processEvents();
+	void	reset();
+
+	int m_curLives = 3;
+	int m_curVisitors = 4;
+	int m_curFruit;
+	float m_curTime;
 };

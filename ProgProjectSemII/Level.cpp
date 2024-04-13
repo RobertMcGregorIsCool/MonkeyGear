@@ -20,7 +20,7 @@ void Level::onUpdate(sf::Time t_deltaTime)
 	{
 		if (m_monkeys[i].isActive)
 		{
-			m_monkeys[i].onUpdate(t_deltaTime, m_player01.m_rectShape.getPosition());
+			m_monkeys[i].onUpdate(t_deltaTime, m_player01.m_rectShapeVis.getPosition());
 		}
 	}
 }
