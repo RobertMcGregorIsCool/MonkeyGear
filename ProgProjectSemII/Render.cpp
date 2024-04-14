@@ -16,22 +16,22 @@ Render::Render(Level& t_level) : m_window(sf::VideoMode(static_cast<int>(SCREEN_
     m_hudLives.setFont(m_font01);                                                   // set the font for the text
     m_hudLives.setCharacterSize(24);                                                // set the text size
     m_hudLives.setFillColor(sf::Color(255,248,220,255));                            // set the text colour
-    m_hudLives.setPosition(SCREEN_WIDTH * 0.01f, SCREEN_HEIGHT * 0.01f);            // its position on the screen
+    m_hudLives.setPosition(SCREEN_WIDTH * 0.01f, SCREEN_HEIGHT * 0.0001f);            // its position on the screen
 
     m_hudVisitors.setFont(m_font01);
     m_hudVisitors.setCharacterSize(24);
     m_hudVisitors.setFillColor(sf::Color(255, 248, 220, 255));
-    m_hudVisitors.setPosition(SCREEN_WIDTH * 0.33f, SCREEN_HEIGHT * 0.01f);
+    m_hudVisitors.setPosition(SCREEN_WIDTH * 0.33f, SCREEN_HEIGHT * 0.0001f);
 
     m_hudFruit.setFont(m_font01);
     m_hudFruit.setCharacterSize(24);
     m_hudFruit.setFillColor(sf::Color(255, 248, 220, 255));
-    m_hudFruit.setPosition(SCREEN_WIDTH * 0.73f, SCREEN_HEIGHT * 0.01f);
+    m_hudFruit.setPosition(SCREEN_WIDTH * 0.73f, SCREEN_HEIGHT * 0.0001f);
 
     m_time.setFont(m_font02);
     m_time.setCharacterSize(24);
     m_time.setFillColor(sf::Color(255, 248, 220, 255));
-    m_time.setPosition(SCREEN_WIDTH * 0.25f, SCREEN_HEIGHT * 0.92f);
+    m_time.setPosition(SCREEN_WIDTH * 0.25f, SCREEN_HEIGHT * 0.95f);
 
     setHudLives(3);
     setHudVisitors(4);
@@ -46,6 +46,11 @@ void Render::onDraw()
 {
     // Clear the screen and draw your game sprites
     m_window.clear();
+
+    // DRAW BACKGROUND
+    m_window.draw(m_level.m_rectShapeBGImage);
+
+    m_window.draw(m_level.m_rectShape8x8Grid);
 
     // DRAW CHARACTERS
     m_window.draw(m_level.m_player01.m_rectShapeVis);

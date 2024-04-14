@@ -106,8 +106,5 @@ void Game::processEvents()
 
 void Game::reset()
 {
-    m_curLives = M_DEF_LIVES;
-    m_curVisitors = M_DEF_VISITORS;
-    m_curFruit = M_DEF_FRUIT;
     m_curTime = M_DEF_TIME;
 }

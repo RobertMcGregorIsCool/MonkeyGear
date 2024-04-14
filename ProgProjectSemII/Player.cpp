@@ -33,6 +33,12 @@ void Player::onUpdate(sf::Time t_deltaTime)
 	move(t_deltaTime);
 }
 
+void Player::reset()
+{
+	m_curLives = M_DEF_LIVES;
+	m_curFruit = M_DEF_FRUIT;
+}
+
 void Player::move(sf::Time t_deltaTime) // sf::Vector2f t_desiredDir,
 {
 	sf::Vector2f newVelocity = m_desiredDir * M_SPEED_WALK * t_deltaTime.asSeconds();
