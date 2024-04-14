@@ -1,11 +1,13 @@
 #include "NPC_Monkey.h"
 
+#include "Player.h"
+
 namespace {
 	const float M_SPEED_WALK = 16.0f; // Walking speed for Monkey
 	const float M_SPEED_RUN = 80.0f; // Running speed for Monkey
 }
 
-NPC_Monkey::NPC_Monkey(sf::Vector2f t_posStart, float t_patrolRadius, Assets& t_assets)
+NPC_Monkey::NPC_Monkey(sf::Vector2f t_posStart, float t_patrolRadius, Assets& t_assets, Player& t_player) : m_player{t_player}
 {
 	m_rectShape.setSize(sf::Vector2f(8.0f * SCREEN_SCALAR, 16.0f * SCREEN_SCALAR));
 	m_rectShape.setOrigin(m_rectShape.getSize() * 0.5f);
@@ -22,22 +24,24 @@ NPC_Monkey::NPC_Monkey(sf::Vector2f t_posStart, float t_patrolRadius, Assets& t_
 
 NPC_Monkey::~NPC_Monkey(){}
 
-void NPC_Monkey::onUpdate(sf::Time t_deltaTime, sf::Vector2f t_playerPos)
+void NPC_Monkey::onUpdate(sf::Time t_deltaTime)
 {
-	detect(t_playerPos);
+	sf::Vector2f playerPos = m_player.m_rectShapeVis.getPosition();
+
+	detect(playerPos);
 
 	switch (myState)
 	{
-	case None:
+	case MonkeyNone:
 		std::cout << "This monkey is in an unhandled state! Handle it!\n\n";
 		break;
-	case Patrol:
+	case MonkeyPatrol:
 		m_speedCur = M_SPEED_WALK;
 		patrol(t_deltaTime);
 		break;
-	case Chase:
+	case MonkeyChase:
 		m_speedCur = M_SPEED_RUN;
-		chase(t_deltaTime, t_playerPos);
+		chase(t_deltaTime, playerPos);
 		break;
 	default:
 		std::cout << "This monkey is in an unhandled state! Handle it!\n\n";
@@ -49,18 +53,18 @@ void NPC_Monkey::detect(sf::Vector2f t_playerPos)
 {
 	float detectDistance = Hlp::v2fGetMagnitude(m_rectShape.getPosition() - t_playerPos);
 
-	if (detectDistance <= m_detectRadiusCur)
+	if (detectDistance <= m_detectRadiusCur && m_player.m_myState == PlayerState::PlayerVulnerable)
 	{
-		if (myState != MonkeyState::Chase)
+		if (myState != MonkeyState::MonkeyChase)
 		{
-			myState = MonkeyState::Chase;
+			myState = MonkeyState::MonkeyChase;
 		}
 	}
 	else
 	{
-		if (myState == MonkeyState::Chase)
+		if (myState == MonkeyState::MonkeyChase)
 		{
-			myState = MonkeyState::Patrol;
+			myState = MonkeyState::MonkeyPatrol;
 		}
 	}
 }

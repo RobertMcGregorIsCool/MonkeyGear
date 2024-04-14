@@ -5,12 +5,12 @@
 #include "Level.h"
 class Render
 {
-	
-
 public:
 	bool m_exitGame = false;
 
 	sf::RenderWindow m_window;
+
+	bool renderPlayer = true;
 
 	sf::Font m_font01;		// font for writing text
 	sf::Font m_font02;		

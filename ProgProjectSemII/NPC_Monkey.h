@@ -8,10 +8,12 @@
 
 enum MonkeyState
 {
-	None,
-	Patrol,
-	Chase
+	MonkeyNone,
+	MonkeyPatrol,
+	MonkeyChase
 };
+
+class Player; // FORWARD DEPENDANCY
 
 class NPC_Monkey
 {
@@ -35,14 +37,14 @@ class NPC_Monkey
 public:
 	bool isActive = true;
 
-	MonkeyState myState{ MonkeyState::Patrol};
+	MonkeyState myState{ MonkeyState::MonkeyPatrol};
 
-	NPC_Monkey(sf::Vector2f t_posStart, float t_patrolRadius, Assets& t_assets);
+	NPC_Monkey(sf::Vector2f t_posStart, float t_patrolRadius, Assets& t_assets, Player& t_player);
 	~NPC_Monkey();
 
-	void onUpdate(sf::Time t_deltaTime, sf::Vector2f t_playerPos);
+	void onUpdate(sf::Time t_deltaTime);
 
-	void detect(sf::Vector2f t_playerPos);
+	void NPC_Monkey::detect(sf::Vector2f t_playerPos);
 
 	void patrol(sf::Time t_deltaTime);
 
@@ -55,5 +57,7 @@ public:
 	sf::RectangleShape m_rectShape;
 
 	sf::CircleShape m_circShape{ 4.0f };
+
+	Player& m_player;
 };
 

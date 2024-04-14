@@ -53,10 +53,28 @@ void Render::onDraw()
     m_window.draw(m_level.m_rectShape8x8Grid);
 
     // DRAW CHARACTERS
-    m_window.draw(m_level.m_player01.m_rectShapeVis);
-    //m_window.draw(m_level.m_player01.m_rectShapeCol);
+    Player plrRef = m_level.m_player01;
 
-    for (int i = 0; i < m_level.m_monkeys.size(); i++)
+    if (plrRef.m_myState == PlayerInvulnerable)
+    {
+        if (renderPlayer)
+        {
+            m_window.draw(plrRef.m_rectShapeVis);
+            //m_window.draw(plrRef.m_rectShapeCol);
+            renderPlayer = false;
+        }
+        else
+        {
+            renderPlayer = true;
+        }
+    }
+    else
+    {
+        m_window.draw(plrRef.m_rectShapeVis);
+        //m_window.draw(plrRef.m_rectShapeCol);
+    }
+
+    for (int i = 0; i < static_cast<int>(m_level.m_monkeys.size()); i++)
     {
         if (m_level.m_monkeys[i].isActive)
         {

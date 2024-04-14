@@ -5,6 +5,15 @@
 #include "Globals.h"   // include Global header file
 #include "Assets.h"		// include Assets header file
 
+class Render; // FORWARD DEPENDANCY
+
+enum PlayerState
+{
+	PlayerNone,
+	PlayerVulnerable,
+	PlayerInvulnerable
+};
+
 class Player
 {
 	// private data members
@@ -23,6 +32,8 @@ class Player
 
 	Assets& m_assets;
 
+	const float M_INVUL_PERIOD = 0.25f;
+	float m_invulTimer = M_INVUL_PERIOD;
 
 public:
 	Player(Assets& t_assets, sf::Vector2f t_posStart);
@@ -32,7 +43,15 @@ public:
 
 	void onUpdate(sf::Time t_deltaTime);
 
+	void Player::setLives(int t_addedValue, Render& t_render);
+	
+	void setFruit(int t_value);
+
 	void reset();
+
+	sf::Vector2f m_posStart;
+
+	PlayerState m_myState = PlayerState::PlayerInvulnerable;
 
 	int m_curLives = M_DEF_LIVES;
 	int m_curFruit = M_DEF_FRUIT;
