@@ -1,6 +1,7 @@
 #include "Player.h"   // include Player header file
 
 #include "Render.h"	// FORWARD DEPENDANCY - need to use functions
+#include "Game.h"	// FORWARD DEPENDENCY - need to use functions
 
 // Player function definitions here
 Player::Player(Assets& t_assets, sf::Vector2f t_posStart) : m_assets{t_assets}
@@ -58,7 +59,7 @@ void Player::onUpdate(sf::Time t_deltaTime)
 	move(t_deltaTime);
 }
 
-void Player::setLives(int t_addedValue, Render& t_render)
+void Player::setLives(int t_addedValue, Render& t_render, Game& t_game)
 {
 	m_curLives += t_addedValue;
 
@@ -67,6 +68,8 @@ void Player::setLives(int t_addedValue, Render& t_render)
 	if (m_curLives <= 0) 
 	{
 		m_curLives = 0;
+		
+		t_game.reset();
 		// Player is dead.
 	}
 	else if (t_addedValue < 0)

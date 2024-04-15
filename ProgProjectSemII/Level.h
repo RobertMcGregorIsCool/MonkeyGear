@@ -18,15 +18,16 @@
 	// Monkey / Solid	= Impassible
 	// Bananna/ Solid	= Impassible
 
-class Render; // FORWARD DEPENDANCY
+class Render;	// FORWARD DEPENDANCY
+class Game;		// FORWARD DEPENDANCY
 
 class Level
 {
 	void actorUpdate(sf::Time t_deltaTime);
 
-	void doCollisions();
+	void doCollisions(Game& t_game);
 
-	void playerMonkey();
+	void playerMonkey(Game& t_game);
 	void playerVisitor();
 	void monkeyBanana();
 	void visitorSafeZone();
@@ -37,7 +38,7 @@ public:
 	Level(Assets& t_assets, Render& t_render);
 	~Level();
 
-	void onUpdate(sf::Time t_deltaTime);
+	void onUpdate(sf::Time t_deltaTime, Game& t_game);
 
 	void onReset();
 

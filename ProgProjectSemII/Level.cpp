@@ -13,21 +13,21 @@ void Level::actorUpdate(sf::Time t_deltaTime)
 	}
 }
 
-void Level::doCollisions()
+void Level::doCollisions(Game& t_game)
 {
-	playerMonkey();
+	playerMonkey(t_game);
 	playerVisitor();
 	monkeyBanana();
 	visitorSafeZone();
 }
 
-void Level::playerMonkey()
+void Level::playerMonkey(Game& t_game)
 {
 	for (int i = 0; i < static_cast<int>(m_monkeys.size()); i++)
 	{
 		if (m_player01.m_rectShapeCol.getGlobalBounds().intersects(m_monkeys[i].m_rectShape.getGlobalBounds()))
 		{
-			m_player01.setLives(-1, m_render);
+			m_player01.setLives(-1, m_render, t_game);
 		}
 	}
 }
@@ -61,11 +61,11 @@ Level::Level(Assets& t_assets, Render& t_render) : m_assets{t_assets}, m_render{
 
 Level::~Level(){}
 
-void Level::onUpdate(sf::Time t_deltaTime)
+void Level::onUpdate(sf::Time t_deltaTime, Game& t_game)
 {
 	actorUpdate(t_deltaTime);
 
-	doCollisions();
+	doCollisions(t_game);
 }
 
 void Level::onReset()

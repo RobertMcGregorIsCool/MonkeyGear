@@ -89,7 +89,7 @@ void Game::update(sf::Time t_deltaTime)
     }
 
     m_input.onUpdate();
-    m_level01.onUpdate(t_deltaTime);
+    m_level01.onUpdate(t_deltaTime, *this);
     m_render.onUpdate();
 }
 
@@ -105,5 +105,6 @@ void Game::processEvents()
 
 void Game::reset()
 {
+    std::cout << "Player death!\n\n";
     m_curTime = M_DEF_TIME;
 }
