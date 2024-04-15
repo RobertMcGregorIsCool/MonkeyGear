@@ -2,6 +2,7 @@
 
 #include "Player.h"
 #include "NPC_Monkey.h"
+#include "NPC_Visitor.h"
 #include "Assets.h"
 
 	// WIP Player / Monkey	= LoseLife/Teleport

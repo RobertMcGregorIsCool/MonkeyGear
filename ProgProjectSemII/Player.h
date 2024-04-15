@@ -5,7 +5,8 @@
 #include "Globals.h"   // include Global header file
 #include "Assets.h"		// include Assets header file
 
-class Render; // FORWARD DEPENDANCY
+class Render;	// FORWARD DEPENDANCY
+class Game;		// FORWARD DEPENDANCY
 
 enum PlayerState
 {
