@@ -33,7 +33,7 @@ class Player
 
 	Assets& m_assets;
 
-	const float M_INVUL_PERIOD = 0.25f;
+	const float M_INVUL_PERIOD = 0.8f;
 	float m_invulTimer = M_INVUL_PERIOD;
 
 public:

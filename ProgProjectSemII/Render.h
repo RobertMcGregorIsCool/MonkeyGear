@@ -10,7 +10,7 @@ public:
 
 	sf::RenderWindow m_window;
 
-	bool renderPlayer = true;
+	bool renderFlicker = true;
 
 	sf::Font m_font01;		// font for writing text
 	sf::Font m_font02;		

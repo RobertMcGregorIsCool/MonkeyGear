@@ -31,9 +31,12 @@ class Level
 	void playerMonkey(Game& t_game);
 	void playerVisitor();
 	void monkeyBanana();
+	void monkeyVisitor();
 	void visitorSafeZone();
 
-	const int M_DEF_VISITORS = 4; // Possibly I could just do this from the vector.size()?
+	const int M_DEF_VISITORS = 0; // Possibly I could just do this from the vector.size()?
+
+	
 
 public:
 	Level(Assets& t_assets, Render& t_render);
@@ -46,12 +49,14 @@ public:
 	Assets& m_assets;
 	Render& m_render;
 
-	sf::RectangleShape m_rectShapeBGImage;
-	sf::RectangleShape m_rectShape8x8Grid;
+	sf::RectangleShape	m_rectShapeBGImage;
+	sf::RectangleShape	m_rectShape8x8Grid;
+	sf::CircleShape		m_circShapeSafeZone;
 
 	Player m_player01{ m_assets, sf::Vector2f(9.0f*7.5f*SCREEN_SCALAR, 2.0f*8.0f*SCREEN_SCALAR)};
 
 	std::vector<NPC_Monkey> m_monkeys;
+	std::vector<NPC_Visitor> m_visitors;
 
 	int m_curVisitors = M_DEF_VISITORS;
 };

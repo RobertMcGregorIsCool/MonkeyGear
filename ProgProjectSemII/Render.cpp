@@ -34,7 +34,7 @@ Render::Render(Level& t_level) : m_window(sf::VideoMode(static_cast<int>(SCREEN_
     m_time.setPosition(SCREEN_WIDTH * 0.25f, SCREEN_HEIGHT * 0.95f);
 
     setHudLives(3);
-    setHudVisitors(4);
+    setHudVisitors(0);
     setHudFruit(4);
     setHudTime(5.0f);
 }
@@ -52,20 +52,26 @@ void Render::onDraw()
 
     m_window.draw(m_level.m_rectShape8x8Grid);
 
+    m_window.draw(m_level.m_circShapeSafeZone);
+
     // DRAW CHARACTERS
+    if (renderFlicker)
+    {
+        renderFlicker = false;
+    }
+    else
+    {
+        renderFlicker = true;
+    }
+
     Player plrRef = m_level.m_player01;
 
     if (plrRef.m_myState == PlayerInvulnerable)
     {
-        if (renderPlayer)
+        if (renderFlicker)
         {
             m_window.draw(plrRef.m_rectShapeVis);
             //m_window.draw(plrRef.m_rectShapeCol);
-            renderPlayer = false;
-        }
-        else
-        {
-            renderPlayer = true;
         }
     }
     else
@@ -80,6 +86,26 @@ void Render::onDraw()
         {
             m_window.draw(m_level.m_monkeys[i].m_rectShape);
             //m_window.draw(m_level.m_monkeys[i].m_circShape);
+        }
+    }
+
+    for (int i = 0; i < static_cast<int>(m_level.m_visitors.size()); i++)
+    {
+        switch (m_level.m_visitors[i].myState)
+        {
+        case VisitorInactive:
+
+            break;
+        case VisitorRescue:
+            if (renderFlicker)
+            {
+                m_window.draw(m_level.m_visitors[i].m_rectShape);
+                //m_window.draw(plrRef.m_rectShapeCol);
+            }
+            break;
+        default:
+            m_window.draw(m_level.m_visitors[i].m_rectShape);
+            break;
         }
     }
 

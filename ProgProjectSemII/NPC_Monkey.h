@@ -10,7 +10,8 @@ enum MonkeyState
 {
 	MonkeyNone,
 	MonkeyPatrol,
-	MonkeyChase
+	MonkeyChase,
+	MonkeyCatch
 };
 
 class Player; // FORWARD DEPENDANCY
@@ -23,11 +24,11 @@ class NPC_Monkey
 
 	sf::IntRect m_intRect{ 0, 128, 8, 9 };
 
-	float m_detectRadiusCur = SCREEN_HEIGHT * 0.25f;
+	float m_detectRadiusCur = SCREEN_HEIGHT * 0.20f;
 
 	float m_patrolRadius = 0.0f;
 	const float M_PATROL_PERIOD_MIN = 3.0f;
-	const float M_PATROL_PERIOD_MAX = 7.0f;
+	const float M_PATROL_PERIOD_MAX = 9.0f;
 	// float m_patrolPeriod = 5.0f;	// Time to patrol before changing destination
 	float m_patrolTimer	=0.0f;
 
@@ -49,6 +50,8 @@ public:
 	void patrol(sf::Time t_deltaTime);
 
 	void chase(sf::Time t_deltaTime, sf::Vector2f t_playerPos);
+
+	void touchPlayer ();
 
 	void move(sf::Time t_deltaTime, sf::Vector2f t_destination);
 

@@ -98,6 +98,12 @@ void NPC_Monkey::chase(sf::Time t_deltaTime, sf::Vector2f t_playerPos)
 	move(t_deltaTime, t_playerPos);
 }
 
+void NPC_Monkey::touchPlayer()
+{
+	m_patrolDestination = m_posStart;
+	myState == MonkeyPatrol;
+}
+
 void NPC_Monkey::move(sf::Time t_deltaTime, sf::Vector2f t_destination)
 {//Move towards destination.
 	m_desiredDirection = t_destination - m_rectShape.getPosition();

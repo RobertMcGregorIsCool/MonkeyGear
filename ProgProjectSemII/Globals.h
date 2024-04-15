@@ -5,8 +5,8 @@
 // x You should have more than one object of this NPC type moving on the screen.
 //
 // Mon 15th of April demo
-// The second NPCs(enemy) type moving around within the boundary of the screen.
-// You should have more than one object of this NPC type moving on the screen.
+// x The second NPCs(enemy) type moving around within the boundary of the screen.
+// x You should have more than one object of this NPC type moving on the screen.
 // Collision detection between game entities(including player weapon fire).
 //
 // Mon 22th of April demo
