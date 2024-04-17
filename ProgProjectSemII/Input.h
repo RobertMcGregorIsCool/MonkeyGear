@@ -4,6 +4,7 @@
 class Input
 {
 	sf::Vector2f m_desiredDir; // Player's desired direction set by input events
+	sf::Vector2f m_desiredDirPrev = sf::Vector2f(0.0f, -1.0f); // Previous desired direction
 
 public:
 

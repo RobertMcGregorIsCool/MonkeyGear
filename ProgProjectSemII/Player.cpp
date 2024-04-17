@@ -56,7 +56,9 @@ void Player::onUpdate(sf::Time t_deltaTime)
 		break;
 	}
 
-	move(t_deltaTime);
+	moveDir(t_deltaTime);
+
+	bananaBullet.Update(t_deltaTime);
 }
 
 void Player::setLives(int t_addedValue, Render& t_render, Game& t_game)
@@ -83,16 +85,21 @@ void Player::setLives(int t_addedValue, Render& t_render, Game& t_game)
 
 void Player::setFruit(int t_addedValue)
 {
-	m_curFruit += t_addedValue;
+	m_curBanana += t_addedValue;
+}
+
+void Player::throwBanana(sf::Vector2f t_throwDirection)
+{
+	bananaBullet.ThrowAtDir(m_rectShapeVis.getPosition(), t_throwDirection);
 }
 
 void Player::reset()
 {
 	m_curLives = M_DEF_LIVES;
-	m_curFruit = M_DEF_FRUIT;
+	m_curBanana = M_DEF_BANANA;
 }
 
-void Player::move(sf::Time t_deltaTime) // sf::Vector2f t_desiredDir,
+void Player::moveDir(sf::Time t_deltaTime) // sf::Vector2f t_desiredDir,
 {
 	sf::Vector2f newVelocity = m_desiredDir * M_SPEED_WALK * t_deltaTime.asSeconds();
 

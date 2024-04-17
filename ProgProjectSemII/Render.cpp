@@ -89,6 +89,11 @@ void Render::onDraw()
         }
     }
 
+    if (m_level.m_player01.bananaBullet.myState != BananaInactive)
+    {
+        m_window.draw(m_level.m_player01.bananaBullet.m_rectShape);
+    }
+
     for (int i = 0; i < static_cast<int>(m_level.m_visitors.size()); i++)
     {
         switch (m_level.m_visitors[i].myState)

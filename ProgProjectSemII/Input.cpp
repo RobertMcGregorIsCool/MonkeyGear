@@ -55,6 +55,7 @@ void Input::onProcessEvents()
             break;
         }
     }
+    
     m_level01.m_player01.setDesiredDir(m_desiredDir);
 }
 
@@ -76,6 +77,16 @@ void Input::onKeyPressed(sf::Event event)
     {
         m_desiredDir.y = 1.0f;
     }
+
+    if (m_desiredDir != VEC2F_ZERO)
+    {
+        m_desiredDirPrev = m_desiredDir; // Problem with firing diagonally
+    }
+
+    if (sf::Keyboard::Space == event.key.code)
+    {
+        // Ultimately want to stop player here, but let them orientate.
+    }
 }
 
 void Input::onKeyReleased(sf::Event event)
@@ -83,6 +94,11 @@ void Input::onKeyReleased(sf::Event event)
     if(sf::Keyboard::Escape == event.key.code)
     {
         m_render.m_exitGame = true;
+    }
+
+    if (sf::Keyboard::Space == event.key.code)
+    {
+        m_level01.m_player01.throwBanana(m_desiredDirPrev);
     }
 
     if (sf::Keyboard::Left == event.key.code || sf::Keyboard::A == event.key.code)
@@ -101,6 +117,8 @@ void Input::onKeyReleased(sf::Event event)
     {
         if (m_desiredDir.y == 1.0f) m_desiredDir.y = 0.0f;
     }
+
+    
 }
 
 

@@ -61,7 +61,7 @@ public:
 
 	void rescue();
 
-	void move(sf::Time t_deltaTime, sf::Vector2f t_destination);
+	void moveTo(sf::Time t_deltaTime, sf::Vector2f t_destination);
 
 	void animateSprite(sf::Time t_deltaTime);
 

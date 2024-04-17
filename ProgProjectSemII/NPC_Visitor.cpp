@@ -86,7 +86,7 @@ void NPC_Visitor::follow(sf::Time t_deltaTime, sf::Vector2f t_playerPos)
 {
 	if (m_player.m_myState == PlayerVulnerable)
 	{
-		move(t_deltaTime, t_playerPos);
+		moveTo(t_deltaTime, t_playerPos);
 	}
 	else
 	{
@@ -103,7 +103,7 @@ void NPC_Visitor::startFlee(sf::Vector2f t_monkeyPos)
 
 void NPC_Visitor::flee(sf::Time t_deltaTime)
 {
-	move(t_deltaTime, m_fleeDestination);
+	moveTo(t_deltaTime, m_fleeDestination);
 }
 
 void NPC_Visitor::rescue()
@@ -114,7 +114,7 @@ void NPC_Visitor::rescue()
 
 
 
-void NPC_Visitor::move(sf::Time t_deltaTime, sf::Vector2f t_destination)
+void NPC_Visitor::moveTo(sf::Time t_deltaTime, sf::Vector2f t_destination)
 {	//Move towards destination.
 	m_desiredDirection = t_destination - m_rectShape.getPosition();
 
