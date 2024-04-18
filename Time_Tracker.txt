@@ -26,3 +26,11 @@ Improve Input so I can close the game by pressing Esc
 
 Character Collision
  -Est. 2hrs. Start: 18:58. PAUSE: 21:36 RESTART: 14:27. PAUSE: 21:27
+
+ART ASSETS REMAINING:
+2nd Background. 
+Menu header. 
+Logo/Title. 
+Title screen. 
+Game Design (including story)(?). 
+Moodboard
