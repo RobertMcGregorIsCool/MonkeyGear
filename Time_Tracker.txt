@@ -34,3 +34,11 @@ Logo/Title.
 Title screen. 
 Game Design (including story)(?). 
 Moodboard
+
+CODE ASSETS REMAINING
+NPCs die when hit by player weapon.
+show lives left
+show score
+Your game should have is the ability to start a new game when the player is killed.
+Your game should be able to regenerate the bullet and NPCs. For example there should be only one player bullet on the screen at once and the NPC could come back again once killed.
+Your game should have the ability to start a new game when the player is killed and display the game score and player lives of the previous game before the new game starts
