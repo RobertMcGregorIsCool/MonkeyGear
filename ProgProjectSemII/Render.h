@@ -29,8 +29,8 @@ public:
 	void onUpdate();
 
 	void setHudLives(int lives);
+	void setHudBananas(int bananas);
 	void setHudVisitors(int visitors);
-	void setHudFruit(int fruit);
 	void setHudTime(float time);
 };
 

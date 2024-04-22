@@ -1,4 +1,5 @@
 #include "Input.h"
+#include "Hlp.h"
 
 Input::Input(Level& t_level01, Render& t_render) : m_level01{t_level01}, m_render{t_render}{}
 
@@ -96,10 +97,7 @@ void Input::onKeyReleased(sf::Event event)
         m_render.m_exitGame = true;
     }
 
-    if (sf::Keyboard::Space == event.key.code)
-    {
-        m_level01.m_player01.throwBanana(m_desiredDirPrev);
-    }
+    
 
     if (sf::Keyboard::Left == event.key.code || sf::Keyboard::A == event.key.code)
     {
@@ -118,7 +116,10 @@ void Input::onKeyReleased(sf::Event event)
         if (m_desiredDir.y == 1.0f) m_desiredDir.y = 0.0f;
     }
 
-    
+    if (sf::Keyboard::Space == event.key.code)
+    {
+        m_level01.m_player01.throwBanana(Hlp::v2fGetNormal(m_desiredDirPrev));
+    }
 }
 
 

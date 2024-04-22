@@ -18,7 +18,7 @@ class Banana
 	const float M_ROTATION_SPEED = 50.0f;
 	const float M_THROWN_SPEED = 512.0f;
 
-	const float M_THROWN_PERIOD = 1.5f;
+	const float M_THROWN_PERIOD = 0.25f;
 	float m_thrownTimer = M_THROWN_PERIOD;
 
 	const float M_AT_REST_PERIOD = 1.5f;
@@ -39,7 +39,10 @@ public:
 
 	sf::RectangleShape m_rectShape;
 
-	BananaState myState = BananaInactive;
+	BananaState m_myState = BananaInactive;
 	sf::Vector2f m_throwDirection = sf::Vector2f(0.0f, 1.0f);
+
+	const float M_BANANA_ATTRACT_RADIUS = 80.0f;
+	sf::CircleShape m_circShapeAttractZone;
 };
 

@@ -30,10 +30,16 @@ void NPC_Monkey::onUpdate(sf::Time t_deltaTime)
 
 	detect(playerPos);
 
-	switch (myState)
+	switch (m_myState)
 	{
-	case MonkeyNone:
-		std::cout << "This monkey is in an unhandled state! Handle it!\n\n";
+	case MonkeySeeBanana:
+		m_speedCur = M_SPEED_RUN;
+		chase(t_deltaTime, m_curBananaPosition);
+		sf::Vector2f dist2Banana = 
+		if()
+		break;
+	case MonkeyEating:
+		std::cout << "This monkey is eating! Handle it!\n\n";
 		break;
 	case MonkeyPatrol:
 		m_speedCur = M_SPEED_WALK;
@@ -55,16 +61,16 @@ void NPC_Monkey::detect(sf::Vector2f t_playerPos)
 
 	if (detectDistance <= m_detectRadiusCur && m_player.m_myState == PlayerState::PlayerVulnerable)
 	{
-		if (myState != MonkeyState::MonkeyChase)
+		if (m_myState != MonkeyState::MonkeyChase)
 		{
-			myState = MonkeyState::MonkeyChase;
+			m_myState = MonkeyState::MonkeyChase;
 		}
 	}
 	else
 	{
-		if (myState == MonkeyState::MonkeyChase)
+		if (m_myState == MonkeyState::MonkeyChase)
 		{
-			myState = MonkeyState::MonkeyPatrol;
+			m_myState = MonkeyState::MonkeyPatrol;
 		}
 	}
 }
@@ -101,7 +107,17 @@ void NPC_Monkey::chase(sf::Time t_deltaTime, sf::Vector2f t_playerPos)
 void NPC_Monkey::touchPlayer()
 {
 	m_patrolDestination = m_posStart;
-	myState == MonkeyPatrol;
+	m_myState = MonkeyPatrol;
+}
+
+void NPC_Monkey::seesBanana(sf::Vector2f t_bananaPos)
+{
+	m_patrolDestination = t_bananaPos;
+	m_myState = MonkeyEating;
+}
+
+void NPC_Monkey::eating(sf::Vector2f t_bananaPos)
+{
 }
 
 void NPC_Monkey::moveTo(sf::Time t_deltaTime, sf::Vector2f t_destination)

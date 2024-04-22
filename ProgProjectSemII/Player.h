@@ -23,7 +23,10 @@ class Player
 	const float M_COLLIDE_SCALE = 0.6f;
 
 	const int M_DEF_LIVES = 3;
-	const int M_DEF_BANANA = 3;
+	const int M_DEF_BANANAS = 3;
+
+	int m_curLives = M_DEF_LIVES;
+	int m_curBananas = 0; // = M_DEF_BANANAS;
 
 	sf::Texture m_spriteSheet;
 	sf::IntRect m_intRect{ 0, 0, 8, 16 };
@@ -33,12 +36,13 @@ class Player
 	void moveDir(sf::Time t_deltaTime);
 
 	Assets& m_assets;
+	Render& m_render;
 
 	const float M_INVUL_PERIOD = 0.8f;
 	float m_invulTimer = M_INVUL_PERIOD;
 
 public:
-	Player(Assets& t_assets, sf::Vector2f t_posStart);
+	Player(Assets& t_assets, sf::Vector2f t_posStart, Render& t_render);
 	~Player();
 
 	void setDesiredDir(sf::Vector2f t_desiredDir);
@@ -47,7 +51,7 @@ public:
 
 	void Player::setLives(int t_addedValue, Render& t_render, Game& t_game);
 	
-	void setFruit(int t_value);
+	void setBananas(int t_addedValue);
 
 	void throwBanana(sf::Vector2f t_throwDirection);
 
@@ -57,10 +61,8 @@ public:
 
 	PlayerState m_myState = PlayerState::PlayerInvulnerable;
 
-	int m_curLives = M_DEF_LIVES;
-	int m_curBanana = M_DEF_BANANA;
-
-	Banana bananaBullet{ m_assets };
+	// Banana bananaBullet{ m_assets };
+	std::vector<Banana> m_bananaBullets;
 
 	sf::RectangleShape m_rectShapeVis;
 	sf::RectangleShape m_rectShapeCol;

@@ -53,7 +53,7 @@ public:
 	sf::RectangleShape	m_rectShape8x8Grid;
 	sf::CircleShape		m_circShapeSafeZone;
 
-	Player m_player01{ m_assets, sf::Vector2f(9.0f*7.5f*SCREEN_SCALAR, 2.0f*8.0f*SCREEN_SCALAR)};
+	Player m_player01{ m_assets, sf::Vector2f(9.0f*7.5f*SCREEN_SCALAR, 2.0f*8.0f*SCREEN_SCALAR), m_render};
 
 	std::vector<NPC_Monkey> m_monkeys;
 	std::vector<NPC_Visitor> m_visitors;

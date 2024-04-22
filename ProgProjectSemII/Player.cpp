@@ -4,7 +4,7 @@
 #include "Game.h"	// FORWARD DEPENDENCY - need to use functions
 
 // Player function definitions here
-Player::Player(Assets& t_assets, sf::Vector2f t_posStart) : m_assets{t_assets}
+Player::Player(Assets& t_assets, sf::Vector2f t_posStart, Render& t_render) : m_assets{t_assets}, m_render{t_render}
 {
 	m_posStart = t_posStart;
 
@@ -22,6 +22,12 @@ Player::Player(Assets& t_assets, sf::Vector2f t_posStart) : m_assets{t_assets}
 	m_rectShapeCol.setOutlineColor(sf::Color::Red);
 	m_rectShapeCol.setFillColor(sf::Color::Transparent);
 	m_rectShapeCol.setOutlineThickness(1.0f);
+
+	for (int i = 0; i < M_DEF_BANANAS; i++)
+	{
+		m_bananaBullets.push_back(Banana{ m_assets });
+		setBananas(1);
+	}
 }
 
 Player::~Player(){}
@@ -35,7 +41,7 @@ void Player::onUpdate(sf::Time t_deltaTime)
 {
 	switch (m_myState)
 	{
-	case MonkeyNone:
+	case PlayerNone:
 		std::cout<< "Player is in an unhandled state!Handle it!\n\n";
 		break;
 	case PlayerVulnerable:
@@ -58,7 +64,13 @@ void Player::onUpdate(sf::Time t_deltaTime)
 
 	moveDir(t_deltaTime);
 
-	bananaBullet.Update(t_deltaTime);
+	for (int i = 0; i < static_cast<int>(m_bananaBullets.size()); i++)
+	{
+		if (m_bananaBullets[i].m_myState != BananaState::BananaInactive)
+		{
+			m_bananaBullets[i].Update(t_deltaTime);
+		}
+	}
 }
 
 void Player::setLives(int t_addedValue, Render& t_render, Game& t_game)
@@ -83,20 +95,40 @@ void Player::setLives(int t_addedValue, Render& t_render, Game& t_game)
 	t_render.setHudLives(m_curLives);
 }
 
-void Player::setFruit(int t_addedValue)
+void Player::setBananas(int t_addedValue)
 {
-	m_curBanana += t_addedValue;
+	m_curBananas += t_addedValue;
+
+	if (m_curBananas >= M_DEF_BANANAS) m_curBananas = M_DEF_BANANAS;
+
+	if (m_curBananas <= 0)
+	{
+		m_curBananas = 0;
+	}
+
+	m_render.setHudBananas(m_curBananas);
 }
 
 void Player::throwBanana(sf::Vector2f t_throwDirection)
 {
-	bananaBullet.ThrowAtDir(m_rectShapeVis.getPosition(), t_throwDirection);
+	if (m_curBananas > 0)
+	{
+		for (int i = 0; i < static_cast<int>(m_bananaBullets.size()); i++)
+		{
+			if (m_bananaBullets[i].m_myState == BananaState::BananaInactive)
+			{
+				m_bananaBullets[i].ThrowAtDir(m_rectShapeVis.getPosition(), t_throwDirection);
+				setBananas(-1);
+				break;
+			}
+		}
+	}	
 }
 
 void Player::reset()
 {
 	m_curLives = M_DEF_LIVES;
-	m_curBanana = M_DEF_BANANA;
+	m_curBananas = M_DEF_BANANAS;
 }
 
 void Player::moveDir(sf::Time t_deltaTime) // sf::Vector2f t_desiredDir,

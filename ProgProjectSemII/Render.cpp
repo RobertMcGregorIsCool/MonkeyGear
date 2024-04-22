@@ -35,7 +35,7 @@ Render::Render(Level& t_level) : m_window(sf::VideoMode(static_cast<int>(SCREEN_
 
     setHudLives(3);
     setHudVisitors(0);
-    setHudFruit(4);
+    setHudBananas(3);
     setHudTime(5.0f);
 }
 
@@ -82,16 +82,20 @@ void Render::onDraw()
 
     for (int i = 0; i < static_cast<int>(m_level.m_monkeys.size()); i++)
     {
-        if (m_level.m_monkeys[i].isActive)
+        if (m_level.m_monkeys[i].m_isActive)
         {
             m_window.draw(m_level.m_monkeys[i].m_rectShape);
             //m_window.draw(m_level.m_monkeys[i].m_circShape);
         }
     }
 
-    if (m_level.m_player01.bananaBullet.myState != BananaInactive)
+    for (int i = 0; i < static_cast<int>(m_level.m_player01.m_bananaBullets.size()); i++)
     {
-        m_window.draw(m_level.m_player01.bananaBullet.m_rectShape);
+        if (m_level.m_player01.m_bananaBullets[i].m_myState != BananaInactive)
+        {
+            m_window.draw(m_level.m_player01.m_bananaBullets[i].m_rectShape);
+            m_window.draw(m_level.m_player01.m_bananaBullets[i].m_circShapeAttractZone);
+        }
     }
 
     for (int i = 0; i < static_cast<int>(m_level.m_visitors.size()); i++)
@@ -135,15 +139,20 @@ void Render::setHudLives(int lives)
     
 }
 
+//void Render::setHudBananas(int bananas)
+//{
+//    std::string output = "Lives: " + std::to_string(lives) + " / 3";
+//}
+
 void Render::setHudVisitors(int visitors)
 {
     std::string output = "Visitors: " + std::to_string(visitors) + " / 4";
     m_hudVisitors.setString(output);
 }
 
-void Render::setHudFruit(int fruit)
+void Render::setHudBananas(int bananas)
 {
-    std::string output = "Fruit: " + std::to_string(fruit) + " / 3";
+    std::string output = "Fruit: " + std::to_string(bananas) + " / 3";
     m_hudFruit.setString(output);
 }
 

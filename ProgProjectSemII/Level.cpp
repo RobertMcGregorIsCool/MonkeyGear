@@ -55,6 +55,24 @@ void Level::playerVisitor()
 
 void Level::monkeyBanana()
 {
+	for (int i = 0; i < static_cast<int>(m_monkeys.size()); i++)
+	{
+		if (m_monkeys[i].m_myState != MonkeyState::MonkeyCatch && m_monkeys[i].m_myState != MonkeyState::MonkeyEating)
+		{
+			for (int i = 0; i < static_cast<int>(m_player01.m_bananaBullets.size()); i++)
+			{
+				if (m_player01.m_bananaBullets[i].m_myState != BananaState::BananaInactive)
+				{
+					sf::Vector2f curDist = m_monkeys[i].m_rectShape.getPosition() - m_player01.m_bananaBullets[i].m_rectShape.getPosition();
+					if (Hlp::v2fGetMagnitude(curDist) < m_player01.m_bananaBullets[i].M_BANANA_ATTRACT_RADIUS)
+					{
+
+					}
+				}
+			}
+		}
+		
+	}
 }
 
 void Level::monkeyVisitor()

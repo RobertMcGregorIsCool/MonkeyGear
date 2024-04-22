@@ -5,15 +5,19 @@ Banana::Banana(Assets& t_assets) : m_assets(t_assets)
 	m_rectShape.setSize(sf::Vector2f(8.0f * SCREEN_SCALAR, 8.0f * SCREEN_SCALAR));
 	m_rectShape.setOrigin(m_rectShape.getSize() * 0.5f);
 	
+	m_circShapeAttractZone.setRadius(M_BANANA_ATTRACT_RADIUS);
+	m_circShapeAttractZone.setOrigin(m_circShapeAttractZone.getRadius(), m_circShapeAttractZone.getRadius());
+	m_circShapeAttractZone.setPosition(m_rectShape.getPosition());
+	m_circShapeAttractZone.setFillColor(sf::Color::Transparent);
+	m_circShapeAttractZone.setOutlineColor(sf::Color::Blue);
+	m_circShapeAttractZone.setOutlineThickness(2.0f);
 }
 
-Banana::~Banana()
-{
-}
+Banana::~Banana(){}
 
 void Banana::Update(sf::Time t_deltaTime)
 {
-	switch (myState)
+	switch (m_myState)
 	{
 	case BananaInactive:
 		// Do nowt.
@@ -28,7 +32,7 @@ void Banana::Update(sf::Time t_deltaTime)
 		{
 			m_thrownTimer = M_THROWN_PERIOD;
 			m_rectShape.setFillColor(sf::Color::Blue);
-			myState = BananaAtRest;
+			m_myState = BananaAtRest;
 		}
 		break;
 	case BananaAtRest:
@@ -40,7 +44,7 @@ void Banana::Update(sf::Time t_deltaTime)
 		else
 		{
 			m_atRestTimer = M_AT_REST_PERIOD;
-			myState = BananaInactive;
+			m_myState = BananaInactive;
 		}
 		break;
 	default:
@@ -54,7 +58,7 @@ void Banana::ThrowAtDir(sf::Vector2f t_posStart, sf::Vector2f t_throwDirection)
 	m_rectShape.setPosition(t_posStart);
 	m_throwDirection = t_throwDirection;
 	m_rectShape.setFillColor(sf::Color::Yellow);
-	myState = BananaThrown;
+	m_myState = BananaThrown;
 }
 
 void Banana::MoveDir(sf::Time t_deltaTime)
@@ -70,4 +74,5 @@ void Banana::MoveDir(sf::Time t_deltaTime)
 	testPos.y = testPos.y < 0 ? 0 : testPos.y;
 
 	m_rectShape.setPosition(testPos);
+	m_circShapeAttractZone.setPosition(m_rectShape.getPosition());
 }
