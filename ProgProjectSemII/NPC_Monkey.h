@@ -37,6 +37,8 @@ class NPC_Monkey
 	sf::Vector2f m_desiredDirection = VEC2F_ZERO; // 
 
 	sf::Vector2f m_bananaPos = VEC2F_ZERO;
+	const float M_EATING_PERIOD = 4.0f;
+	float m_eating_timer = 0.0f;
 
 public:
 	bool m_isActive = true;
@@ -58,7 +60,7 @@ public:
 
 	void seesBanana(sf::Vector2f t_bananaPos);
 
-	void eating(sf::Vector2f t_bananaPos);
+	void startEating(sf::Vector2f t_bananaPos);
 
 	void moveTo(sf::Time t_deltaTime, sf::Vector2f t_destination);
 

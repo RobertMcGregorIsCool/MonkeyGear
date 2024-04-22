@@ -45,6 +45,9 @@
     <ClCompile Include="Banana.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="AmmoBox.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game.h">
@@ -78,6 +81,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Banana.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="AmmoBox.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

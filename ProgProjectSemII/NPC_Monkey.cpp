@@ -5,6 +5,7 @@
 namespace {
 	const float M_SPEED_WALK = 16.0f; // Walking speed for Monkey
 	const float M_SPEED_RUN = 80.0f; // Running speed for Monkey
+	const float M_BOUNDS_SCALAR = 0.95f;
 }
 
 NPC_Monkey::NPC_Monkey(sf::Vector2f t_posStart, float t_patrolRadius, Assets& t_assets, Player& t_player) : m_player{t_player}
@@ -38,11 +39,20 @@ void NPC_Monkey::onUpdate(sf::Time t_deltaTime)
 		dist2Banana = m_bananaPos - m_rectShape.getPosition();
 		if (Hlp::v2fGetMagnitude(dist2Banana) < 2.0f)
 		{
-			m_myState = MonkeyState::MonkeyEating;
+			startEating(m_bananaPos);
 		}
 		break;
 	case MonkeyEating:
 		std::cout << "This monkey is eating! Animate it!\n\n";
+		if (m_eating_timer > 0.0f)
+		{
+			m_eating_timer -= t_deltaTime.asSeconds();
+		}
+		else
+		{
+			m_eating_timer = M_EATING_PERIOD;
+			m_myState = MonkeyState::MonkeyPatrol;
+		}
 		break;
 	case MonkeyPatrol:
 		detect(playerPos);
@@ -122,8 +132,10 @@ void NPC_Monkey::seesBanana(sf::Vector2f t_bananaPos)
 	m_myState = MonkeyGetBanana;
 }
 
-void NPC_Monkey::eating(sf::Vector2f t_bananaPos)
+void NPC_Monkey::startEating(sf::Vector2f t_bananaPos)
 {
+	m_myState = MonkeyState::MonkeyEating;
+	m_eating_timer = M_EATING_PERIOD;
 }
 
 void NPC_Monkey::moveTo(sf::Time t_deltaTime, sf::Vector2f t_destination)
@@ -140,10 +152,10 @@ void NPC_Monkey::moveTo(sf::Time t_deltaTime, sf::Vector2f t_destination)
 
 		sf::Vector2f testPos = m_rectShape.getPosition() + newVelocity;
 
-		testPos.x = testPos.x > SCREEN_WIDTH ? SCREEN_WIDTH : testPos.x;
-		testPos.x = testPos.x < 0 ? 0 : testPos.x;
-		testPos.y = testPos.y > SCREEN_HEIGHT ? SCREEN_HEIGHT : testPos.y;
-		testPos.y = testPos.y < 0 ? 0 : testPos.y;
+		testPos.x = testPos.x > SCREEN_WIDTH * M_BOUNDS_SCALAR ? SCREEN_WIDTH * M_BOUNDS_SCALAR : testPos.x;
+		testPos.x = testPos.x < 1? 1 + M_BOUNDS_SCALAR: testPos.x;
+		testPos.y = testPos.y > SCREEN_HEIGHT * M_BOUNDS_SCALAR ? SCREEN_HEIGHT * M_BOUNDS_SCALAR : testPos.y;
+		testPos.y = testPos.y < 1? 1 + M_BOUNDS_SCALAR: testPos.y;
 
 		m_rectShape.setPosition(testPos);	
 	}

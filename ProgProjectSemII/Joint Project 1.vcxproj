@@ -123,6 +123,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="AmmoBox.cpp" />
     <ClCompile Include="Assets.cpp" />
     <ClCompile Include="Banana.cpp" />
     <ClCompile Include="Game.cpp" />
@@ -135,6 +136,7 @@
     <ClCompile Include="Render.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AmmoBox.h" />
     <ClInclude Include="Assets.h" />
     <ClInclude Include="Banana.h" />
     <ClInclude Include="Game.h" />

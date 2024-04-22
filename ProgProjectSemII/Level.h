@@ -3,6 +3,7 @@
 #include "Player.h"
 #include "NPC_Monkey.h"
 #include "NPC_Visitor.h"
+#include "AmmoBox.h"
 #include "Assets.h"
 
 	// WIP Player / Monkey	= LoseLife/Teleport
@@ -28,11 +29,11 @@ class Level
 
 	void doCollisions(Game& t_game);
 
-	void playerMonkey(Game& t_game);
-	void playerVisitor();
-	void monkeyBanana();
-	void monkeyVisitor();
-	void visitorSafeZone();
+	void colPlayerMonkey(Game& t_game);
+	void colPlayerVisitor();
+	void colMonkeyBanana();
+	void colMonkeyVisitor();
+	void colVisitorSafeZone();
 
 	const int M_DEF_VISITORS = 0; // Possibly I could just do this from the vector.size()?
 
@@ -57,6 +58,7 @@ public:
 
 	std::vector<NPC_Monkey> m_monkeys;
 	std::vector<NPC_Visitor> m_visitors;
+	AmmoBox m_ammoBox;
 
 	int m_curVisitors = M_DEF_VISITORS;
 };

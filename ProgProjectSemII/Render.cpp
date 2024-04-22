@@ -118,6 +118,12 @@ void Render::onDraw()
         }
     }
 
+    if (m_level.m_ammoBox.m_myState == AmmoBoxState::gettable)
+    {
+        m_window.draw(m_level.m_ammoBox.m_rectShape);
+    }
+    
+
     // DRAW HUD
     m_window.draw(m_hudLives);
     m_window.draw(m_hudVisitors);

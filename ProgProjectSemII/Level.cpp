@@ -20,14 +20,14 @@ void Level::actorUpdate(sf::Time t_deltaTime)
 
 void Level::doCollisions(Game& t_game)
 {
-	playerMonkey(t_game);
-	playerVisitor();
-	monkeyBanana();
-	monkeyVisitor();
-	visitorSafeZone();
+	colPlayerMonkey(t_game);
+	colPlayerVisitor();
+	colMonkeyBanana();
+	colMonkeyVisitor();
+	colVisitorSafeZone();
 }
 
-void Level::playerMonkey(Game& t_game)
+void Level::colPlayerMonkey(Game& t_game)
 {
 	for (int i = 0; i < static_cast<int>(m_monkeys.size()); i++)
 	{
@@ -39,7 +39,7 @@ void Level::playerMonkey(Game& t_game)
 	}
 }
 
-void Level::playerVisitor()
+void Level::colPlayerVisitor()
 {
 	for (int i = 0; i < static_cast<int>(m_visitors.size()); i++)
 	{
@@ -53,7 +53,7 @@ void Level::playerVisitor()
 	}
 }
 
-void Level::monkeyBanana()
+void Level::colMonkeyBanana()
 {
 	for (int i = 0; i < static_cast<int>(m_monkeys.size()); i++)
 	{
@@ -64,7 +64,7 @@ void Level::monkeyBanana()
 				if (m_player01.m_bananaBullets[o].m_myState != BananaState::BananaInactive)
 				{
 					sf::Vector2f curDist = m_monkeys[i].m_rectShape.getPosition() - m_player01.m_bananaBullets[o].m_rectShape.getPosition();
-					if (Hlp::v2fGetMagnitude(curDist) < m_player01.m_bananaBullets[i].M_BANANA_ATTRACT_RADIUS)
+					if (Hlp::v2fGetMagnitude(curDist) < m_player01.m_bananaBullets[o].M_BANANA_ATTRACT_RADIUS)
 					{
 						m_monkeys[i].seesBanana(m_player01.m_bananaBullets[o].m_rectShape.getPosition());
 					}
@@ -74,7 +74,7 @@ void Level::monkeyBanana()
 	}
 }
 
-void Level::monkeyVisitor()
+void Level::colMonkeyVisitor()
 {
 	for (int i = 0; i < static_cast<int>(m_monkeys.size()); i++)
 	{
@@ -91,7 +91,7 @@ void Level::monkeyVisitor()
 	}
 }
 
-void Level::visitorSafeZone()
+void Level::colVisitorSafeZone()
 {
 	for (int i = 0; i < static_cast<int>(m_visitors.size()); i++)
 	{
