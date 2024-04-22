@@ -28,24 +28,29 @@ void NPC_Monkey::onUpdate(sf::Time t_deltaTime)
 {
 	sf::Vector2f playerPos = m_player.m_rectShapeVis.getPosition();
 
-	detect(playerPos);
+	sf::Vector2f dist2Banana = VEC2F_ZERO;
 
 	switch (m_myState)
 	{
-	case MonkeySeeBanana:
+	case MonkeyGetBanana:
 		m_speedCur = M_SPEED_RUN;
-		chase(t_deltaTime, m_curBananaPosition);
-		sf::Vector2f dist2Banana = 
-		if()
+		chase(t_deltaTime, m_bananaPos);
+		dist2Banana = m_bananaPos - m_rectShape.getPosition();
+		if (Hlp::v2fGetMagnitude(dist2Banana) < 2.0f)
+		{
+			m_myState = MonkeyState::MonkeyEating;
+		}
 		break;
 	case MonkeyEating:
-		std::cout << "This monkey is eating! Handle it!\n\n";
+		std::cout << "This monkey is eating! Animate it!\n\n";
 		break;
 	case MonkeyPatrol:
+		detect(playerPos);
 		m_speedCur = M_SPEED_WALK;
 		patrol(t_deltaTime);
 		break;
 	case MonkeyChase:
+		detect(playerPos);
 		m_speedCur = M_SPEED_RUN;
 		chase(t_deltaTime, playerPos);
 		break;
@@ -112,8 +117,9 @@ void NPC_Monkey::touchPlayer()
 
 void NPC_Monkey::seesBanana(sf::Vector2f t_bananaPos)
 {
-	m_patrolDestination = t_bananaPos;
-	m_myState = MonkeyEating;
+	std::cout << "Monkey see banana?\n\n";
+	m_bananaPos = t_bananaPos;
+	m_myState = MonkeyGetBanana;
 }
 
 void NPC_Monkey::eating(sf::Vector2f t_bananaPos)

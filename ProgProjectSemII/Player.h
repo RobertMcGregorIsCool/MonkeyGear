@@ -23,7 +23,7 @@ class Player
 	const float M_COLLIDE_SCALE = 0.6f;
 
 	const int M_DEF_LIVES = 3;
-	const int M_DEF_BANANAS = 3;
+	const int M_DEF_BANANAS = 30;
 
 	int m_curLives = M_DEF_LIVES;
 	int m_curBananas = 0; // = M_DEF_BANANAS;

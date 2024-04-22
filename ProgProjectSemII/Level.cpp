@@ -59,19 +59,18 @@ void Level::monkeyBanana()
 	{
 		if (m_monkeys[i].m_myState != MonkeyState::MonkeyCatch && m_monkeys[i].m_myState != MonkeyState::MonkeyEating)
 		{
-			for (int i = 0; i < static_cast<int>(m_player01.m_bananaBullets.size()); i++)
+			for (int o = 0; o < static_cast<int>(m_player01.m_bananaBullets.size()); o++)
 			{
-				if (m_player01.m_bananaBullets[i].m_myState != BananaState::BananaInactive)
+				if (m_player01.m_bananaBullets[o].m_myState != BananaState::BananaInactive)
 				{
-					sf::Vector2f curDist = m_monkeys[i].m_rectShape.getPosition() - m_player01.m_bananaBullets[i].m_rectShape.getPosition();
+					sf::Vector2f curDist = m_monkeys[i].m_rectShape.getPosition() - m_player01.m_bananaBullets[o].m_rectShape.getPosition();
 					if (Hlp::v2fGetMagnitude(curDist) < m_player01.m_bananaBullets[i].M_BANANA_ATTRACT_RADIUS)
 					{
-
+						m_monkeys[i].seesBanana(m_player01.m_bananaBullets[o].m_rectShape.getPosition());
 					}
 				}
 			}
 		}
-		
 	}
 }
 

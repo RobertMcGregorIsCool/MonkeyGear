@@ -8,7 +8,7 @@
 
 enum MonkeyState
 {
-	MonkeySeeBanana,
+	MonkeyGetBanana,
 	MonkeyEating,
 	MonkeyPatrol,
 	MonkeyChase,
@@ -36,7 +36,7 @@ class NPC_Monkey
 	sf::Vector2f m_patrolDestination = VEC2F_ZERO; // Place monkey patrols to.
 	sf::Vector2f m_desiredDirection = VEC2F_ZERO; // 
 
-	sf::Vector2f m_curBananaPosition = VEC2F_ZERO;
+	sf::Vector2f m_bananaPos = VEC2F_ZERO;
 
 public:
 	bool m_isActive = true;
