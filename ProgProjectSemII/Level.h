@@ -58,7 +58,7 @@ public:
 
 	std::vector<NPC_Monkey> m_monkeys;
 	std::vector<NPC_Visitor> m_visitors;
-	AmmoBox m_ammoBox;
+	AmmoBox m_ammoBox{ m_assets };
 
 	int m_curVisitors = M_DEF_VISITORS;
 };

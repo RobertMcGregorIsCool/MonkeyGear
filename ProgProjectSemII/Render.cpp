@@ -50,9 +50,9 @@ void Render::onDraw()
     // DRAW BACKGROUND
     m_window.draw(m_level.m_rectShapeBGImage);
 
-    m_window.draw(m_level.m_rectShape8x8Grid);
+    //m_window.draw(m_level.m_rectShape8x8Grid);
 
-    m_window.draw(m_level.m_circShapeSafeZone);
+    //m_window.draw(m_level.m_circShapeSafeZone);
 
     // DRAW CHARACTERS
     if (renderFlicker)
