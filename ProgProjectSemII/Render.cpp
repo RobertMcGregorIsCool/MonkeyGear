@@ -1,9 +1,12 @@
 #include "Render.h"
 #include <iostream>
 
-Render::Render(Level& t_level) : m_window(sf::VideoMode(static_cast<int>(SCREEN_WIDTH),
+// FORWARD DEPENDENCY
+#include "Game.h"
+
+Render::Render(Level& t_level, Game& t_game) : m_window(sf::VideoMode(static_cast<int>(SCREEN_WIDTH),
     static_cast<int>(SCREEN_HEIGHT)),
-    "Monkey Gear", sf::Style::Default), m_level(t_level)
+    "Monkey Gear", sf::Style::Default), m_level(t_level), m_game(t_game)
 {
     if (!m_font01.loadFromFile("ASSETS/FONTS/Silkscreen/slkscr.ttf")) {
         std::cout << "Error loading slkscr.ttf";
@@ -28,10 +31,10 @@ Render::Render(Level& t_level) : m_window(sf::VideoMode(static_cast<int>(SCREEN_
     m_hudFruit.setFillColor(sf::Color(255, 248, 220, 255));
     m_hudFruit.setPosition(SCREEN_WIDTH * 0.73f, SCREEN_HEIGHT * 0.0001f);
 
-    m_time.setFont(m_font02);
-    m_time.setCharacterSize(24);
-    m_time.setFillColor(sf::Color(255, 248, 220, 255));
-    m_time.setPosition(SCREEN_WIDTH * 0.25f, SCREEN_HEIGHT * 0.95f);
+    m_hudTimer.setFont(m_font02);
+    m_hudTimer.setCharacterSize(24);
+    m_hudTimer.setFillColor(sf::Color(255, 248, 220, 255));
+    m_hudTimer.setPosition(SCREEN_WIDTH * 0.25f, SCREEN_HEIGHT * 0.95f);
 
     setHudLives(3);
     setHudVisitors(0);
@@ -109,7 +112,6 @@ void Render::onDraw()
             if (renderFlicker)
             {
                 m_window.draw(m_level.m_visitors[i].m_rectShape);
-                //m_window.draw(plrRef.m_rectShapeCol);
             }
             break;
         default:
@@ -118,17 +120,29 @@ void Render::onDraw()
         }
     }
 
-    if (m_level.m_ammoBox.m_myState == AmmoBoxState::gettable)
+    switch (m_level.m_ammoBox.m_myState)
     {
+    case preSpawn:
+        // Do nowt
+        break;
+    case gettable:
         m_window.draw(m_level.m_ammoBox.m_rectShape);
-    }
-    
+        break;
+    case expiring:
+        if (renderFlicker)
+        {
+            m_window.draw(m_level.m_ammoBox.m_rectShape);
+        }
+        break;
+    default:
+        break;
+    }    
 
     // DRAW HUD
     m_window.draw(m_hudLives);
     m_window.draw(m_hudVisitors);
     m_window.draw(m_hudFruit);
-    m_window.draw(m_time);
+    m_window.draw(m_hudTimer);
 
     m_window.display();
 }
@@ -165,5 +179,5 @@ void Render::setHudBananas(int bananas)
 void Render::setHudTime(float time)
 {
     std::string output = "TIME LEFT: " + std::to_string(time);
-    m_time.setString(output);
+    m_hudTimer.setString(output);
 }

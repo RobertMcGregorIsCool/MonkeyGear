@@ -14,7 +14,7 @@ enum AmmoBoxState
 
 class AmmoBox
 {
-	const float M_SPAWN_PERIOD_MAX = 10.0f;
+	const float M_SPAWN_PERIOD_MAX = 07.5f;
 	const float M_SPAWN_PERIOD_MIN = 05.0f;
 	float m_spawn_timer = 0.0f;
 
