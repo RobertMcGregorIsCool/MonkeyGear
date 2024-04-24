@@ -126,7 +126,7 @@ void Level::rallyTimer(sf::Time t_deltaTime)
 	if (m_playTimer > 0)
 	{
 		m_playTimer -= t_deltaTime.asSeconds();
-		std::string minutes = std::to_string(m_playTimer / 60.0f);
+		std::string minutes = std::to_string(static_cast<int>(m_playTimer / 60.0f));
 		std::string seconds = std::to_string(static_cast<int>(m_playTimer) % 60);
 		m_render.setHudTime(minutes + " : " + seconds);
 	}

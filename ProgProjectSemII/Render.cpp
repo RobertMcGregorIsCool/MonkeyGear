@@ -39,7 +39,7 @@ Render::Render(Level& t_level, Game& t_game) : m_window(sf::VideoMode(static_cas
     setHudLives(3);
     setHudVisitors(0);
     setHudBananas(3);
-    setHudTime("1 : 30");
+    setHudTime("0 : 30");
 }
 
 Render::~Render(){}
