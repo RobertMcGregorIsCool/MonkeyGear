@@ -121,6 +121,21 @@ void Level::colVisitorSafeZone()
 	}
 }
 
+void Level::rallyTimer(sf::Time t_deltaTime)
+{
+	if (m_playTimer > 0)
+	{
+		m_playTimer -= t_deltaTime.asSeconds();
+		std::string minutes = std::to_string(m_playTimer / 60.0f);
+		std::string seconds = std::to_string(static_cast<int>(m_playTimer) % 60);
+		m_render.setHudTime(minutes + " : " + seconds);
+	}
+	else
+	{
+		m_playTimer = M_INITIAL_PLAY_PERIOD;
+	}
+}
+
 Level::Level(Assets& t_assets, Render& t_render) : m_assets{t_assets}, m_render{t_render}
 {
 	m_monkeys.push_back(NPC_Monkey{ sf::Vector2f(SCREEN_WIDTH * 0.15f, SCREEN_HEIGHT * 0.25f), 500.0f, m_assets, m_player01 });
@@ -146,6 +161,8 @@ Level::Level(Assets& t_assets, Render& t_render) : m_assets{t_assets}, m_render{
 	m_circShapeSafeZone.setOutlineColor(sf::Color::Green);
 	m_circShapeSafeZone.setOutlineThickness(1.0f);
 	m_circShapeSafeZone.setFillColor(sf::Color::Transparent);
+
+	m_playTimer = M_INITIAL_PLAY_PERIOD;
 }
 
 Level::~Level(){}
@@ -155,6 +172,8 @@ void Level::onUpdate(sf::Time t_deltaTime, Game& t_game)
 	actorUpdate(t_deltaTime);
 
 	doCollisions(t_game);
+
+	rallyTimer(t_deltaTime);
 }
 
 void Level::onReset()

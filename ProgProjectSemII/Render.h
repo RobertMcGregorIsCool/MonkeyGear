@@ -36,6 +36,6 @@ public:
 	void setHudLives(int lives);
 	void setHudBananas(int bananas);
 	void setHudVisitors(int visitors);
-	void setHudTime(float time);
+	void setHudTime(std::string time); //  float time);
 };
 

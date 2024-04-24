@@ -36,9 +36,9 @@ class Level
 	void colMonkeyVisitor();
 	void colVisitorSafeZone();
 
-	const int M_DEF_VISITORS = 0; // Possibly I could just do this from the vector.size()?
+	void rallyTimer(sf::Time t_deltaTime);
 
-	
+	const int M_DEF_VISITORS = 0; // Possibly I could just do this from the vector.size()?
 
 public:
 	Level(Assets& t_assets, Render& t_render);
