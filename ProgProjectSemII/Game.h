@@ -12,6 +12,15 @@
 #include "Level.h"// Include header for level container
 #include "Assets.h" // Include header for ASSETS jesus christ
 
+enum GameState
+{
+	SplashScreen,
+	MainMenu,
+	Gameplay,
+	WinScreen, // Probably don't need this?
+	LoseScreen
+};
+
 class Game
 {
 	// private data members
@@ -21,10 +30,12 @@ class Game
 	
 	Assets m_assets;
 	Level m_level01{ m_assets, m_render};
-	Render m_render{ m_level01 };
+	Render m_render{ m_level01, *this };
 	Input m_input{ m_level01, m_render };
 
 	const float M_DEF_TIME = 5.0f;
+
+	GameState m_myState = GameState::Gameplay;
 
 public:	  // declaration of member functions	
 	Game(); // default constructor

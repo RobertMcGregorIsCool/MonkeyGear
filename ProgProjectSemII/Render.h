@@ -3,8 +3,13 @@
 #include "SFML/Graphics.hpp"
 #include "Globals.h"
 #include "Level.h"
+
+class Game; // FORWARD DEPENDENCY
+
 class Render
 {
+	Game& m_game;
+
 public:
 	bool m_exitGame = false;
 
@@ -17,11 +22,11 @@ public:
 	sf::Text m_hudLives;	// Number of player lives remaining
 	sf::Text m_hudVisitors; // Number of visitors to rescue
 	sf::Text m_hudFruit;	// Amount of fruit player has
-	sf::Text m_time;		// Time remaining before losing a life
+	sf::Text m_hudTimer;	// Time remaining before losing a life
 
 	Level& m_level;	// Reference to Level container
 
-	Render(Level& t_level);
+	Render(Level& t_level, Game& t_game);
 	~Render();
 
 	void onDraw();

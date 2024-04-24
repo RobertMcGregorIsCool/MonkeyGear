@@ -16,12 +16,15 @@ void Level::actorUpdate(sf::Time t_deltaTime)
 	{
 		m_visitors[i].onUpdate(t_deltaTime);
 	}
+
+	m_ammoBox.onUpdate(t_deltaTime);
 }
 
 void Level::doCollisions(Game& t_game)
 {
 	colPlayerMonkey(t_game);
 	colPlayerVisitor();
+	colPlayerAmmoBox();
 	colMonkeyBanana();
 	colMonkeyVisitor();
 	colVisitorSafeZone();
@@ -50,6 +53,16 @@ void Level::colPlayerVisitor()
 				m_visitors[i].myState = VisitorFollow;
 			}
 		}
+	}
+}
+
+void Level::colPlayerAmmoBox()
+{
+	if (m_player01.m_rectShapeCol.getGlobalBounds().intersects(m_ammoBox.m_rectShape.getGlobalBounds()))
+	{
+		std::cout << "Touching ammoBox! \n\n";
+		m_ammoBox.goPreSpawn();
+		m_player01.setBananas(3);
 	}
 }
 

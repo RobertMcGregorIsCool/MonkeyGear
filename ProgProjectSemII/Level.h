@@ -8,13 +8,13 @@
 
 	// WIP Player / Monkey	= LoseLife/Teleport
 	// WIP Player / Visitor	= Follow
-	// Player / AmmoBox	= More ammo
+	// WIP Player / AmmoBox	= More ammo
 	// WIP Player / SafeZone= N/A
-	// Visitor/ Monkey	= Cower
+	// WIP Visitor/ Monkey	= Cower
 	// Visitor/ Banana	= N/A
-	// Visitor/ SafeZone= N/A
-	// Monkey / BananaAr= Eat
-	// Monkey / BananaGd= Eat
+	// WIP Visitor/ SafeZone= N/A
+	// WIP Monkey / BananaAr= Eat
+	// WIP Monkey / BananaGd= Eat
 	// Visitor/ Solid	= Impassible
 	// Player / Solid	= Impassible
 	// Monkey / Solid	= Impassible
@@ -31,6 +31,7 @@ class Level
 
 	void colPlayerMonkey(Game& t_game);
 	void colPlayerVisitor();
+	void colPlayerAmmoBox();
 	void colMonkeyBanana();
 	void colMonkeyVisitor();
 	void colVisitorSafeZone();
@@ -61,4 +62,7 @@ public:
 	AmmoBox m_ammoBox{ m_assets };
 
 	int m_curVisitors = M_DEF_VISITORS;
+
+	const float M_INITIAL_PLAY_PERIOD = 30.0f;
+	float m_playTimer = M_INITIAL_PLAY_PERIOD;
 };
