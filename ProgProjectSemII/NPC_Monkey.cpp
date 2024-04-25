@@ -10,7 +10,7 @@ namespace {
 
 NPC_Monkey::NPC_Monkey(sf::Vector2f t_posStart, float t_patrolRadius, Assets& t_assets, Player& t_player) : m_player{t_player}
 {
-	m_rectShape.setSize(sf::Vector2f(8.0f * SCREEN_SCALAR, 16.0f * SCREEN_SCALAR));
+	m_rectShape.setSize(sf::Vector2f(16.0f * SCREEN_SCALAR, 16.0f * SCREEN_SCALAR));
 	m_rectShape.setOrigin(m_rectShape.getSize() * 0.5f);
 	m_rectShape.setPosition(t_posStart);
 
@@ -167,22 +167,22 @@ void NPC_Monkey::animateSprite(sf::Time t_deltaTime)
 	{// We're facing horizontal
 		if (m_desiredDirection.x > 0.0f)
 		{// We're facing right
-			m_intRect = { 0, 176, 8, 16 };
+			m_intRect = { 112, 48, 16, 16 };
 		}
 		else
 		{// We're facing left
-			m_intRect = { 0, 160, 8, 16 };
+			m_intRect = { 112, 32, 16, 16 };
 		}
 	}
 	else
 	{// We're facing vertical
 		if (m_desiredDirection.y > 0.0f)
 		{// We're facing down
-			m_intRect = { 0, 128, 8, 16 };
+			m_intRect = { 112, 0, 16, 16 };
 		}
 		else
 		{// We're facing up
-			m_intRect = { 0, 144, 8, 16 };
+			m_intRect = { 112, 16, 16, 16 };
 		}
 	}
 	m_rectShape.setTextureRect(m_intRect);

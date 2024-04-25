@@ -23,7 +23,7 @@ class NPC_Monkey
 	float m_speedCur = 0.0f;
 	sf::Vector2f m_posStart = VEC2F_ZERO;
 
-	sf::IntRect m_intRect{ 0, 128, 8, 9 };
+	sf::IntRect m_intRect{ 112, 0, 16, 16 };
 
 	float m_detectRadiusCur = SCREEN_HEIGHT * 0.20f;
 

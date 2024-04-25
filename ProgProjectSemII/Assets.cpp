@@ -12,9 +12,9 @@ Assets::Assets()
 		std::cout << "8x8GreyGridBG01001RS.png failed to load."; // 42x60
 	}
 
-	if (!m_spriteSheet.loadFromFile("ASSETS\\monkeyGearSpriteSheet01001RS.png"))
+	if (!m_spriteSheet.loadFromFile("ASSETS\\monkeyGearSpriteSheet01008RS.png"))
 	{
-		std::cout << "monkeyGearSpriteSheet01001RS.png failed to load."; // 42x60
+		std::cout << "monkeyGearSpriteSheet01008RS.png failed to load."; // 42x60
 	}
 
 	if (!m_titleScreen.loadFromFile("ASSETS\\monkeyGearTitleScreen01002RS.png"))

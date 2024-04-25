@@ -181,22 +181,22 @@ void NPC_Visitor::animateSprite(sf::Time t_deltaTime)
 	{// We're facing horizontal
 		if (m_desiredDirection.x > 0.0f)
 		{// We're facing right
-			m_intRect = { 0, 112, 8, 16 };
+			m_intRect = { 40, 48, 8, 16 };
 		}
 		else
 		{// We're facing left
-			m_intRect = { 0, 96, 8, 16 };
+			m_intRect = { 40, 32, 8, 16 };
 		}
 	}
 	else
 	{// We're facing vertical
 		if (m_desiredDirection.y > 0.0f)
 		{// We're facing down
-			m_intRect = { 0, 64, 8, 16 };
+			m_intRect = { 40, 0, 8, 16 };
 		}
 		else
 		{// We're facing up
-			m_intRect = { 0, 80, 8, 16 };
+			m_intRect = { 40, 16, 8, 16 };
 		}
 	}
 	m_rectShape.setTextureRect(m_intRect);

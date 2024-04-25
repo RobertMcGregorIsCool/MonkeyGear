@@ -51,7 +51,19 @@ Game::Game()
     m_rectShapeHowToPlay.setTexture(&m_assets.m_howToPlay);
     m_rectShapeHowToPlay.setSize(SCREEN_SIZE);
 
+    m_rectShapeButton.setTexture(&m_assets.m_spriteSheet);
+    m_intRect = { 192, 32, 64, 16 };
+    m_rectShapeButton.setTextureRect(m_intRect);
+    m_rectShapeButton.setSize(sf::Vector2f(64.0f * SCREEN_SCALAR, 16.0f * SCREEN_SCALAR));
+    m_rectShapeButton.setOrigin(m_rectShapeButton.getSize() * 0.5f);
+    m_rectShapeButton.setPosition(SCREEN_SIZE * 0.5f);
+
+
     setGameState(GameState::TitleScreen);
+
+
+    
+
 }
 
 void Game::loadContent() {} // Load font file & setup message string REMOVE!

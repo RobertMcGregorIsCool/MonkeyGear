@@ -26,6 +26,7 @@ class Banana
 
 	Assets& m_assets;
 	
+	sf::IntRect m_intRect{ 80, 72, 8, 8 };
 
 public:
 	Banana(Assets& t_assets);
@@ -36,6 +37,8 @@ public:
 	void ThrowAtDir(sf::Vector2f t_posStart, sf::Vector2f t_throwDirection);
 
 	void MoveDir(sf::Time t_deltaTime);
+
+	void Animate(sf::Time t_deltaTime);
 
 	sf::RectangleShape m_rectShape;
 

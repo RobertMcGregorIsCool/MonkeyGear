@@ -40,6 +40,7 @@ class Game
 
 	GameState m_myState = GameState::TitleScreen;
 
+
 public:	  // declaration of member functions	
 	Game(); // default constructor
 	void	loadContent();
@@ -57,4 +58,7 @@ public:	  // declaration of member functions
 	sf::RectangleShape m_rectShapeTitleScreen;
 	sf::RectangleShape m_rectShapeTitleScreenTextStars;
 	sf::RectangleShape m_rectShapeHowToPlay;
+
+	sf::RectangleShape m_rectShapeButton;
+	sf::IntRect m_intRect;
 };

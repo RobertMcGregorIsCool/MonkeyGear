@@ -121,6 +121,8 @@ void Render::drawMainMenu()
     drawTitleScreen();
 
     m_window.draw(m_dimmer);
+
+    m_window.draw(m_game.m_rectShapeButton);
 }
 
 void Render::drawGameplay()
@@ -167,7 +169,7 @@ void Render::drawGameplay()
         if (m_level.m_player01.m_bananaBullets[i].m_myState != BananaInactive)
         {
             m_window.draw(m_level.m_player01.m_bananaBullets[i].m_rectShape);
-            m_window.draw(m_level.m_player01.m_bananaBullets[i].m_circShapeAttractZone);
+            //m_window.draw(m_level.m_player01.m_bananaBullets[i].m_circShapeAttractZone);
         }
     }
 
@@ -213,8 +215,6 @@ void Render::drawGameplay()
     m_window.draw(m_hudVisitors);
     m_window.draw(m_hudFruit);
 
-
-    
     if (m_level.m_rallyTimer <= 10.0f)
     {
         

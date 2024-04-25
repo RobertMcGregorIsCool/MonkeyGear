@@ -25,7 +25,7 @@ class NPC_Visitor
 	float m_speedCur = 0.0f;
 	sf::Vector2f m_posStart = VEC2F_ZERO;
 
-	sf::IntRect m_intRect { 0, 64, 8, 16 };
+	sf::IntRect m_intRect { 40, 0, 8, 16 };
 
 	float m_detectRadiusCur = SCREEN_HEIGHT * 0.25f;
 

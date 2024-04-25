@@ -25,6 +25,8 @@ class AmmoBox
 	const float M_EXPIRATION_PERIOD = 3.0f;
 	float m_expiration_timer = 0.0f;
 
+	sf::IntRect m_intRect{ 80, 72, 8, 8 };
+
 public:
 	AmmoBox(Assets& t_assets);
 	~AmmoBox();
@@ -33,6 +35,8 @@ public:
 	void goPreSpawn();
 	void goGettable();
 	void goExpiration();
+
+	void animate();
 
 	Assets& m_assets;
 
