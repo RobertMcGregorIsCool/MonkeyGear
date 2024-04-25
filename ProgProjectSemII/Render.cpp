@@ -101,23 +101,23 @@ void Render::onDraw()
         }
     }
 
-    for (int i = 0; i < static_cast<int>(m_level.m_visitors.size()); i++)
+    switch (m_level.m_visitor.m_myState)
     {
-        switch (m_level.m_visitors[i].myState)
+    case VisitorFresh:
+        if (renderFlicker)
         {
-        case VisitorInactive:
-
-            break;
-        case VisitorRescue:
-            if (renderFlicker)
-            {
-                m_window.draw(m_level.m_visitors[i].m_rectShape);
-            }
-            break;
-        default:
-            m_window.draw(m_level.m_visitors[i].m_rectShape);
-            break;
+            m_window.draw(m_level.m_visitor.m_rectShape);
         }
+        break;
+    case VisitorRescue:
+        if (renderFlicker)
+        {
+            m_window.draw(m_level.m_visitor.m_rectShape);
+        }
+        break;
+    default:
+        m_window.draw(m_level.m_visitor.m_rectShape);
+        break;
     }
 
     switch (m_level.m_ammoBox.m_myState)
@@ -166,7 +166,7 @@ void Render::setHudLives(int lives)
 
 void Render::setHudVisitors(int visitors)
 {
-    std::string output = "Visitors: " + std::to_string(visitors) + " / 4";
+    std::string output = "Visitors: " + std::to_string(visitors) + "";
     m_hudVisitors.setString(output);
 }
 

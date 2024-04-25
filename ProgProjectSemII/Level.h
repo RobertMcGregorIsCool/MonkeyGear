@@ -38,13 +38,15 @@ class Level
 
 	void rallyTimer(sf::Time t_deltaTime);
 
-	const int M_DEF_VISITORS = 0; // Possibly I could just do this from the vector.size()?
+	const int M_DEF_VISITOR_SCORE = 0;
 
 public:
 	Level(Assets& t_assets, Render& t_render);
 	~Level();
 
 	void onUpdate(sf::Time t_deltaTime, Game& t_game);
+
+	void rallyAddTime(float seconds);
 
 	void onReset();
 
@@ -58,11 +60,12 @@ public:
 	Player m_player01{ m_assets, sf::Vector2f(9.0f*7.5f*SCREEN_SCALAR, 2.0f*8.0f*SCREEN_SCALAR), m_render};
 
 	std::vector<NPC_Monkey> m_monkeys;
-	std::vector<NPC_Visitor> m_visitors;
+	// std::vector<NPC_Visitor> m_visitors;
+	NPC_Visitor m_visitor{ sf::Vector2f(SCREEN_WIDTH * 0.15f, SCREEN_HEIGHT * 0.25f), m_assets, m_player01 };
 	AmmoBox m_ammoBox{ m_assets };
 
-	int m_curVisitors = M_DEF_VISITORS;
+	int m_visitorScore = M_DEF_VISITOR_SCORE;
 
-	const float M_INITIAL_PLAY_PERIOD = 30.0f;
-	float m_playTimer = M_INITIAL_PLAY_PERIOD;
+	const float M_INITIAL_RALLY_PERIOD = 30.0f;
+	float m_rallyTimer = M_INITIAL_RALLY_PERIOD;
 };

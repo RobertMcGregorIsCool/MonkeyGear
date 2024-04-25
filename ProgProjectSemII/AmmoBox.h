@@ -16,7 +16,7 @@ class AmmoBox
 {
 	const float M_SPAWN_PERIOD_MAX = 07.5f;
 	const float M_SPAWN_PERIOD_MIN = 05.0f;
-	float m_spawn_timer = 0.0f;
+	float m_spawnTimer = 0.0f;
 
 	const float M_GETTABLE_PERIOD_MAX = 7.0f;
 	const float M_GETTABLE_PERIOD_MIN = 2.0f;

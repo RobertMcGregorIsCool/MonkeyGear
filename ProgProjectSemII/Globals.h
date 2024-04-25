@@ -32,3 +32,5 @@ const float SCREEN_WIDTH = 160 * SCREEN_SCALAR;// Previous Value = 800;   // Ori
 const float SCREEN_HEIGHT = 144 * SCREEN_SCALAR; // Previous Value = 480;  // Original value 800
 
 const sf::Vector2f VEC2F_ZERO = sf::Vector2f(0.0f, 0.0f);
+
+float difficultyScalar = 1.0f;

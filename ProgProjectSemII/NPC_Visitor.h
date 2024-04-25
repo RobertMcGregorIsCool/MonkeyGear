@@ -8,7 +8,8 @@
 
 enum VisitorState
 {
-	VisitorInactive,
+	VisitorPreSpawn,
+	VisitorFresh,
 	VisitorCower,
 	VisitorFollow,
 	VisitorFlee,
@@ -41,10 +42,16 @@ class NPC_Visitor
 	const float M_RESCUED_PERIOD = 0.5f;
 	float m_rescueTimer = 0.0f;
 
+	const float M_SPAWN_PERIOD = 1.25f;
+	float m_spawnTimer = 0.0f;
+
+	const float M_FRESH_PERIOD = 1.0f;
+	float m_freshTimer = 0.0f;
+
 	void amRescued(sf::Time t_deltaTime);
 
 public:
-	VisitorState myState{ VisitorState::VisitorCower };
+	VisitorState m_myState{ VisitorState::VisitorCower };
 
 	NPC_Visitor(sf::Vector2f t_posStart, Assets& t_assets, Player& t_player);
 	~NPC_Visitor();
@@ -53,9 +60,13 @@ public:
 
 	void detect(sf::Vector2f t_playerPos);
 
+	void spawn();
+
 	void follow(sf::Time t_deltaTime, sf::Vector2f t_playerPos);
 
 	void startFlee(sf::Vector2f t_monkeyPos);
+
+	void cowering(sf::Time t_deltaTime);
 
 	void flee(sf::Time t_deltaTime);
 

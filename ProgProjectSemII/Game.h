@@ -17,8 +17,7 @@ enum GameState
 	SplashScreen,
 	MainMenu,
 	Gameplay,
-	WinScreen, // Probably don't need this?
-	LoseScreen
+	GameOver,
 };
 
 class Game

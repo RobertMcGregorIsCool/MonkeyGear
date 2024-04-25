@@ -16,7 +16,7 @@ void NPC_Visitor::amRescued(sf::Time t_deltaTime)
 	else
 	{
 		std::cout << "Visitor now inactive.\n\n";
-		myState = VisitorInactive;
+		m_myState = VisitorPreSpawn;
 	}
 }
 
@@ -32,6 +32,8 @@ NPC_Visitor::NPC_Visitor(sf::Vector2f t_posStart, Assets& t_assets, Player& t_pl
 	m_posStart = t_posStart;
 
 	m_speedCur = M_SPEED_FOLLOW;
+
+	spawn();
 }
 
 NPC_Visitor::~NPC_Visitor(){}
@@ -42,14 +44,34 @@ void NPC_Visitor::onUpdate(sf::Time t_deltaTime)
 
 	detect(playerPos);
 
-	switch (myState)
+	switch (m_myState)
 	{
-	case VisitorInactive:
+	case VisitorPreSpawn:
 		// Rescue animation?
+		std::cout << "I'm in prespawn.\n\n";
+		if (m_spawnTimer > 0)
+		{
+			m_spawnTimer -= t_deltaTime.asSeconds();
+		}
+		else
+		{
+			spawn();
+		}
+		break;
+	case VisitorFresh:
+		std::cout << "I'm freshly spawned!\n\n";
+		if (m_freshTimer > 0)
+		{
+			m_freshTimer -= t_deltaTime.asSeconds();
+		}
+		else
+		{
+			m_myState = VisitorCower;
+		}
+		cowering(t_deltaTime);
 		break;
 	case VisitorCower:
-		m_speedCur = M_SPEED_FOLLOW;
-		// Cower code here
+		cowering(t_deltaTime);
 		break;
 	case VisitorFollow:
 		m_speedCur = M_SPEED_FOLLOW;
@@ -66,7 +88,7 @@ void NPC_Visitor::onUpdate(sf::Time t_deltaTime)
 		}
 		else
 		{
-			myState = VisitorCower;
+			m_myState = VisitorCower;
 		}
 		break;
 	case VisitorRescue:
@@ -82,6 +104,17 @@ void NPC_Visitor::detect(sf::Vector2f t_playerPos)
 {
 }
 
+void NPC_Visitor::spawn()
+{
+	// Spawn in random position!
+	sf::Vector2f newPos { Hlp::randomFloatRange(25, SCREEN_WIDTH-25), Hlp::randomFloatRange(SCREEN_HEIGHT * 0.20f, SCREEN_HEIGHT)};
+	//sf::Vector2f newPos = sf::Vector2f(SCREEN_WIDTH, SCREEN_HEIGHT) * 0.5f;
+	m_rectShape.setPosition(newPos);
+	m_freshTimer = M_FRESH_PERIOD;
+	m_myState = VisitorState::VisitorFresh;
+	m_speedCur = M_SPEED_FOLLOW;
+}
+
 void NPC_Visitor::follow(sf::Time t_deltaTime, sf::Vector2f t_playerPos)
 {
 	if (m_player.m_myState == PlayerVulnerable)
@@ -90,7 +123,7 @@ void NPC_Visitor::follow(sf::Time t_deltaTime, sf::Vector2f t_playerPos)
 	}
 	else
 	{
-		myState = VisitorCower;
+		m_myState = VisitorCower;
 	}
 }
 
@@ -98,7 +131,12 @@ void NPC_Visitor::startFlee(sf::Vector2f t_monkeyPos)
 {
 	m_fleeTimer = M_FLEE_PERIOD;
 	m_fleeDestination = m_rectShape.getPosition() - t_monkeyPos;
-	myState = VisitorFlee;
+	m_myState = VisitorFlee;
+}
+
+void NPC_Visitor::cowering(sf::Time t_deltaTime)
+{
+
 }
 
 void NPC_Visitor::flee(sf::Time t_deltaTime)
@@ -109,7 +147,7 @@ void NPC_Visitor::flee(sf::Time t_deltaTime)
 void NPC_Visitor::rescue()
 {
 	m_rescueTimer = M_RESCUED_PERIOD;
-	myState = VisitorRescue;
+	m_myState = VisitorRescue;
 }
 
 

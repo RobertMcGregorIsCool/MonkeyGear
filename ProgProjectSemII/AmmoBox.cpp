@@ -15,10 +15,10 @@ void AmmoBox::onUpdate(sf::Time t_deltaTime)
 	switch (m_myState)
 	{
 	case preSpawn:
-		std::cout << "I'm in prespawn.\n\n";
-		if (m_spawn_timer > 0)
+		
+		if (m_spawnTimer > 0)
 		{
-			m_spawn_timer -= t_deltaTime.asSeconds();
+			m_spawnTimer -= t_deltaTime.asSeconds();
 		}
 		else
 		{
@@ -26,7 +26,7 @@ void AmmoBox::onUpdate(sf::Time t_deltaTime)
 		}
 		break;
 	case gettable:
-		std::cout << "I'm in gettable.\n\n";
+		//std::cout << "I'm in gettable.\n\n";
 		if (m_gettable_timer > 0)
 		{
 			m_gettable_timer -= t_deltaTime.asSeconds();
@@ -37,7 +37,7 @@ void AmmoBox::onUpdate(sf::Time t_deltaTime)
 		}
 		break;
 	case expiring:
-		std::cout << "I'm in expiring.\n\n";
+		//std::cout << "I'm in expiring.\n\n";
 		if (m_expiration_timer > 0)
 		{
 			m_expiration_timer -= t_deltaTime.asSeconds();
@@ -53,7 +53,7 @@ void AmmoBox::onUpdate(sf::Time t_deltaTime)
 
 void AmmoBox::goPreSpawn()
 {
-	m_spawn_timer = Hlp::randomFloatRange(M_SPAWN_PERIOD_MIN, M_SPAWN_PERIOD_MAX);
+	m_spawnTimer = Hlp::randomFloatRange(M_SPAWN_PERIOD_MIN, M_SPAWN_PERIOD_MAX);
 	m_myState = AmmoBoxState::preSpawn;
 	m_rectShape.setFillColor(sf::Color::Red);
 }

@@ -12,10 +12,12 @@ void Level::actorUpdate(sf::Time t_deltaTime)
 		m_monkeys[i].onUpdate(t_deltaTime);
 	}
 
-	for (int i = 0; i < static_cast<int>(m_visitors.size()); i++)
+	m_visitor.onUpdate(t_deltaTime);
+
+	/*for (int i = 0; i < static_cast<int>(m_visitors.size()); i++)
 	{
 		m_visitors[i].onUpdate(t_deltaTime);
-	}
+	}*/
 
 	m_ammoBox.onUpdate(t_deltaTime);
 }
@@ -44,14 +46,11 @@ void Level::colPlayerMonkey(Game& t_game)
 
 void Level::colPlayerVisitor()
 {
-	for (int i = 0; i < static_cast<int>(m_visitors.size()); i++)
+	if (m_visitor.m_myState != VisitorPreSpawn && m_visitor.m_myState != VisitorRescue)
 	{
-		if (m_visitors[i].myState != VisitorInactive && m_visitors[i].myState != VisitorRescue)
+		if (m_player01.m_rectShapeCol.getGlobalBounds().intersects(m_visitor.m_rectShape.getGlobalBounds()))
 		{
-			if (m_player01.m_rectShapeCol.getGlobalBounds().intersects(m_visitors[i].m_rectShape.getGlobalBounds()))
-			{
-				m_visitors[i].myState = VisitorFollow;
-			}
+			m_visitor.m_myState = VisitorFollow;
 		}
 	}
 }
@@ -91,14 +90,11 @@ void Level::colMonkeyVisitor()
 {
 	for (int i = 0; i < static_cast<int>(m_monkeys.size()); i++)
 	{
-		for (int o = 0; o < static_cast<int>(m_visitors.size()); o++)
+		if (m_visitor.m_rectShape.getGlobalBounds().intersects(m_monkeys[i].m_rectShape.getGlobalBounds()))
 		{
-			if (m_visitors[o].m_rectShape.getGlobalBounds().intersects(m_monkeys[i].m_rectShape.getGlobalBounds()))
+			if (m_visitor.m_myState == VisitorFollow)
 			{
-				if (m_visitors[o].myState == VisitorFollow)
-				{
-					m_visitors[o].startFlee(m_monkeys[i].m_rectShape.getPosition());
-				}
+				m_visitor.startFlee(m_monkeys[i].m_rectShape.getPosition());
 			}
 		}
 	}
@@ -106,34 +102,37 @@ void Level::colMonkeyVisitor()
 
 void Level::colVisitorSafeZone()
 {
-	for (int i = 0; i < static_cast<int>(m_visitors.size()); i++)
+	sf::Vector2f distance = m_circShapeSafeZone.getPosition() - m_visitor.m_rectShape.getPosition();
+	if (Hlp::v2fGetMagnitude(distance) < m_circShapeSafeZone.getRadius())
 	{
-		sf::Vector2f distance = m_circShapeSafeZone.getPosition() - m_visitors[i].m_rectShape.getPosition();
-		if (Hlp::v2fGetMagnitude(distance) < m_circShapeSafeZone.getRadius())
+		if (m_visitor.m_myState != VisitorRescue && m_visitor.m_myState != VisitorPreSpawn)
 		{
-			if (m_visitors[i].myState != VisitorRescue && m_visitors[i].myState != VisitorInactive)
-			{
-				m_visitors[i].rescue();
-				m_curVisitors++;
-				m_render.setHudVisitors(m_curVisitors);
-			}
+			m_visitor.rescue();
+			m_visitorScore++;
+			m_render.setHudVisitors(m_visitorScore);
+			rallyAddTime(25);
 		}
 	}
 }
 
 void Level::rallyTimer(sf::Time t_deltaTime)
 {
-	if (m_playTimer > 0)
+	if (m_rallyTimer > 0)
 	{
-		m_playTimer -= t_deltaTime.asSeconds();
-		std::string minutes = std::to_string(static_cast<int>(m_playTimer / 60.0f));
-		std::string seconds = std::to_string(static_cast<int>(m_playTimer) % 60);
+		m_rallyTimer -= t_deltaTime.asSeconds();
+		std::string minutes = std::to_string(static_cast<int>(m_rallyTimer / 60.0f));
+		std::string seconds = std::to_string(static_cast<int>(m_rallyTimer) % 60);
 		m_render.setHudTime(minutes + " : " + seconds);
 	}
 	else
 	{
-		m_playTimer = M_INITIAL_PLAY_PERIOD;
+		m_rallyTimer = M_INITIAL_RALLY_PERIOD;
 	}
+}
+
+void Level::rallyAddTime(float seconds)
+{
+	m_rallyTimer += seconds;
 }
 
 Level::Level(Assets& t_assets, Render& t_render) : m_assets{t_assets}, m_render{t_render}
@@ -142,11 +141,6 @@ Level::Level(Assets& t_assets, Render& t_render) : m_assets{t_assets}, m_render{
 	m_monkeys.push_back(NPC_Monkey{ sf::Vector2f(SCREEN_WIDTH * 0.85f, SCREEN_HEIGHT * 0.25f), 500.0f, m_assets, m_player01 });
 	m_monkeys.push_back(NPC_Monkey{ sf::Vector2f(SCREEN_WIDTH * 0.15f, SCREEN_HEIGHT * 0.85f), 500.0f, m_assets, m_player01 });
 	m_monkeys.push_back(NPC_Monkey{ sf::Vector2f(SCREEN_WIDTH * 0.85f, SCREEN_HEIGHT * 0.85f), 500.0f, m_assets, m_player01 });
-
-	m_visitors.push_back(NPC_Visitor{ sf::Vector2f(SCREEN_WIDTH * 0.15f, SCREEN_HEIGHT * 0.25f), m_assets, m_player01 });
-	m_visitors.push_back(NPC_Visitor{ sf::Vector2f(SCREEN_WIDTH * 0.85f, SCREEN_HEIGHT * 0.25f), m_assets, m_player01 });
-	m_visitors.push_back(NPC_Visitor{ sf::Vector2f(SCREEN_WIDTH * 0.15f, SCREEN_HEIGHT * 0.85f), m_assets, m_player01 });
-	m_visitors.push_back(NPC_Visitor{ sf::Vector2f(SCREEN_WIDTH * 0.85f, SCREEN_HEIGHT * 0.85f), m_assets, m_player01 });
 
 	m_rectShapeBGImage.setTexture(&m_assets.m_background01);
 	m_rectShapeBGImage.setSize(sf::Vector2f(SCREEN_WIDTH, SCREEN_HEIGHT));
@@ -162,7 +156,7 @@ Level::Level(Assets& t_assets, Render& t_render) : m_assets{t_assets}, m_render{
 	m_circShapeSafeZone.setOutlineThickness(1.0f);
 	m_circShapeSafeZone.setFillColor(sf::Color::Transparent);
 
-	m_playTimer = M_INITIAL_PLAY_PERIOD;
+	m_rallyTimer = M_INITIAL_RALLY_PERIOD;
 }
 
 Level::~Level(){}
@@ -178,5 +172,5 @@ void Level::onUpdate(sf::Time t_deltaTime, Game& t_game)
 
 void Level::onReset()
 {
-	m_curVisitors = M_DEF_VISITORS;
+	m_visitorScore = M_DEF_VISITOR_SCORE;
 }
