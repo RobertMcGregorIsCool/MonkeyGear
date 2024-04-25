@@ -15,7 +15,7 @@ void NPC_Visitor::amRescued(sf::Time t_deltaTime)
 	}
 	else
 	{
-		std::cout << "Visitor now inactive.\n\n";
+		// std::cout << "Visitor now inactive.\n\n";
 		m_myState = VisitorPreSpawn;
 	}
 }
@@ -48,7 +48,7 @@ void NPC_Visitor::onUpdate(sf::Time t_deltaTime)
 	{
 	case VisitorPreSpawn:
 		// Rescue animation?
-		std::cout << "I'm in prespawn.\n\n";
+		//std::cout << "I'm in prespawn.\n\n";
 		if (m_spawnTimer > 0)
 		{
 			m_spawnTimer -= t_deltaTime.asSeconds();
@@ -59,7 +59,7 @@ void NPC_Visitor::onUpdate(sf::Time t_deltaTime)
 		}
 		break;
 	case VisitorFresh:
-		std::cout << "I'm freshly spawned!\n\n";
+		//std::cout << "I'm freshly spawned!\n\n";
 		if (m_freshTimer > 0)
 		{
 			m_freshTimer -= t_deltaTime.asSeconds();
@@ -81,7 +81,7 @@ void NPC_Visitor::onUpdate(sf::Time t_deltaTime)
 	case VisitorFlee:
 		m_speedCur = M_SPEED_FLEE;
 		flee(t_deltaTime);
-		std::cout << "I am fleeing!\n\n";
+		//std::cout << "I am fleeing!\n\n";
 		if (m_fleeTimer > 0)
 		{
 			m_fleeTimer -= t_deltaTime.asSeconds();
@@ -200,4 +200,10 @@ void NPC_Visitor::animateSprite(sf::Time t_deltaTime)
 		}
 	}
 	m_rectShape.setTextureRect(m_intRect);
+}
+
+void NPC_Visitor::reset()
+{
+	m_speedCur = M_SPEED_FOLLOW;
+	spawn();
 }

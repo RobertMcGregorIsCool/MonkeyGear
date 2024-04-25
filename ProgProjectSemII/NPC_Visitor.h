@@ -76,6 +76,8 @@ public:
 
 	void animateSprite(sf::Time t_deltaTime);
 
+	void reset();
+
 	sf::RectangleShape m_rectShape;
 
 	sf::CircleShape m_circShape{ 4.0f };

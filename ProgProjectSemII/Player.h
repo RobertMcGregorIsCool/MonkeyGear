@@ -50,6 +50,8 @@ public:
 	void onUpdate(sf::Time t_deltaTime);
 
 	void Player::setLives(int t_addedValue, Render& t_render, Game& t_game);
+
+	int getLives();
 	
 	void setBananas(int t_addedValue);
 

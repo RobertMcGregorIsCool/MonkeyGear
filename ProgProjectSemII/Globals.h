@@ -30,7 +30,8 @@ const int static SOUTH = 4;
 const float SCREEN_SCALAR = 4.0f;
 const float SCREEN_WIDTH = 160 * SCREEN_SCALAR;// Previous Value = 800;   // Original value 1500
 const float SCREEN_HEIGHT = 144 * SCREEN_SCALAR; // Previous Value = 480;  // Original value 800
+const sf::Vector2f SCREEN_SIZE {SCREEN_WIDTH, SCREEN_HEIGHT};
 
 const sf::Vector2f VEC2F_ZERO = sf::Vector2f(0.0f, 0.0f);
 
-float difficultyScalar = 1.0f;
+//float difficultyScalar = 1.0f;

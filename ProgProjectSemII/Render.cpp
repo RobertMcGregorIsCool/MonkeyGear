@@ -32,9 +32,30 @@ Render::Render(Level& t_level, Game& t_game) : m_window(sf::VideoMode(static_cas
     m_hudFruit.setPosition(SCREEN_WIDTH * 0.73f, SCREEN_HEIGHT * 0.0001f);
 
     m_hudTimer.setFont(m_font02);
-    m_hudTimer.setCharacterSize(24);
+    m_hudTimer.setCharacterSize(40);
     m_hudTimer.setFillColor(sf::Color(255, 248, 220, 255));
-    m_hudTimer.setPosition(SCREEN_WIDTH * 0.25f, SCREEN_HEIGHT * 0.95f);
+    m_hudTimer.setPosition(SCREEN_WIDTH * 0.25f, SCREEN_HEIGHT * 0.88f);
+
+    m_hudGameOver.setFont(m_font01);
+    m_hudGameOver.setCharacterSize(48);
+    m_hudGameOver.setFillColor(sf::Color(255, 248, 220, 255));
+    m_hudGameOver.setString("GAME OVER");
+    m_hudGameOver.setPosition(SCREEN_WIDTH * 0.25f, SCREEN_HEIGHT * 0.30f);
+
+    m_hudScore.setFont(m_font01);
+    m_hudScore.setCharacterSize(30);
+    m_hudScore.setFillColor(sf::Color(255, 248, 220, 255));
+    m_hudScore.setString("You Rescued X Clowns!");
+    m_hudScore.setPosition(SCREEN_WIDTH * 0.20f, SCREEN_HEIGHT * .65f);
+
+    m_dimmer.setFillColor(sf::Color(0, 0, 0, 150));
+    m_dimmer.setSize(sf::Vector2f(SCREEN_WIDTH, SCREEN_HEIGHT));
+
+    m_pressStartToPlay.setFont(m_font01);
+    m_pressStartToPlay.setCharacterSize(48);
+    m_pressStartToPlay.setFillColor(sf::Color(255, 248, 220, 255));
+    m_pressStartToPlay.setString("PRESS SPACE TO PLAY");
+    m_pressStartToPlay.setPosition(SCREEN_WIDTH * 0.02f, SCREEN_HEIGHT * 0.90f);
 
     setHudLives(3);
     setHudVisitors(0);
@@ -47,6 +68,63 @@ Render::~Render(){}
 void Render::onDraw()
 // This function draws the game world
 {
+    // DRAW CHARACTERS
+    if (m_renderFlicker)
+    {
+        m_renderFlicker = false;
+    }
+    else
+    {
+        m_renderFlicker = true;
+    }
+
+    switch (m_game.getGameState())
+    {
+    case TitleScreen:
+        drawTitleScreen();
+        break;
+    case MainMenu:
+        drawMainMenu();
+        break;
+    case Gameplay:
+        drawGameplay();
+        break;
+    case GameOver:
+        drawGameplay();
+        break;
+    default:
+        break;
+    }    
+
+    m_window.display();
+}
+
+void Render::drawTitleScreen()
+{
+    m_window.clear();
+
+    m_window.draw(m_game.m_rectShapeTitleScreen);
+
+    if (m_renderFlicker)
+    {
+        m_window.draw(m_game.m_rectShapeTitleScreenTextStars);
+    }
+
+    if (m_flashShow && m_game.getGameState() == GameState::TitleScreen)
+    {
+        m_window.draw(m_pressStartToPlay);
+    }
+}
+
+void Render::drawMainMenu()
+{
+    drawTitleScreen();
+
+    m_window.draw(m_dimmer);
+}
+
+void Render::drawGameplay()
+{
     // Clear the screen and draw your game sprites
     m_window.clear();
 
@@ -57,21 +135,13 @@ void Render::onDraw()
 
     //m_window.draw(m_level.m_circShapeSafeZone);
 
-    // DRAW CHARACTERS
-    if (renderFlicker)
-    {
-        renderFlicker = false;
-    }
-    else
-    {
-        renderFlicker = true;
-    }
+    
 
     Player plrRef = m_level.m_player01;
 
     if (plrRef.m_myState == PlayerInvulnerable)
     {
-        if (renderFlicker)
+        if (m_renderFlicker)
         {
             m_window.draw(plrRef.m_rectShapeVis);
             //m_window.draw(plrRef.m_rectShapeCol);
@@ -104,13 +174,13 @@ void Render::onDraw()
     switch (m_level.m_visitor.m_myState)
     {
     case VisitorFresh:
-        if (renderFlicker)
+        if (m_renderFlicker)
         {
             m_window.draw(m_level.m_visitor.m_rectShape);
         }
         break;
     case VisitorRescue:
-        if (renderFlicker)
+        if (m_renderFlicker)
         {
             m_window.draw(m_level.m_visitor.m_rectShape);
         }
@@ -129,27 +199,61 @@ void Render::onDraw()
         m_window.draw(m_level.m_ammoBox.m_rectShape);
         break;
     case expiring:
-        if (renderFlicker)
+        if (m_renderFlicker)
         {
             m_window.draw(m_level.m_ammoBox.m_rectShape);
         }
         break;
     default:
         break;
-    }    
+    }
 
     // DRAW HUD
     m_window.draw(m_hudLives);
     m_window.draw(m_hudVisitors);
     m_window.draw(m_hudFruit);
-    m_window.draw(m_hudTimer);
 
-    m_window.display();
+
+    
+    if (m_level.m_rallyTimer <= 10.0f)
+    {
+        
+        if (m_flashShow)
+        {
+            m_window.draw(m_hudTimer);
+        }
+    }
+    else
+    {
+        m_window.draw(m_hudTimer);
+    }
+
+    if (m_game.getGameState() == GameState::GameOver)
+    {
+        drawGameOver();
+    }
+    
 }
 
-void Render::onUpdate()
+void Render::drawGameOver()
 {
-    
+    m_window.draw(m_dimmer);
+    m_window.draw(m_hudGameOver);
+    m_hudScore.setString("You Saved " + std::to_string(m_level.m_visitorScore) + " Clowns!");
+    m_window.draw(m_hudScore);
+}
+
+void Render::onUpdate(sf::Time t_deltaTime)
+{
+    if (m_flashTimer > 0)
+    {
+        m_flashTimer -= t_deltaTime.asSeconds();
+    }
+    else
+    {
+        m_flashTimer = M_FLASH_PERIOD;
+        m_flashShow = !m_flashShow;
+    }
 }
 
 void Render::setHudLives(int lives)
@@ -178,6 +282,6 @@ void Render::setHudBananas(int bananas)
 
 void Render::setHudTime(std::string time)
 {
-    std::string output = "TIME LEFT: " + time; // std::to_string(time);
+    std::string output = "TIME: " + time; // std::to_string(time);
     m_hudTimer.setString(output);
 }

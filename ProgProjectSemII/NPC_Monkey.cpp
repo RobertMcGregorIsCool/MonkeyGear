@@ -187,3 +187,9 @@ void NPC_Monkey::animateSprite(sf::Time t_deltaTime)
 	}
 	m_rectShape.setTextureRect(m_intRect);
 }
+
+void NPC_Monkey::reset()
+{
+	m_rectShape.setPosition(m_posStart);
+	m_myState = MonkeyState::MonkeyPatrol;
+}

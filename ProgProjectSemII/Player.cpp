@@ -82,9 +82,6 @@ void Player::setLives(int t_addedValue, Render& t_render, Game& t_game)
 	if (m_curLives <= 0) 
 	{
 		m_curLives = 0;
-		
-		t_game.reset();
-		// Player is dead.
 	}
 	else if (t_addedValue < 0)
 	{
@@ -93,6 +90,11 @@ void Player::setLives(int t_addedValue, Render& t_render, Game& t_game)
 	}
 
 	t_render.setHudLives(m_curLives);
+}
+
+int Player::getLives()
+{
+	return m_curLives;
 }
 
 void Player::setBananas(int t_addedValue)
@@ -129,6 +131,8 @@ void Player::reset()
 {
 	m_curLives = M_DEF_LIVES;
 	m_curBananas = M_DEF_BANANAS;
+	m_myState = PlayerState::PlayerInvulnerable;
+	m_rectShapeVis.setPosition(m_posStart);
 }
 
 void Player::moveDir(sf::Time t_deltaTime) // sf::Vector2f t_desiredDir,

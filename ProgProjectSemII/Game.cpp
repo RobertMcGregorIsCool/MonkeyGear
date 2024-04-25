@@ -40,7 +40,19 @@ int main() {
   return 0;
 }
 
-Game::Game(){}
+Game::Game()
+{
+    m_rectShapeTitleScreen.setTexture(&m_assets.m_titleScreen);
+    m_rectShapeTitleScreen.setSize(SCREEN_SIZE);
+
+    m_rectShapeTitleScreenTextStars.setTexture(&m_assets.m_titleScreenTextStars);
+    m_rectShapeTitleScreenTextStars.setSize(SCREEN_SIZE);
+
+    m_rectShapeHowToPlay.setTexture(&m_assets.m_howToPlay);
+    m_rectShapeHowToPlay.setSize(SCREEN_SIZE);
+
+    setGameState(GameState::TitleScreen);
+}
 
 void Game::loadContent() {} // Load font file & setup message string REMOVE!
 
@@ -88,9 +100,25 @@ void Game::update(sf::Time t_deltaTime)
         m_render.m_window.close();
     }
 
-    m_input.onUpdate();
-    m_level01.onUpdate(t_deltaTime, *this);
-    m_render.onUpdate();
+    switch (m_myState)
+    {
+    case TitleScreen:
+        m_render.onUpdate(t_deltaTime);
+        break;
+    case MainMenu:
+        break;
+    case Gameplay:
+        m_input.onUpdate();
+        m_level01.onUpdate(t_deltaTime, *this);
+        m_render.onUpdate(t_deltaTime);
+        break;
+    case GameOver:
+        break;
+    default:
+        break;
+    }
+
+    
 }
 
 /// <summary>
@@ -101,6 +129,31 @@ void Game::update(sf::Time t_deltaTime)
 void Game::processEvents()
 {
     m_input.onProcessEvents();
+}
+
+//GameState Game::getGameState()
+//{
+//    return m_myState;
+//}
+
+void Game::setGameState(GameState t_newState)
+{
+    switch (t_newState)
+    {
+    case TitleScreen:
+        break;
+    case MainMenu:
+        break;
+    case Gameplay:
+        m_level01.onReset();
+        break;
+    case GameOver:
+        break;
+    default:
+        break;
+    }
+
+    m_myState = t_newState;
 }
 
 void Game::reset()

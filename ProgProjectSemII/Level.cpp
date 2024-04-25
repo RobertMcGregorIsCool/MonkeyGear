@@ -2,6 +2,7 @@
 
 // INCLUDES FOR FORWARD DEPENDANCY
 #include "Render.h"
+#include "Game.h"
 
 void Level::actorUpdate(sf::Time t_deltaTime)
 {
@@ -13,11 +14,6 @@ void Level::actorUpdate(sf::Time t_deltaTime)
 	}
 
 	m_visitor.onUpdate(t_deltaTime);
-
-	/*for (int i = 0; i < static_cast<int>(m_visitors.size()); i++)
-	{
-		m_visitors[i].onUpdate(t_deltaTime);
-	}*/
 
 	m_ammoBox.onUpdate(t_deltaTime);
 }
@@ -40,6 +36,11 @@ void Level::colPlayerMonkey(Game& t_game)
 		{
 			m_monkeys[i].touchPlayer();
 			m_player01.setLives(-1, m_render, t_game);
+
+			if (m_player01.getLives() <= 0)
+			{
+				onGameOver();
+			}
 		}
 	}
 }
@@ -59,7 +60,7 @@ void Level::colPlayerAmmoBox()
 {
 	if (m_player01.m_rectShapeCol.getGlobalBounds().intersects(m_ammoBox.m_rectShape.getGlobalBounds()))
 	{
-		std::cout << "Touching ammoBox! \n\n";
+		// std::cout << "Touching ammoBox! \n\n";
 		m_ammoBox.goPreSpawn();
 		m_player01.setBananas(3);
 	}
@@ -110,7 +111,7 @@ void Level::colVisitorSafeZone()
 			m_visitor.rescue();
 			m_visitorScore++;
 			m_render.setHudVisitors(m_visitorScore);
-			rallyAddTime(25);
+			rallyAddTime(m_rallyExtend);
 		}
 	}
 }
@@ -122,11 +123,11 @@ void Level::rallyTimer(sf::Time t_deltaTime)
 		m_rallyTimer -= t_deltaTime.asSeconds();
 		std::string minutes = std::to_string(static_cast<int>(m_rallyTimer / 60.0f));
 		std::string seconds = std::to_string(static_cast<int>(m_rallyTimer) % 60);
-		m_render.setHudTime(minutes + " : " + seconds);
+		m_render.setHudTime(minutes + ":" + seconds);
 	}
 	else
 	{
-		m_rallyTimer = M_INITIAL_RALLY_PERIOD;
+		onGameOver();
 	}
 }
 
@@ -135,7 +136,12 @@ void Level::rallyAddTime(float seconds)
 	m_rallyTimer += seconds;
 }
 
-Level::Level(Assets& t_assets, Render& t_render) : m_assets{t_assets}, m_render{t_render}
+void Level::onGameOver()
+{
+	m_game.setGameState(GameState::GameOver);
+}
+
+Level::Level(Assets& t_assets, Render& t_render, Game& t_game) : m_assets{ t_assets }, m_render{ t_render }, m_game{ t_game }
 {
 	m_monkeys.push_back(NPC_Monkey{ sf::Vector2f(SCREEN_WIDTH * 0.15f, SCREEN_HEIGHT * 0.25f), 500.0f, m_assets, m_player01 });
 	m_monkeys.push_back(NPC_Monkey{ sf::Vector2f(SCREEN_WIDTH * 0.85f, SCREEN_HEIGHT * 0.25f), 500.0f, m_assets, m_player01 });
@@ -173,4 +179,11 @@ void Level::onUpdate(sf::Time t_deltaTime, Game& t_game)
 void Level::onReset()
 {
 	m_visitorScore = M_DEF_VISITOR_SCORE;
+	m_rallyTimer = M_INITIAL_RALLY_PERIOD;
+	m_player01.reset();
+	m_visitor.reset();
+	for (int i = 0; i < static_cast<int>(m_monkeys.size()); i++)
+	{
+		m_monkeys[i].reset();
+	}
 }

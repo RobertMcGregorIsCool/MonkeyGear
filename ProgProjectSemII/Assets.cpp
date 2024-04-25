@@ -16,6 +16,21 @@ Assets::Assets()
 	{
 		std::cout << "monkeyGearSpriteSheet01001RS.png failed to load."; // 42x60
 	}
+
+	if (!m_titleScreen.loadFromFile("ASSETS\\monkeyGearTitleScreen01002RS.png"))
+	{
+		std::cout << "monkeyGearTitleScreen01002RS.png failed to load.";
+	}
+
+	if (!m_titleScreenTextStars.loadFromFile("ASSETS\\monkeyGearTitleScreenStars01002RS.png"))
+	{
+		std::cout << "monkeyGearTitleScreenStars01002RS.png failed to load.";
+	}
+
+	if (!m_howToPlay.loadFromFile("ASSETS\\howToPlay01001RS.png"))
+	{
+		std::cout << "howToPlay01001RS.png failed to load.";
+	}
 }
 
 Assets::~Assets()

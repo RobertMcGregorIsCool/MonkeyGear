@@ -40,13 +40,17 @@ class Level
 
 	const int M_DEF_VISITOR_SCORE = 0;
 
+	Game& m_game;
+
 public:
-	Level(Assets& t_assets, Render& t_render);
+	Level(Assets& t_assets, Render& t_render, Game& t_game);
 	~Level();
 
 	void onUpdate(sf::Time t_deltaTime, Game& t_game);
 
 	void rallyAddTime(float seconds);
+
+	void onGameOver();
 
 	void onReset();
 
@@ -68,4 +72,5 @@ public:
 
 	const float M_INITIAL_RALLY_PERIOD = 30.0f;
 	float m_rallyTimer = M_INITIAL_RALLY_PERIOD;
+	float m_rallyExtend = 5.0f;
 };

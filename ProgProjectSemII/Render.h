@@ -10,12 +10,17 @@ class Render
 {
 	Game& m_game;
 
+	const float M_FLASH_PERIOD = 0.5f;
+	float m_flashTimer = 0.0f;
+
+	bool m_flashShow = true;
+
 public:
 	bool m_exitGame = false;
 
 	sf::RenderWindow m_window;
 
-	bool renderFlicker = true;
+	bool m_renderFlicker = true;
 
 	sf::Font m_font01;		// font for writing text
 	sf::Font m_font02;		
@@ -24,6 +29,12 @@ public:
 	sf::Text m_hudFruit;	// Amount of fruit player has
 	sf::Text m_hudTimer;	// Time remaining before losing a life
 
+	sf::RectangleShape m_dimmer;
+	sf::Text m_hudGameOver;
+	sf::Text m_hudScore;
+
+	sf::Text m_pressStartToPlay;
+
 	Level& m_level;	// Reference to Level container
 
 	Render(Level& t_level, Game& t_game);
@@ -31,7 +42,12 @@ public:
 
 	void onDraw();
 
-	void onUpdate();
+	void drawTitleScreen();
+	void drawMainMenu();
+	void drawGameplay();
+	void drawGameOver();
+
+	void onUpdate(sf::Time t_deltaTime);
 
 	void setHudLives(int lives);
 	void setHudBananas(int bananas);
