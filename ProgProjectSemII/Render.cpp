@@ -4,45 +4,39 @@
 // FORWARD DEPENDENCY
 #include "Game.h"
 
-Render::Render(Level& t_level, Game& t_game) : m_window(sf::VideoMode(static_cast<int>(SCREEN_WIDTH),
+Render::Render(Level& t_level, Game& t_game, Assets& t_assets) : 
+    m_window(sf::VideoMode(static_cast<int>(SCREEN_WIDTH),
     static_cast<int>(SCREEN_HEIGHT)),
-    "Monkey Gear", sf::Style::Default), m_level(t_level), m_game(t_game)
+    "Monkey Gear", sf::Style::Default), m_level(t_level), m_game(t_game), m_assets(t_assets)
 {
-    if (!m_font01.loadFromFile("ASSETS/FONTS/Silkscreen/slkscr.ttf")) {
-        std::cout << "Error loading slkscr.ttf";
-    }
-    if (!m_font02.loadFromFile("ASSETS/FONTS/Silkscreen/slkscreb.ttf")) {
-        std::cout << "Error loading slkscreb.ttf";
-    }
-
     // set up the message string
-    m_hudLives.setFont(m_font01);                                                   // set the font for the text
+    m_hudLives.setFont(m_assets.m_font01);                                                   // set the font for the text
     m_hudLives.setCharacterSize(24);                                                // set the text size
     m_hudLives.setFillColor(sf::Color(255,248,220,255));                            // set the text colour
     m_hudLives.setPosition(SCREEN_WIDTH * 0.01f, SCREEN_HEIGHT * 0.0001f);            // its position on the screen
 
-    m_hudVisitors.setFont(m_font01);
+    m_hudVisitors.setFont(m_assets.m_font01);
     m_hudVisitors.setCharacterSize(24);
     m_hudVisitors.setFillColor(sf::Color(255, 248, 220, 255));
     m_hudVisitors.setPosition(SCREEN_WIDTH * 0.33f, SCREEN_HEIGHT * 0.0001f);
 
-    m_hudFruit.setFont(m_font01);
+    m_hudFruit.setFont(m_assets.m_font01);
     m_hudFruit.setCharacterSize(24);
     m_hudFruit.setFillColor(sf::Color(255, 248, 220, 255));
     m_hudFruit.setPosition(SCREEN_WIDTH * 0.73f, SCREEN_HEIGHT * 0.0001f);
 
-    m_hudTimer.setFont(m_font02);
+    m_hudTimer.setFont(m_assets.m_font02);
     m_hudTimer.setCharacterSize(40);
     m_hudTimer.setFillColor(sf::Color(255, 248, 220, 255));
     m_hudTimer.setPosition(SCREEN_WIDTH * 0.25f, SCREEN_HEIGHT * 0.88f);
 
-    m_hudGameOver.setFont(m_font01);
+    m_hudGameOver.setFont(m_assets.m_font01);
     m_hudGameOver.setCharacterSize(48);
     m_hudGameOver.setFillColor(sf::Color(255, 248, 220, 255));
     m_hudGameOver.setString("GAME OVER");
     m_hudGameOver.setPosition(SCREEN_WIDTH * 0.25f, SCREEN_HEIGHT * 0.30f);
 
-    m_hudScore.setFont(m_font01);
+    m_hudScore.setFont(m_assets.m_font01);
     m_hudScore.setCharacterSize(30);
     m_hudScore.setFillColor(sf::Color(255, 248, 220, 255));
     m_hudScore.setString("You Rescued X Clowns!");
@@ -51,7 +45,7 @@ Render::Render(Level& t_level, Game& t_game) : m_window(sf::VideoMode(static_cas
     m_dimmer.setFillColor(sf::Color(0, 0, 0, 150));
     m_dimmer.setSize(sf::Vector2f(SCREEN_WIDTH, SCREEN_HEIGHT));
 
-    m_pressStartToPlay.setFont(m_font01);
+    m_pressStartToPlay.setFont(m_assets.m_font01);
     m_pressStartToPlay.setCharacterSize(48);
     m_pressStartToPlay.setFillColor(sf::Color(255, 248, 220, 255));
     m_pressStartToPlay.setString("PRESS SPACE TO PLAY");
@@ -80,16 +74,19 @@ void Render::onDraw()
 
     switch (m_game.getGameState())
     {
-    case TitleScreen:
+    case GSTitleScreen:
         drawTitleScreen();
         break;
-    case MainMenu:
+    case GSMainMenu:
         drawMainMenu();
         break;
-    case Gameplay:
+    case GSHowToPlay:
+        drawHowToPlay();
+        break;
+    case GSGameplay:
         drawGameplay();
         break;
-    case GameOver:
+    case GSGameOver:
         drawGameplay();
         break;
     default:
@@ -110,7 +107,7 @@ void Render::drawTitleScreen()
         m_window.draw(m_game.m_rectShapeTitleScreenTextStars);
     }
 
-    if (m_flashShow && m_game.getGameState() == GameState::TitleScreen)
+    if (m_flashShow && m_game.getGameState() == GameState::GSTitleScreen)
     {
         m_window.draw(m_pressStartToPlay);
     }
@@ -122,7 +119,13 @@ void Render::drawMainMenu()
 
     m_window.draw(m_dimmer);
 
-    m_window.draw(m_game.m_rectShapeButton);
+    m_mainMenu.onRender(m_window);
+}
+
+void Render::drawHowToPlay()
+{
+    m_window.clear();
+    m_window.draw(m_game.m_rectShapeHowToPlay);
 }
 
 void Render::drawGameplay()
@@ -228,7 +231,7 @@ void Render::drawGameplay()
         m_window.draw(m_hudTimer);
     }
 
-    if (m_game.getGameState() == GameState::GameOver)
+    if (m_game.getGameState() == GameState::GSGameOver)
     {
         drawGameOver();
     }

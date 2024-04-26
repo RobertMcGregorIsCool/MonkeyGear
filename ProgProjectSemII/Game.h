@@ -14,11 +14,11 @@
 
 enum GameState
 {
-	TitleScreen,
-	MainMenu,
-	HowToPlay,
-	Gameplay,
-	GameOver,
+	GSTitleScreen,
+	GSMainMenu,
+	GSHowToPlay,
+	GSGameplay,
+	GSGameOver,
 };
 
 class Game
@@ -30,7 +30,7 @@ class Game
 	
 	Assets m_assets;
 	Level m_level01{m_assets,	m_render,	*this};
-	Render m_render{m_level01,	*this };
+	Render m_render{m_level01,	*this, m_assets };
 	Input m_input{	m_level01,	m_render,	*this };
 
 	const float M_DEF_TIME = 5.0f;
@@ -38,7 +38,7 @@ class Game
 	const float M_TITLE_SCREEN_PERIOD = 5.0f;
 	float m_titleScreenTimer = 0.0f;
 
-	GameState m_myState = GameState::TitleScreen;
+	GameState m_myState = GameState::GSTitleScreen;	
 
 
 public:	  // declaration of member functions	
@@ -52,6 +52,8 @@ public:	  // declaration of member functions
 	void	setGameState(GameState t_newState);
 
 	void	reset();
+
+	void	quitGame();
 	
 	float m_curTime = M_DEF_TIME;
 
@@ -59,6 +61,5 @@ public:	  // declaration of member functions
 	sf::RectangleShape m_rectShapeTitleScreenTextStars;
 	sf::RectangleShape m_rectShapeHowToPlay;
 
-	sf::RectangleShape m_rectShapeButton;
-	sf::IntRect m_intRect;
+	
 };

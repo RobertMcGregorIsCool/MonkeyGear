@@ -138,7 +138,7 @@ void Level::rallyAddTime(float seconds)
 
 void Level::onGameOver()
 {
-	m_game.setGameState(GameState::GameOver);
+	m_game.setGameState(GameState::GSGameOver);
 }
 
 Level::Level(Assets& t_assets, Render& t_render, Game& t_game) : m_assets{ t_assets }, m_render{ t_render }, m_game{ t_game }

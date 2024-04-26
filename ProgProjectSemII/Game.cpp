@@ -51,19 +51,7 @@ Game::Game()
     m_rectShapeHowToPlay.setTexture(&m_assets.m_howToPlay);
     m_rectShapeHowToPlay.setSize(SCREEN_SIZE);
 
-    m_rectShapeButton.setTexture(&m_assets.m_spriteSheet);
-    m_intRect = { 192, 32, 64, 16 };
-    m_rectShapeButton.setTextureRect(m_intRect);
-    m_rectShapeButton.setSize(sf::Vector2f(64.0f * SCREEN_SCALAR, 16.0f * SCREEN_SCALAR));
-    m_rectShapeButton.setOrigin(m_rectShapeButton.getSize() * 0.5f);
-    m_rectShapeButton.setPosition(SCREEN_SIZE * 0.5f);
-
-
-    setGameState(GameState::TitleScreen);
-
-
-    
-
+    setGameState(GameState::GSTitleScreen);
 }
 
 void Game::loadContent() {} // Load font file & setup message string REMOVE!
@@ -114,17 +102,17 @@ void Game::update(sf::Time t_deltaTime)
 
     switch (m_myState)
     {
-    case TitleScreen:
+    case GSTitleScreen:
         m_render.onUpdate(t_deltaTime);
         break;
-    case MainMenu:
+    case GSMainMenu:
         break;
-    case Gameplay:
+    case GSGameplay:
         m_input.onUpdate();
         m_level01.onUpdate(t_deltaTime, *this);
         m_render.onUpdate(t_deltaTime);
         break;
-    case GameOver:
+    case GSGameOver:
         break;
     default:
         break;
@@ -152,14 +140,14 @@ void Game::setGameState(GameState t_newState)
 {
     switch (t_newState)
     {
-    case TitleScreen:
+    case GSTitleScreen:
         break;
-    case MainMenu:
+    case GSMainMenu:
         break;
-    case Gameplay:
+    case GSGameplay:
         m_level01.onReset();
         break;
-    case GameOver:
+    case GSGameOver:
         break;
     default:
         break;
@@ -172,4 +160,9 @@ void Game::reset()
 {
     std::cout << "Player death!\n\n";
     m_curTime = M_DEF_TIME;
+}
+
+void Game::quitGame()
+{
+    m_render.m_window.close();
 }

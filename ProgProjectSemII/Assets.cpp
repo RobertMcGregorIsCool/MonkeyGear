@@ -2,6 +2,15 @@
 
 Assets::Assets()
 {
+	if (!m_font01.loadFromFile("ASSETS/FONTS/Silkscreen/slkscr.ttf")) 
+	{
+		std::cout << "Error loading slkscr.ttf";
+	}
+	if (!m_font02.loadFromFile("ASSETS/FONTS/Silkscreen/slkscreb.ttf")) 
+	{
+		std::cout << "Error loading slkscreb.ttf";
+	}
+
 	if (!m_background01.loadFromFile("ASSETS\\monkeyGearBG01001RS.png"))
 	{
 		std::cout << "monkeyGearBG01001RS.png failed to load."; // 42x60

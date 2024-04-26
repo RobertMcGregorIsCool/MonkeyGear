@@ -3,6 +3,7 @@
 #include "SFML/Graphics.hpp"
 #include "Globals.h"
 #include "Level.h"
+#include "MainMenu.h"
 
 class Game; // FORWARD DEPENDENCY
 
@@ -21,9 +22,7 @@ public:
 	sf::RenderWindow m_window;
 
 	bool m_renderFlicker = true;
-
-	sf::Font m_font01;		// font for writing text
-	sf::Font m_font02;		
+	
 	sf::Text m_hudLives;	// Number of player lives remaining
 	sf::Text m_hudVisitors; // Number of visitors to rescue
 	sf::Text m_hudFruit;	// Amount of fruit player has
@@ -36,14 +35,17 @@ public:
 	sf::Text m_pressStartToPlay;
 
 	Level& m_level;	// Reference to Level container
+	Assets& m_assets;
+	MainMenu m_mainMenu { m_assets, m_game }; // Reference to mainMenu object
 
-	Render(Level& t_level, Game& t_game);
+	Render(Level& t_level, Game& t_game, Assets& t_assets);
 	~Render();
 
 	void onDraw();
 
 	void drawTitleScreen();
 	void drawMainMenu();
+	void drawHowToPlay();
 	void drawGameplay();
 	void drawGameOver();
 

@@ -7,6 +7,9 @@ class Assets
 
 public:
 
+	sf::Font m_font01;		// font for writing text
+	sf::Font m_font02;
+
 	sf::Texture m_spriteSheet;
 	sf::Texture m_8x8GreyGrid;
 	sf::Texture m_background01;

@@ -25,7 +25,8 @@ public:
 	void onUpdate();
 
 	void onProcessEvents();
-	void onKeyPressed(sf::Event event);
-	void onKeyReleased(sf::Event event);
+	void onKeyPressed(sf::Event t_event);
+	void onKeyReleased(sf::Event t_event);
+	void onMouseReleased(sf::Event t_event);
 };
 

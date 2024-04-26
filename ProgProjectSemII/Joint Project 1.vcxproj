@@ -130,6 +130,7 @@
     <ClCompile Include="Hlp.cpp" />
     <ClCompile Include="Input.cpp" />
     <ClCompile Include="Level.cpp" />
+    <ClCompile Include="MainMenu.cpp" />
     <ClCompile Include="NPC_Monkey.cpp" />
     <ClCompile Include="NPC_Visitor.cpp" />
     <ClCompile Include="Player.cpp" />
@@ -144,6 +145,7 @@
     <ClInclude Include="Hlp.h" />
     <ClInclude Include="Input.h" />
     <ClInclude Include="Level.h" />
+    <ClInclude Include="MainMenu.h" />
     <ClInclude Include="NPC_Monkey.h" />
     <ClInclude Include="NPC_Visitor.h" />
     <ClInclude Include="Player.h" />
