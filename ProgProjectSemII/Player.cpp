@@ -137,6 +137,10 @@ void Player::reset()
 
 void Player::moveDir(sf::Time t_deltaTime) // sf::Vector2f t_desiredDir,
 {
+	int currentFrame = 0;
+	const int FRAME_WIDTH = 8;
+	const int FRAME_HEIGHT = 16;
+
 	sf::Vector2f newVelocity = m_desiredDir * M_SPEED_WALK * t_deltaTime.asSeconds();
 
 	sf::Vector2f testPos = m_rectShapeVis.getPosition() + newVelocity;
@@ -153,9 +157,48 @@ void Player::moveDir(sf::Time t_deltaTime) // sf::Vector2f t_desiredDir,
 	// Orientation test from movement
 	if (std::abs(m_desiredDir.x) > 0.01f || std::abs(m_desiredDir.y) > 0.01f)
 	{// We have player input
+		m_spriteFrameCounter += m_spriteFrameIncrement; // Increase spriteFrame
+
+		currentFrame = static_cast<int>(m_spriteFrameCounter); // Truncate to int
+		if (currentFrame >= M_SPRITE_TOTAL_ANIM_FRAMES)
+		{// If more than max frames in cycle,
+			currentFrame = 0;	// ...reset to 0.
+			m_spriteFrameCounter = 0.0f;
+		}
+		if (currentFrame != m_spriteFrame)
+		{// If incremented truncated frame is not the same as current frame,
+			m_spriteFrame = currentFrame; // make current frame incremented frame.
+		}
+
 		if (std::abs(m_desiredDir.x) > std::abs(m_desiredDir.y))
 		{// We're facing horizontal
 			if (m_desiredDir.x > 0.0f)
+			{// We're facing right
+				m_intRect = { 8 + (currentFrame * FRAME_WIDTH), 32, 8, 16 };
+			}
+			else
+			{// We're facing left
+				m_intRect = { 8 + (currentFrame * FRAME_WIDTH), 48, 8, 16 };
+			}
+		}
+		else
+		{// We're facing vertical
+			if (m_desiredDir.y > 0.0f)
+			{// We're facing down
+				m_intRect = { 8 + (currentFrame * FRAME_WIDTH), 0, 8, 16 };
+			}
+			else
+			{// We're facing up
+				m_intRect = { 8 + (currentFrame * FRAME_WIDTH), 16, 8, 16 };
+			}
+		}
+		m_desiredDirPrev = m_desiredDir;
+	}
+	else
+	{
+		if (std::abs(m_desiredDirPrev.x) > std::abs(m_desiredDirPrev.y))
+		{// We're facing horizontal
+			if (m_desiredDirPrev.x > 0.0f)
 			{// We're facing right
 				m_intRect = { 0, 32, 8, 16 };
 			}
@@ -166,10 +209,9 @@ void Player::moveDir(sf::Time t_deltaTime) // sf::Vector2f t_desiredDir,
 		}
 		else
 		{// We're facing vertical
-			if (m_desiredDir.y > 0.0f)
+			if (m_desiredDirPrev.y > 0.0f)
 			{// We're facing down
 				m_intRect = { 0, 0, 8, 16 };
-				
 			}
 			else
 			{// We're facing up

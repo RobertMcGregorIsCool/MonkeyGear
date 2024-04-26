@@ -177,28 +177,75 @@ void NPC_Visitor::moveTo(sf::Time t_deltaTime, sf::Vector2f t_destination)
 
 void NPC_Visitor::animateSprite(sf::Time t_deltaTime)
 {
-	if (std::abs(m_desiredDirection.x) > std::abs(m_desiredDirection.y))
-	{// We're facing horizontal
-		if (m_desiredDirection.x > 0.0f)
-		{// We're facing right
-			m_intRect = { 40, 48, 8, 16 };
+	int currentFrame = 0;
+	const int FRAME_WIDTH = 8;
+	const int FRAME_HEIGHT = 16;
+
+	if (std::abs(m_desiredDirection.x) > 0.01f || std::abs(m_desiredDirection.y) > 0.01f)
+	{
+		m_spriteFrameCounter += m_spriteFrameIncrement; // Increase spriteFrame
+
+		currentFrame = static_cast<int>(m_spriteFrameCounter); // Truncate to int
+		if (currentFrame >= M_SPRITE_TOTAL_ANIM_FRAMES)
+		{// If more than max frames in cycle,
+			currentFrame = 0;	// ...reset to 0.
+			m_spriteFrameCounter = 0.0f;
+		}
+		if (currentFrame != m_spriteFrame)
+		{// If incremented truncated frame is not the same as current frame,
+			m_spriteFrame = currentFrame; // make current frame incremented frame.
+		}
+
+		if (std::abs(m_desiredDirection.x) > std::abs(m_desiredDirection.y))
+		{// We're facing horizontal
+			if (m_desiredDirection.x > 0.0f)
+			{// We're facing right
+				m_intRect = { 48 + (currentFrame * FRAME_WIDTH), 48, 8, 16 };
+			}
+			else
+			{// We're facing left
+				m_intRect = { 48 + (currentFrame * FRAME_WIDTH), 32, 8, 16 };
+			}
 		}
 		else
-		{// We're facing left
-			m_intRect = { 40, 32, 8, 16 };
+		{// We're facing vertical
+			if (m_desiredDirection.y > 0.0f)
+			{// We're facing down
+				m_intRect = { 48 + (currentFrame * FRAME_WIDTH), 0, 8, 16 };
+			}
+			else
+			{// We're facing up
+				m_intRect = { 48 + (currentFrame * FRAME_WIDTH), 16, 8, 16 };
+			}
 		}
+		m_desiredDirPrev = m_desiredDirection;
 	}
 	else
-	{// We're facing vertical
-		if (m_desiredDirection.y > 0.0f)
-		{// We're facing down
-			m_intRect = { 40, 0, 8, 16 };
+	{
+		if (std::abs(m_desiredDirPrev.x) > std::abs(m_desiredDirPrev.y))
+		{// We're facing horizontal
+			if (m_desiredDirPrev.x > 0.0f)
+			{// We're facing right
+				m_intRect = { 40, 32, 8, 16 };
+			}
+			else
+			{// We're facing left
+				m_intRect = { 40, 48, 8, 16 };
+			}
 		}
 		else
-		{// We're facing up
-			m_intRect = { 40, 16, 8, 16 };
+		{// We're facing vertical
+			if (m_desiredDirPrev.y > 0.0f)
+			{// We're facing down
+				m_intRect = { 40, 0, 8, 16 };
+			}
+			else
+			{// We're facing up
+				m_intRect = { 40, 16, 8, 16 };
+			}
 		}
 	}
+
 	m_rectShape.setTextureRect(m_intRect);
 }
 

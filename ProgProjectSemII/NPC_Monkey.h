@@ -35,10 +35,16 @@ class NPC_Monkey
 
 	sf::Vector2f m_patrolDestination = VEC2F_ZERO; // Place monkey patrols to.
 	sf::Vector2f m_desiredDirection = VEC2F_ZERO; // 
+	sf::Vector2f m_desiredDirPrev = VEC2F_ZERO;
 
 	sf::Vector2f m_bananaPos = VEC2F_ZERO;
 	const float M_EATING_PERIOD = 4.0f;
 	float m_eating_timer = 0.0f;
+
+	int m_spriteFrame{ -1 };
+	const int M_SPRITE_TOTAL_ANIM_FRAMES = 4;
+	float m_spriteFrameCounter = 0.0f;
+	float m_spriteFrameIncrement = 0.3f;
 
 public:
 	bool m_isActive = true;

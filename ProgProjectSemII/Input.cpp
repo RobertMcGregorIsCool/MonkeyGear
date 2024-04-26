@@ -77,10 +77,12 @@ void Input::onKeyPressed(sf::Event t_event)
         }
         break;
     case GSMainMenu:
-        /*if (sf::Keyboard::Space == t_event.key.code && !m_pressedSpace)
+        if (sf::Keyboard::Space == t_event.key.code && !m_pressedSpace)
         {
-            m_render.m_mainMenu.onProcessEvents(t_event);
-        }*/
+            m_pressedSpace = true;
+            m_game.setGameState(GameState::GSGameplay);
+            m_desiredDir = VEC2F_ZERO;
+        }
         break;
     case GSHowToPlay:
         if (sf::Keyboard::Space == t_event.key.code && !m_pressedSpace)
@@ -144,7 +146,11 @@ void Input::onKeyReleased(sf::Event event)
         }
         break;
     case GSMainMenu:
-        
+        if (sf::Keyboard::Space == event.key.code)
+        {
+            m_pressedSpace = false;
+            m_releasedSpaceIgnoreFirst = true;
+        }
         break;
     case GSHowToPlay:
         if (sf::Keyboard::Space == event.key.code)

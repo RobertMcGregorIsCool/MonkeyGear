@@ -32,6 +32,8 @@ class NPC_Visitor
 	sf::Vector2f m_fleeDestination = VEC2F_ZERO;
 
 	sf::Vector2f m_desiredDirection = VEC2F_ZERO; // 
+	sf::Vector2f m_desiredDirPrev;
+
 	float m_movementThreshold = 30.0f;
 
 	sf::Vector2f m_monkeyPos;
@@ -49,6 +51,11 @@ class NPC_Visitor
 	float m_freshTimer = 0.0f;
 
 	void amRescued(sf::Time t_deltaTime);
+
+	int m_spriteFrame{ -1 };
+	const int M_SPRITE_TOTAL_ANIM_FRAMES = 4;
+	float m_spriteFrameCounter = 0.0f;
+	float m_spriteFrameIncrement = 0.3f;
 
 public:
 	VisitorState m_myState{ VisitorState::VisitorCower };

@@ -31,7 +31,8 @@ class Player
 	sf::Texture m_spriteSheet;
 	sf::IntRect m_intRect{ 0, 0, 8, 16 };
 
-	sf::Vector2f m_desiredDir;
+	sf::Vector2f m_desiredDir = VEC2F_ZERO;
+	sf::Vector2f m_desiredDirPrev = VEC2F_ZERO;
 
 	void moveDir(sf::Time t_deltaTime);
 
@@ -40,6 +41,11 @@ class Player
 
 	const float M_INVUL_PERIOD = 0.8f;
 	float m_invulTimer = M_INVUL_PERIOD;
+
+	int m_spriteFrame{ -1 };
+	const int M_SPRITE_TOTAL_ANIM_FRAMES = 4;
+	float m_spriteFrameCounter = 0.0f;
+	float m_spriteFrameIncrement = 0.3f;
 
 public:
 	Player(Assets& t_assets, sf::Vector2f t_posStart, Render& t_render);

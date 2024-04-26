@@ -163,29 +163,100 @@ void NPC_Monkey::moveTo(sf::Time t_deltaTime, sf::Vector2f t_destination)
 
 void NPC_Monkey::animateSprite(sf::Time t_deltaTime)
 {
-	if (std::abs(m_desiredDirection.x) > std::abs(m_desiredDirection.y))
-	{// We're facing horizontal
-		if (m_desiredDirection.x > 0.0f)
-		{// We're facing right
-			m_intRect = { 112, 48, 16, 16 };
+	int currentFrame = 0;
+	const int FRAME_WIDTH = 16;
+	const int FRAME_HEIGHT = 16;
+
+	if (std::abs(m_desiredDirection.x) > 3.00f || std::abs(m_desiredDirection.y) > 3.00f)
+	{
+		m_spriteFrameCounter += m_spriteFrameIncrement; // Increase spriteFrame
+
+		currentFrame = static_cast<int>(m_spriteFrameCounter); // Truncate to int
+		if (currentFrame >= M_SPRITE_TOTAL_ANIM_FRAMES)
+		{// If more than max frames in cycle,
+			currentFrame = 0;	// ...reset to 0.
+			m_spriteFrameCounter = 0.0f;
+		}
+		if (currentFrame != m_spriteFrame)
+		{// If incremented truncated frame is not the same as current frame,
+			m_spriteFrame = currentFrame; // make current frame incremented frame.
+		}
+
+		if (std::abs(m_desiredDirection.x) > std::abs(m_desiredDirection.y))
+		{// We're facing horizontal
+			if (m_desiredDirection.x > 0.0f)
+			{// We're facing right
+				m_intRect = { 64 + (currentFrame * FRAME_WIDTH), 112, 16, 16 };
+			}
+			else
+			{// We're facing left
+				m_intRect = { 64 + (currentFrame * FRAME_WIDTH), 96, 16, 16 };
+			}
 		}
 		else
-		{// We're facing left
-			m_intRect = { 112, 32, 16, 16 };
+		{// We're facing vertical
+			if (m_desiredDirection.y > 0.0f)
+			{// We're facing down
+				m_intRect = { 0 + (currentFrame * FRAME_WIDTH), 96, 16, 16 };
+			}
+			else
+			{// We're facing up
+				m_intRect = { 0 + (currentFrame * FRAME_WIDTH), 112, 16, 16 };
+			}
 		}
+		m_desiredDirPrev = m_desiredDirection;
 	}
 	else
-	{// We're facing vertical
-		if (m_desiredDirection.y > 0.0f)
-		{// We're facing down
-			m_intRect = { 112, 0, 16, 16 };
+	{
+		if (std::abs(m_desiredDirPrev.x) > std::abs(m_desiredDirPrev.y))
+		{// We're facing horizontal
+			if (m_desiredDirPrev.x > 0.0f)
+			{// We're facing right
+				m_intRect = { 112, 32, 16, 16 };
+			}
+			else
+			{// We're facing left
+				m_intRect = { 112, 48, 16, 16 };
+			}
 		}
 		else
-		{// We're facing up
-			m_intRect = { 112, 16, 16, 16 };
+		{// We're facing vertical
+			if (m_desiredDirPrev.y > 0.0f)
+			{// We're facing down
+				m_intRect = { 112, 0, 16, 16 };
+			}
+			else
+			{// We're facing up
+				m_intRect = { 112, 16, 16, 16 };
+			}
 		}
 	}
+
 	m_rectShape.setTextureRect(m_intRect);
+
+	//if (std::abs(m_desiredDirection.x) > std::abs(m_desiredDirection.y))
+	//{// We're facing horizontal
+	//	if (m_desiredDirection.x > 0.0f)
+	//	{// We're facing right
+	//		m_intRect = { 112, 48, 16, 16 };
+	//	}
+	//	else
+	//	{// We're facing left
+	//		m_intRect = { 112, 32, 16, 16 };
+	//	}
+	//}
+	//else
+	//{// We're facing vertical
+	//	if (m_desiredDirection.y > 0.0f)
+	//	{// We're facing down
+	//		m_intRect = { 112, 0, 16, 16 };
+	//	}
+	//	else
+	//	{// We're facing up
+	//		m_intRect = { 112, 16, 16, 16 };
+	//	}
+	//}
+	//m_rectShape.setTextureRect(m_intRect);
 }
 
 void NPC_Monkey::reset()

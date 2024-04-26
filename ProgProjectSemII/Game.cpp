@@ -9,6 +9,8 @@
 // ---------------------------------------------------------------------------
 // Known Bugs:
 // 01) Too awesome.
+// 02) Possible for menu buttons to not recieve clicks on every part of buttons.
+// 03) Console reports, "Failed to retrieve pixel format information: The operation completed successfully."
 
 ////////////////////////////////////////////////////////////
 // include correct library file for release and debug versions
