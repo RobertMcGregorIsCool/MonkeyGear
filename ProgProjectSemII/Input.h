@@ -1,3 +1,9 @@
+/// <summary>
+/// Project description: Semester2ProgrammingProject2024
+/// @author RoBert McGregor (C00302210)
+/// @date April 2024
+/// </summary>
+
 #pragma once
 #include "Level.h"
 #include "Render.h"
@@ -10,8 +16,8 @@ class Input
 	sf::Vector2f m_desiredDir; // Player's desired direction set by input events
 	sf::Vector2f m_desiredDirPrev = sf::Vector2f(0.0f, -1.0f); // Previous desired direction
 
-	bool m_pressedSpace = false;
-	bool m_releasedSpaceIgnoreFirst = true;
+	bool m_pressedSpace = false;			// Used to prevent input repetition during menus
+	bool m_releasedSpaceIgnoreFirst = true;	// Used to prevent player from firing Banana on game start
 
 public:
 

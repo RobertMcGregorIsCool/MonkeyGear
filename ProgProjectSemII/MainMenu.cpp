@@ -1,3 +1,9 @@
+/// <summary>
+/// Project description: Semester2ProgrammingProject2024
+/// @author RoBert McGregor (C00302210)
+/// @date April 2024
+/// </summary>
+
 #include "MainMenu.h"
 
 // FORWARD DEPENDENCY
@@ -28,8 +34,10 @@ MainMenu::MainMenu(Assets& t_assets, Game& t_game) : m_assets {t_assets}, m_game
 
 MainMenu::~MainMenu(){}
 
-// void MainMenu::onUpdate(sf::Time t_deltaTime){}
-
+/// <summary>
+/// Called from Render::Draw
+/// </summary>
+/// <param name="t_window">Target window</param>
 void MainMenu::onRender(sf::RenderWindow& t_window)
 {
     for (int i = 0; i < M_MENU_OPTIONS; i++)

@@ -10,7 +10,9 @@
 // Known Bugs:
 // 01) Too awesome.
 // 02) Possible for menu buttons to not recieve clicks on every part of buttons.
-// 03) Console reports, "Failed to retrieve pixel format information: The operation completed successfully."
+// 03) Console reports, "Failed to retrieve pixel format information: The 
+// operation completed successfully."
+// 04) Firing diagonally can be tricky, input a little sticky. To be fixed
 
 ////////////////////////////////////////////////////////////
 // include correct library file for release and debug versions
@@ -36,7 +38,6 @@
 
 int main() {
   Game aGame;
-  aGame.loadContent();
   aGame.run();
 
   return 0;
@@ -55,8 +56,6 @@ Game::Game()
 
     setGameState(GameState::GSTitleScreen);
 }
-
-void Game::loadContent() {} // Load font file & setup message string REMOVE!
 
 void Game::run()
 // This function contains the main game loop which controls the game.
@@ -114,13 +113,11 @@ void Game::update(sf::Time t_deltaTime)
         m_level01.onUpdate(t_deltaTime, *this);
         m_render.onUpdate(t_deltaTime);
         break;
-    case GSGameOver:
+    case GSGameOver: // Not sure I ended up using this, Gameover is via Level, right?
         break;
     default:
         break;
     }
-
-    
 }
 
 /// <summary>
@@ -133,11 +130,10 @@ void Game::processEvents()
     m_input.onProcessEvents();
 }
 
-//GameState Game::getGameState()
-//{
-//    return m_myState;
-//}
-
+/// <summary>
+/// External access to GameState
+/// </summary>
+/// <param name="t_newState">Sent new state</param>
 void Game::setGameState(GameState t_newState)
 {
     switch (t_newState)
@@ -154,16 +150,12 @@ void Game::setGameState(GameState t_newState)
     default:
         break;
     }
-
     m_myState = t_newState;
 }
 
-void Game::reset()
-{
-    std::cout << "Player death!\n\n";
-    m_curTime = M_DEF_TIME;
-}
-
+/// <summary>
+/// Ends the game
+/// </summary>
 void Game::quitGame()
 {
     m_render.m_window.close();

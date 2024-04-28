@@ -1,3 +1,9 @@
+/// <summary>
+/// Project description: Semester2ProgrammingProject2024
+/// @author RoBert McGregor (C00302210)
+/// @date April 2024
+/// </summary>
+
 // Game class declaration
 #pragma once
 
@@ -28,12 +34,10 @@ class Game
 	// put your game objects here eg player object and 
 	// array of enemy objects etc.
 	
-	Assets m_assets;
-	Level m_level01{m_assets,	m_render,	*this};
-	Render m_render{m_level01,	*this, m_assets };
-	Input m_input{	m_level01,	m_render,	*this };
-
-	const float M_DEF_TIME = 5.0f;
+	Assets m_assets;	// Assets loader / container
+	Level m_level01{m_assets,	m_render,	*this}; // Level objects container, collision, timer
+	Render m_render{m_level01,	*this, m_assets }; // Code for rendering the game, depending on gamestate
+	Input m_input{	m_level01,	m_render,	*this };// Player input to game depending on gamestate
 
 	const float M_TITLE_SCREEN_PERIOD = 5.0f;
 	float m_titleScreenTimer = 0.0f;
@@ -43,19 +47,14 @@ class Game
 
 public:	  // declaration of member functions	
 	Game(); // default constructor
-	void	loadContent();
 	void	run();
 	void	update(sf::Time t_deltaTime);
-	void	processEvents();
+	void	processEvents(); // Process game input from SFML
 
-	GameState getGameState() { return m_myState; }
+	GameState getGameState() { return m_myState; } // Handles events on state change, performs state change.
 	void	setGameState(GameState t_newState);
 
-	void	reset();
-
 	void	quitGame();
-	
-	float m_curTime = M_DEF_TIME;
 
 	sf::RectangleShape m_rectShapeTitleScreen;
 	sf::RectangleShape m_rectShapeTitleScreenTextStars;

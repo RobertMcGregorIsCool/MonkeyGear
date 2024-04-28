@@ -1,3 +1,9 @@
+/// <summary>
+/// Project description: Semester2ProgrammingProject2024
+/// @author RoBert McGregor (C00302210)
+/// @date April 2024
+/// </summary>
+
 #include "Banana.h"
 
 Banana::Banana(Assets& t_assets) : m_assets(t_assets)
@@ -6,18 +12,15 @@ Banana::Banana(Assets& t_assets) : m_assets(t_assets)
 	m_rectShape.setOrigin(m_rectShape.getSize() * 0.5f);
 	m_rectShape.setTexture(&m_assets.m_spriteSheet);
 	m_rectShape.setTextureRect(m_intRect);
-	
-	m_circShapeAttractZone.setRadius(M_BANANA_ATTRACT_RADIUS);
-	m_circShapeAttractZone.setOrigin(m_circShapeAttractZone.getRadius(), m_circShapeAttractZone.getRadius());
-	m_circShapeAttractZone.setPosition(m_rectShape.getPosition());
-	m_circShapeAttractZone.setFillColor(sf::Color::Transparent);
-	m_circShapeAttractZone.setOutlineColor(sf::Color::Blue);
-	m_circShapeAttractZone.setOutlineThickness(2.0f);
 }
 
 Banana::~Banana(){}
 
-void Banana::Update(sf::Time t_deltaTime)
+/// <summary>
+/// Called from Level, branches behavior based on state
+/// </summary>
+/// <param name="t_deltaTime"></param>
+void Banana::update(sf::Time t_deltaTime)
 {
 	switch (m_myState)
 	{
@@ -28,13 +31,12 @@ void Banana::Update(sf::Time t_deltaTime)
 		if (m_thrownTimer > 0.0f)
 		{
 			m_thrownTimer -= t_deltaTime.asSeconds();
-			MoveDir(t_deltaTime);
-			Animate(t_deltaTime);
+			moveDir(t_deltaTime);
+			animate(t_deltaTime);
 		}
 		else
 		{
 			m_thrownTimer = M_THROWN_PERIOD;
-			// m_rectShape.setFillColor(sf::Color::Blue);
 			m_myState = BananaAtRest;
 			m_intRect = { 64, 72, 8, 8 };
 			m_rectShape.setTextureRect(m_intRect);
@@ -56,16 +58,24 @@ void Banana::Update(sf::Time t_deltaTime)
 	}
 }
 
-void Banana::ThrowAtDir(sf::Vector2f t_posStart, sf::Vector2f t_throwDirection)
+/// <summary>
+/// Player throws banana in spec'd direction
+/// </summary>
+/// <param name="t_posStart">Start point for Banana</param>
+/// <param name="t_throwDirection">Direction of throw</param>
+void Banana::throwAtDir(sf::Vector2f t_posStart, sf::Vector2f t_throwDirection)
 {
 	m_thrownTimer = M_THROWN_PERIOD;
 	m_rectShape.setPosition(t_posStart);
 	m_throwDirection = t_throwDirection;
-	// m_rectShape.setFillColor(sf::Color::Yellow);
 	m_myState = BananaThrown;
 }
 
-void Banana::MoveDir(sf::Time t_deltaTime)
+/// <summary>
+/// Move in spec'd direction, called from Update with BananaThrown state
+/// </summary>
+/// <param name="t_deltaTime">Deltatime</param>
+void Banana::moveDir(sf::Time t_deltaTime)
 {
 	sf::Vector2f newVelocity = m_throwDirection * M_THROWN_SPEED * t_deltaTime.asSeconds();
 
@@ -81,8 +91,42 @@ void Banana::MoveDir(sf::Time t_deltaTime)
 	m_circShapeAttractZone.setPosition(m_rectShape.getPosition());
 }
 
-void Banana::Animate(sf::Time t_deltaTime)
+/// <summary>
+/// Called from update, plays appropriate animation depending on state
+/// </summary>
+/// <param name="t_deltaTime">Deltatime - possibly get rid of this? </param>
+void Banana::animate(sf::Time t_deltaTime)
 {
-	m_intRect = { 80, 72, 8, 8 };
+	m_spriteFrameCounter += m_spriteFrameIncrement; // Increase spriteFrame
+
+	m_currentFrame = static_cast<int>(m_spriteFrameCounter); // Truncate to int
+	if (m_currentFrame >= M_SPRITE_TOTAL_ANIM_FRAMES)
+	{// If more than max frames in cycle,
+		m_currentFrame = 0;	// ...reset to 0.
+		m_spriteFrameCounter = 0.0f;
+	}
+	if (m_currentFrame != m_spriteFrame)
+	{// If incremented truncated frame is not the same as current frame,
+		m_spriteFrame = m_currentFrame; // make current frame incremented frame.
+	}
+
+	switch (m_myState)
+	{
+	case BananaInactive:
+		break;
+	case BananaThrown:
+		m_intRect = { 80 + (m_currentFrame * M_FRAME_WIDTH), 72, 8, 8 };
+		break;
+	case BananaAtRest:
+		m_intRect = { 64, 72, 8, 8 };
+		break;
+	default:
+		break;
+	}
 	m_rectShape.setTextureRect(m_intRect);
+}
+
+void Banana::reset()
+{
+	m_myState == BananaInactive;
 }

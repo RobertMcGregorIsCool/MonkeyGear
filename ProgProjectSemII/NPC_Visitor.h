@@ -1,3 +1,9 @@
+/// <summary>
+/// Project description: Semester2ProgrammingProject2024
+/// @author RoBert McGregor (C00302210)
+/// @date April 2024
+/// </summary>
+
 #pragma once
 
 #include <iostream>
@@ -31,26 +37,30 @@ class NPC_Visitor
 
 	sf::Vector2f m_fleeDestination = VEC2F_ZERO;
 
-	sf::Vector2f m_desiredDirection = VEC2F_ZERO; // 
+	sf::Vector2f m_desiredDirection = VEC2F_ZERO;  
 	sf::Vector2f m_desiredDirPrev;
 
-	float m_movementThreshold = 30.0f;
+	float m_movementThreshold = 30.0f; // Size of m_desiredDirection mag before character will move.
 
 	sf::Vector2f m_monkeyPos;
 
 	const float M_FLEE_PERIOD = 0.50f;
 	float m_fleeTimer = 0.0f;
 
-	const float M_RESCUED_PERIOD = 0.5f;
-	float m_rescueTimer = 0.0f;
+	const float M_RESCUED_PERIOD = 1.5f;
+	float m_rescueTimer = M_RESCUED_PERIOD;
 
-	const float M_SPAWN_PERIOD = 1.25f;
-	float m_spawnTimer = 0.0f;
+	const float M_SPAWN_PERIOD = 0.25f;
+	float m_spawnTimer = 0.5f;
 
 	const float M_FRESH_PERIOD = 1.0f;
 	float m_freshTimer = 0.0f;
 
 	void amRescued(sf::Time t_deltaTime);
+
+	int m_currentFrame = 0;
+	const int M_FRAME_WIDTH = 8;
+	const int M_FRAME_HEIGHT = 16;
 
 	int m_spriteFrame{ -1 };
 	const int M_SPRITE_TOTAL_ANIM_FRAMES = 4;
@@ -65,9 +75,9 @@ public:
 
 	void onUpdate(sf::Time t_deltaTime);
 
-	void detect(sf::Vector2f t_playerPos);
-
 	void spawn();
+
+	void startFollow();
 
 	void follow(sf::Time t_deltaTime, sf::Vector2f t_playerPos);
 
@@ -79,15 +89,18 @@ public:
 
 	void rescue();
 
+	void bananaBash();
+
 	void moveTo(sf::Time t_deltaTime, sf::Vector2f t_destination);
 
 	void animateSprite(sf::Time t_deltaTime);
+	void animateMove();
+	void animateCower();
+	void animateRescue();
 
 	void reset();
 
 	sf::RectangleShape m_rectShape;
-
-	sf::CircleShape m_circShape{ 4.0f };
 
 	Player& m_player;
 };

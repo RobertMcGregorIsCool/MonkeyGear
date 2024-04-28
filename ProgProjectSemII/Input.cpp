@@ -1,3 +1,9 @@
+/// <summary>
+/// Project description: Semester2ProgrammingProject2024
+/// @author RoBert McGregor (C00302210)
+/// @date April 2024
+/// </summary>
+
 #include "Input.h"
 
 // FORWARD DEPENDENCY
@@ -8,7 +14,8 @@ Input::Input(Level& t_level01, Render& t_render, Game& t_game) : m_level01{ t_le
 Input::~Input(){}
 
 void Input::onUpdate()
-{// This can be flagged as a keylogger, apparently!
+{
+    // This can be flagged as a keylogger, apparently! Keeping as it's interesting!
     //m_desiredDir = VEC2F_ZERO; // Reinitialise m_desiredDir to zero.
 
     //// get keyboard input
@@ -31,7 +38,9 @@ void Input::onUpdate()
     //m_level01.m_player01.setDesiredDir(m_desiredDir);
 }
 
-// void Input::onProcessEvents(sf::Event event)
+/// <summary>
+/// Called from Game, directs player input to relevant functions
+/// </summary>
 void Input::onProcessEvents()
 {
     sf::Event event;
@@ -64,6 +73,10 @@ void Input::onProcessEvents()
     m_level01.m_player01.setDesiredDir(m_desiredDir);
 }
 
+/// <summary>
+/// Handles key presses, called from OnProcessEvents, depending on game state
+/// </summary>
+/// <param name="t_event">Event passed from OnProcessEvents</param>
 void Input::onKeyPressed(sf::Event t_event)
 {
     switch (m_game.getGameState())
@@ -92,7 +105,7 @@ void Input::onKeyPressed(sf::Event t_event)
             m_desiredDir = VEC2F_ZERO;
         }
         break;
-    case GSGameplay:
+    case GSGameplay: // Accomodates WASD and Cursor players
         if (sf::Keyboard::Left == t_event.key.code || sf::Keyboard::A == t_event.key.code)
         {
             m_desiredDir.x = -1.0f;
@@ -120,7 +133,7 @@ void Input::onKeyPressed(sf::Event t_event)
         {
             m_pressedSpace = true;
             m_game.setGameState(GameState::GSTitleScreen);
-            // Ultimately want to stop player here, but let them orientate.
+            // Ultimately want to stop player movement here while letting them orientate.
         }
         break;
     default:
@@ -128,9 +141,12 @@ void Input::onKeyPressed(sf::Event t_event)
     }
 }
 
+/// <summary>
+/// Handles key releases, called from OnProcessEvents. Need to unset directions using this method
+/// </summary>
+/// <param name="t_event">Event passed from OnProcessEvents</param>
 void Input::onKeyReleased(sf::Event event)
 {
-
     if(sf::Keyboard::Escape == event.key.code)
     {
         m_render.m_exitGame = true;
@@ -201,6 +217,10 @@ void Input::onKeyReleased(sf::Event event)
     }    
 }
 
+/// <summary>
+/// Handles mouse input, called from OnProcessEvents, based on GameState
+/// </summary>
+/// <param name="t_event">Event passed from OnProcessEvents</param>
 void Input::onMouseReleased(sf::Event t_event)
 {
     sf::Vector2i mouse;

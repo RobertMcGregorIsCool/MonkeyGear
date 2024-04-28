@@ -1,3 +1,9 @@
+/// <summary>
+/// Project description: Semester2ProgrammingProject2024
+/// @author RoBert McGregor (C00302210)
+/// @date April 2024
+/// </summary>
+
 #include "Render.h"
 #include <iostream>
 
@@ -59,6 +65,9 @@ Render::Render(Level& t_level, Game& t_game, Assets& t_assets) :
 
 Render::~Render(){}
 
+/// <summary>
+/// Called from Game::Render
+/// </summary>
 void Render::onDraw()
 // This function draws the game world
 {
@@ -96,6 +105,9 @@ void Render::onDraw()
     m_window.display();
 }
 
+/// <summary>
+/// Depending on GameState, draws the TitleScreen
+/// </summary>
 void Render::drawTitleScreen()
 {
     m_window.clear();
@@ -113,21 +125,30 @@ void Render::drawTitleScreen()
     }
 }
 
+/// <summary>
+/// Depending on GameState, draws the MainMenu over the Title screen
+/// </summary>
 void Render::drawMainMenu()
 {
     drawTitleScreen();
 
-    m_window.draw(m_dimmer);
+    m_window.draw(m_dimmer); // Dim title screen
 
     m_mainMenu.onRender(m_window);
 }
 
+/// <summary>
+/// Depending on GameState, draws HowToPlay screen
+/// </summary>
 void Render::drawHowToPlay()
 {
     m_window.clear();
     m_window.draw(m_game.m_rectShapeHowToPlay);
 }
 
+/// <summary>
+/// Depending on GameState, draws gameplay elements
+/// </summary>
 void Render::drawGameplay()
 {
     // Clear the screen and draw your game sprites
@@ -136,12 +157,6 @@ void Render::drawGameplay()
     // DRAW BACKGROUND
     m_window.draw(m_level.m_rectShapeBGImage);
 
-    //m_window.draw(m_level.m_rectShape8x8Grid);
-
-    //m_window.draw(m_level.m_circShapeSafeZone);
-
-    
-
     Player plrRef = m_level.m_player01;
 
     if (plrRef.m_myState == PlayerInvulnerable)
@@ -149,13 +164,11 @@ void Render::drawGameplay()
         if (m_renderFlicker)
         {
             m_window.draw(plrRef.m_rectShapeVis);
-            //m_window.draw(plrRef.m_rectShapeCol);
         }
     }
     else
     {
         m_window.draw(plrRef.m_rectShapeVis);
-        //m_window.draw(plrRef.m_rectShapeCol);
     }
 
     for (int i = 0; i < static_cast<int>(m_level.m_monkeys.size()); i++)
@@ -163,7 +176,6 @@ void Render::drawGameplay()
         if (m_level.m_monkeys[i].m_isActive)
         {
             m_window.draw(m_level.m_monkeys[i].m_rectShape);
-            //m_window.draw(m_level.m_monkeys[i].m_circShape);
         }
     }
 
@@ -172,7 +184,6 @@ void Render::drawGameplay()
         if (m_level.m_player01.m_bananaBullets[i].m_myState != BananaInactive)
         {
             m_window.draw(m_level.m_player01.m_bananaBullets[i].m_rectShape);
-            //m_window.draw(m_level.m_player01.m_bananaBullets[i].m_circShapeAttractZone);
         }
     }
 
@@ -218,9 +229,9 @@ void Render::drawGameplay()
     m_window.draw(m_hudVisitors);
     m_window.draw(m_hudFruit);
 
+    // Determine if rallytimer hud should flash for urgency
     if (m_level.m_rallyTimer <= 10.0f)
     {
-        
         if (m_flashShow)
         {
             m_window.draw(m_hudTimer);
@@ -235,9 +246,11 @@ void Render::drawGameplay()
     {
         drawGameOver();
     }
-    
 }
 
+/// <summary>
+/// Depending on GameState, draw GameOver
+/// </summary>
 void Render::drawGameOver()
 {
     m_window.draw(m_dimmer);
@@ -246,6 +259,10 @@ void Render::drawGameOver()
     m_window.draw(m_hudScore);
 }
 
+/// <summary>
+/// Called from Game::Update, flips visibility of timer
+/// </summary>
+/// <param name="t_deltaTime"></param>
 void Render::onUpdate(sf::Time t_deltaTime)
 {
     if (m_flashTimer > 0)
@@ -259,6 +276,10 @@ void Render::onUpdate(sf::Time t_deltaTime)
     }
 }
 
+/// <summary>
+/// Set visual tracker of lives to current
+/// </summary>
+/// <param name="lives">current lives</param>
 void Render::setHudLives(int lives)
 {
     std::string output = "Lives: " + std::to_string(lives) + " / 3";
@@ -266,23 +287,30 @@ void Render::setHudLives(int lives)
     
 }
 
-//void Render::setHudBananas(int bananas)
-//{
-//    std::string output = "Lives: " + std::to_string(lives) + " / 3";
-//}
-
+/// <summary>
+/// Set visual tracker of rescued clowns to current
+/// </summary>
+/// <param name="visitors">current rescued</param>
 void Render::setHudVisitors(int visitors)
 {
     std::string output = "Visitors: " + std::to_string(visitors) + "";
     m_hudVisitors.setString(output);
 }
 
+/// <summary>
+/// Set visual tracker of banana ammo to current
+/// </summary>
+/// <param name="bananas">current bananas</param>
 void Render::setHudBananas(int bananas)
 {
     std::string output = "Fruit: " + std::to_string(bananas) + " / 3";
     m_hudFruit.setString(output);
 }
 
+/// <summary>
+/// Set timer to current remaining time
+/// </summary>
+/// <param name="time">Remaining time</param>
 void Render::setHudTime(std::string time)
 {
     std::string output = "TIME: " + time; // std::to_string(time);

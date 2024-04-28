@@ -1,8 +1,14 @@
+/// <summary>
+/// Project description: Semester2ProgrammingProject2024
+/// @author RoBert McGregor (C00302210)
+/// @date April 2024
+/// </summary>
+
 #include "NPC_Monkey.h"
 
 #include "Player.h"
 
-namespace {
+namespace { // These values are here as I need to initialise the creatures through a vector pushback
 	const float M_SPEED_WALK = 16.0f; // Walking speed for Monkey
 	const float M_SPEED_RUN = 80.0f; // Running speed for Monkey
 	const float M_BOUNDS_SCALAR = 0.95f;
@@ -25,6 +31,10 @@ NPC_Monkey::NPC_Monkey(sf::Vector2f t_posStart, float t_patrolRadius, Assets& t_
 
 NPC_Monkey::~NPC_Monkey(){}
 
+/// <summary>
+/// Called from Level::Update, powers monkey
+/// </summary>
+/// <param name="t_deltaTime">Delta Time</param>
 void NPC_Monkey::onUpdate(sf::Time t_deltaTime)
 {
 	sf::Vector2f playerPos = m_player.m_rectShapeVis.getPosition();
@@ -33,20 +43,29 @@ void NPC_Monkey::onUpdate(sf::Time t_deltaTime)
 
 	switch (m_myState)
 	{
-	case MonkeyGetBanana:
-		m_speedCur = M_SPEED_RUN;
-		chase(t_deltaTime, m_bananaPos);
-		dist2Banana = m_bananaPos - m_rectShape.getPosition();
-		if (Hlp::v2fGetMagnitude(dist2Banana) < 2.0f)
+	case MonkeySeekBanana:
+		if (m_seek_banana_timer > 0.0f)
 		{
-			startEating(m_bananaPos);
+			m_seek_banana_timer -= t_deltaTime.asSeconds();
+			animateSprite(t_deltaTime);
+			chase(t_deltaTime, m_bananaPos);
+			dist2Banana = m_bananaPos - m_rectShape.getPosition();
+			if (Hlp::v2fGetMagnitude(dist2Banana) < 2.0f)
+			{
+				startEating(m_bananaPos);
+			}
+		}
+		else
+		{
+			m_seek_banana_timer = M_SEEK_BANANA_PERIOD;
+			m_myState = MonkeyState::MonkeyPatrol;
 		}
 		break;
 	case MonkeyEating:
-		std::cout << "This monkey is eating! Animate it!\n\n";
 		if (m_eating_timer > 0.0f)
 		{
 			m_eating_timer -= t_deltaTime.asSeconds();
+			animateSprite(t_deltaTime);
 		}
 		else
 		{
@@ -57,12 +76,26 @@ void NPC_Monkey::onUpdate(sf::Time t_deltaTime)
 	case MonkeyPatrol:
 		detect(playerPos);
 		m_speedCur = M_SPEED_WALK;
+		m_spriteFrameIncrement = 0.1f;
 		patrol(t_deltaTime);
 		break;
 	case MonkeyChase:
 		detect(playerPos);
 		m_speedCur = M_SPEED_RUN;
+		m_spriteFrameIncrement = 0.3f;
 		chase(t_deltaTime, playerPos);
+		break;
+	case MonkeyCatch:
+		if (m_catch_timer > 0.0f)
+		{
+			m_catch_timer -= t_deltaTime.asSeconds();
+			animateSprite(t_deltaTime);
+		}
+		else
+		{
+			m_catch_timer = M_CATCH_PERIOD;
+			m_myState = MonkeyState::MonkeyPatrol;
+		}
 		break;
 	default:
 		std::cout << "This monkey is in an unhandled state! Handle it!\n\n";
@@ -70,6 +103,10 @@ void NPC_Monkey::onUpdate(sf::Time t_deltaTime)
 	}
 }
 
+/// <summary>
+/// Check radius for nearby player, called from patrol state
+/// </summary>
+/// <param name="t_playerPos">Player current position</param>
 void NPC_Monkey::detect(sf::Vector2f t_playerPos)
 {
 	float detectDistance = Hlp::v2fGetMagnitude(m_rectShape.getPosition() - t_playerPos);
@@ -90,6 +127,10 @@ void NPC_Monkey::detect(sf::Vector2f t_playerPos)
 	}
 }
 
+/// <summary>
+/// Make monkey patrol environment
+/// </summary>
+/// <param name="t_deltaTime">Delta time</param>
 void NPC_Monkey::patrol(sf::Time t_deltaTime)
 {// This needs to time the patrol and give move it's destination
 	if (m_patrolTimer <= 0.0f)
@@ -114,30 +155,54 @@ void NPC_Monkey::patrol(sf::Time t_deltaTime)
 	moveTo(t_deltaTime, m_patrolDestination);
 }
 
+/// <summary>
+/// Not totally sure why I don't just use moveTo here, tbh.
+/// </summary>
+/// <param name="t_deltaTime">Delta time</param>
+/// <param name="t_playerPos">Player's current position</param>
 void NPC_Monkey::chase(sf::Time t_deltaTime, sf::Vector2f t_playerPos)
 {// This needs to give move the players destination
 	moveTo(t_deltaTime, t_playerPos);
 }
 
+/// <summary>
+/// On touching the player, start fight and set destination to home.
+/// </summary>
 void NPC_Monkey::touchPlayer()
 {
 	m_patrolDestination = m_posStart;
-	m_myState = MonkeyPatrol;
+	m_myState = MonkeyCatch;
 }
 
-void NPC_Monkey::seesBanana(sf::Vector2f t_bananaPos)
+/// <summary>
+/// On detecting a banana, set state to seekingBanana, 
+/// change move speed and animate speed to run
+/// </summary>
+/// <param name="t_bananaPos">current position of relelvant banana</param>
+void NPC_Monkey::seekBanana(sf::Vector2f t_bananaPos)
 {
-	std::cout << "Monkey see banana?\n\n";
 	m_bananaPos = t_bananaPos;
-	m_myState = MonkeyGetBanana;
+	m_myState = MonkeySeekBanana;
+
+	m_speedCur = M_SPEED_RUN;
+	m_spriteFrameIncrement = 0.1f;
 }
 
+/// <summary>
+/// If the monkey is close enough to a banana, start eating it.
+/// </summary>
+/// <param name="t_bananaPos">Banana current position - THIS INFORMATION ISN'T USED!!!</param>
 void NPC_Monkey::startEating(sf::Vector2f t_bananaPos)
 {
 	m_myState = MonkeyState::MonkeyEating;
 	m_eating_timer = M_EATING_PERIOD;
 }
 
+/// <summary>
+/// Move monkey to specific destination
+/// </summary>
+/// <param name="t_deltaTime">Delta time</param>
+/// <param name="t_destination">Current destination</param>
 void NPC_Monkey::moveTo(sf::Time t_deltaTime, sf::Vector2f t_destination)
 {//Move towards destination.
 	m_desiredDirection = t_destination - m_rectShape.getPosition();
@@ -161,47 +226,76 @@ void NPC_Monkey::moveTo(sf::Time t_deltaTime, sf::Vector2f t_destination)
 	}
 }
 
+/// <summary>
+/// Play appropriate animation for state
+/// </summary>
+/// <param name="t_deltaTime">DeltaTime</param>
 void NPC_Monkey::animateSprite(sf::Time t_deltaTime)
 {
-	int currentFrame = 0;
-	const int FRAME_WIDTH = 16;
-	const int FRAME_HEIGHT = 16;
+	m_spriteFrameCounter += m_spriteFrameIncrement; // Increase spriteFrame
 
+	currentFrame = static_cast<int>(m_spriteFrameCounter); // Truncate to int
+	if (currentFrame >= M_SPRITE_TOTAL_ANIM_FRAMES)
+	{// If more than max frames in cycle,
+		currentFrame = 0;	// ...reset to 0.
+		m_spriteFrameCounter = 0.0f;
+	}
+	if (currentFrame != m_spriteFrame)
+	{// If incremented truncated frame is not the same as current frame,
+		m_spriteFrame = currentFrame; // make current frame incremented frame.
+	}
+
+	switch (m_myState)
+	{
+	case MonkeySeekBanana:
+		animateMove();
+		break;
+	case MonkeyEating:
+		animateEat();
+		break;
+	case MonkeyPatrol:
+		animateMove();
+		break;
+	case MonkeyChase:
+		animateMove();
+		break;
+	case MonkeyCatch:
+		animateCatch();
+		break;
+	default:
+		break;
+	}
+
+	m_rectShape.setTextureRect(m_intRect);
+}
+
+/// <summary>
+/// Play animation for moving in specific direction
+/// </summary>
+void NPC_Monkey::animateMove()
+{
 	if (std::abs(m_desiredDirection.x) > 3.00f || std::abs(m_desiredDirection.y) > 3.00f)
 	{
-		m_spriteFrameCounter += m_spriteFrameIncrement; // Increase spriteFrame
-
-		currentFrame = static_cast<int>(m_spriteFrameCounter); // Truncate to int
-		if (currentFrame >= M_SPRITE_TOTAL_ANIM_FRAMES)
-		{// If more than max frames in cycle,
-			currentFrame = 0;	// ...reset to 0.
-			m_spriteFrameCounter = 0.0f;
-		}
-		if (currentFrame != m_spriteFrame)
-		{// If incremented truncated frame is not the same as current frame,
-			m_spriteFrame = currentFrame; // make current frame incremented frame.
-		}
-
 		if (std::abs(m_desiredDirection.x) > std::abs(m_desiredDirection.y))
 		{// We're facing horizontal
 			if (m_desiredDirection.x > 0.0f)
 			{// We're facing right
-				m_intRect = { 64 + (currentFrame * FRAME_WIDTH), 112, 16, 16 };
+				m_intRect = { 64 + (currentFrame * M_FRAME_WIDTH), 112, 16, 16 };
 			}
 			else
 			{// We're facing left
-				m_intRect = { 64 + (currentFrame * FRAME_WIDTH), 96, 16, 16 };
+				m_intRect = { 64 + (currentFrame * M_FRAME_WIDTH), 96, 16, 16 };
 			}
 		}
 		else
 		{// We're facing vertical
 			if (m_desiredDirection.y > 0.0f)
 			{// We're facing down
-				m_intRect = { 0 + (currentFrame * FRAME_WIDTH), 96, 16, 16 };
+				m_intRect = { 0 + (currentFrame * M_FRAME_WIDTH), 96, 16, 16 };
 			}
 			else
 			{// We're facing up
-				m_intRect = { 0 + (currentFrame * FRAME_WIDTH), 112, 16, 16 };
+				m_intRect = { 0 + (currentFrame * M_FRAME_WIDTH), 112, 16, 16 };
 			}
 		}
 		m_desiredDirPrev = m_desiredDirection;
@@ -231,34 +325,27 @@ void NPC_Monkey::animateSprite(sf::Time t_deltaTime)
 			}
 		}
 	}
-
-	m_rectShape.setTextureRect(m_intRect);
-
-	//if (std::abs(m_desiredDirection.x) > std::abs(m_desiredDirection.y))
-	//{// We're facing horizontal
-	//	if (m_desiredDirection.x > 0.0f)
-	//	{// We're facing right
-	//		m_intRect = { 112, 48, 16, 16 };
-	//	}
-	//	else
-	//	{// We're facing left
-	//		m_intRect = { 112, 32, 16, 16 };
-	//	}
-	//}
-	//else
-	//{// We're facing vertical
-	//	if (m_desiredDirection.y > 0.0f)
-	//	{// We're facing down
-	//		m_intRect = { 112, 0, 16, 16 };
-	//	}
-	//	else
-	//	{// We're facing up
-	//		m_intRect = { 112, 16, 16, 16 };
-	//	}
-	//}
-	//m_rectShape.setTextureRect(m_intRect);
 }
 
+/// <summary>
+/// Play animation for eating
+/// </summary>
+void NPC_Monkey::animateEat()
+{
+	m_intRect = { 64 + (currentFrame * M_FRAME_WIDTH), 80, 16, 16 };
+}
+
+/// <summary>
+/// Play animation for catch/fight
+/// </summary>
+void NPC_Monkey::animateCatch()
+{
+	m_intRect = { 0 + (currentFrame * M_FRAME_WIDTH), 80, 16, 16 };
+}
+
+/// <summary>
+/// Reset Monkey to initial values
+/// </summary>
 void NPC_Monkey::reset()
 {
 	m_rectShape.setPosition(m_posStart);

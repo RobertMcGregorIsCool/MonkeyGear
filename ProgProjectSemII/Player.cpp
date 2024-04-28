@@ -1,3 +1,9 @@
+/// <summary>
+/// Project description: Semester2ProgrammingProject2024
+/// @author RoBert McGregor (C00302210)
+/// @date April 2024
+/// </summary>
+
 #include "Player.h"   // include Player header file
 
 #include "Render.h"	// FORWARD DEPENDANCY - need to use functions
@@ -32,16 +38,24 @@ Player::Player(Assets& t_assets, sf::Vector2f t_posStart, Render& t_render) : m_
 
 Player::~Player(){}
 
+/// <summary>
+/// Input sets desired direction
+/// </summary>
+/// <param name="t_desiredDir">Which way we want to go</param>
 void Player::setDesiredDir(sf::Vector2f t_desiredDir)
 {
 	m_desiredDir = t_desiredDir;
 }
 
+/// <summary>
+/// Powers player, called from Level::OnUpdate
+/// </summary>
+/// <param name="t_deltaTime">Delta Time</param>
 void Player::onUpdate(sf::Time t_deltaTime)
 {
 	switch (m_myState)
 	{
-	case PlayerNone:
+	case PlayerNone: // Not sure I need this?
 		std::cout<< "Player is in an unhandled state!Handle it!\n\n";
 		break;
 	case PlayerVulnerable:
@@ -68,11 +82,17 @@ void Player::onUpdate(sf::Time t_deltaTime)
 	{
 		if (m_bananaBullets[i].m_myState != BananaState::BananaInactive)
 		{
-			m_bananaBullets[i].Update(t_deltaTime);
+			m_bananaBullets[i].update(t_deltaTime);
 		}
 	}
 }
 
+/// <summary>
+/// Sets player lives, based on collision with Monkeys (in Levels)
+/// </summary>
+/// <param name="t_addedValue">Adding or subtracting this amount from m_curLives</param>
+/// <param name="t_render">Ref to render for updating hud</param>
+/// <param name="t_game">Ref to Game - not sure we need this? </param>
 void Player::setLives(int t_addedValue, Render& t_render, Game& t_game)
 {
 	m_curLives += t_addedValue;
@@ -92,11 +112,19 @@ void Player::setLives(int t_addedValue, Render& t_render, Game& t_game)
 	t_render.setHudLives(m_curLives);
 }
 
+/// <summary>
+/// Getter for current lives
+/// </summary>
+/// <returns>Current lives</returns>
 int Player::getLives()
 {
 	return m_curLives;
 }
 
+/// <summary>
+/// Setter for player ammo
+/// </summary>
+/// <param name="t_addedValue">Added/subtracted value for ammo</param>
 void Player::setBananas(int t_addedValue)
 {
 	m_curBananas += t_addedValue;
@@ -111,6 +139,10 @@ void Player::setBananas(int t_addedValue)
 	m_render.setHudBananas(m_curBananas);
 }
 
+/// <summary>
+/// Throw the bananana!
+/// </summary>
+/// <param name="t_throwDirection">Direction of throw</param>
 void Player::throwBanana(sf::Vector2f t_throwDirection)
 {
 	if (m_curBananas > 0)
@@ -119,7 +151,7 @@ void Player::throwBanana(sf::Vector2f t_throwDirection)
 		{
 			if (m_bananaBullets[i].m_myState == BananaState::BananaInactive)
 			{
-				m_bananaBullets[i].ThrowAtDir(m_rectShapeVis.getPosition(), t_throwDirection);
+				m_bananaBullets[i].throwAtDir(m_rectShapeVis.getPosition(), t_throwDirection);
 				setBananas(-1);
 				break;
 			}
@@ -127,6 +159,9 @@ void Player::throwBanana(sf::Vector2f t_throwDirection)
 	}	
 }
 
+/// <summary>
+/// Return player to default value
+/// </summary>
 void Player::reset()
 {
 	m_curLives = M_DEF_LIVES;
@@ -135,7 +170,11 @@ void Player::reset()
 	m_rectShapeVis.setPosition(m_posStart);
 }
 
-void Player::moveDir(sf::Time t_deltaTime) // sf::Vector2f t_desiredDir,
+/// <summary>
+/// Called from onUpdate, moves player in direction
+/// </summary>
+/// <param name="t_deltaTime">Delta Time</param>
+void Player::moveDir(sf::Time t_deltaTime)
 {
 	int currentFrame = 0;
 	const int FRAME_WIDTH = 8;

@@ -1,10 +1,16 @@
+/// <summary>
+/// Project description: Semester2ProgrammingProject2024
+/// @author RoBert McGregor (C00302210)
+/// @date April 2024
+/// </summary>
+
 // Player class declaration
 #pragma once
 #include <iostream>
 #include <SFML/Graphics.hpp>
-#include "Globals.h"   // include Global header file
-#include "Assets.h"		// include Assets header file
-#include "Banana.h"		// include 
+#include "Globals.h"
+#include "Assets.h" // Content loader / container
+#include "Banana.h" // Ammo
 
 class Render;	// FORWARD DEPENDANCY
 class Game;		// FORWARD DEPENDANCY
@@ -60,7 +66,6 @@ public:
 	int getLives();
 	
 	void setBananas(int t_addedValue);
-
 	void throwBanana(sf::Vector2f t_throwDirection);
 
 	void reset();
@@ -69,7 +74,6 @@ public:
 
 	PlayerState m_myState = PlayerState::PlayerInvulnerable;
 
-	// Banana bananaBullet{ m_assets };
 	std::vector<Banana> m_bananaBullets;
 
 	sf::RectangleShape m_rectShapeVis;

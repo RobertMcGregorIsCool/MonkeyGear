@@ -1,3 +1,9 @@
+/// <summary>
+/// Project description: Semester2ProgrammingProject2024
+/// @author RoBert McGregor (C00302210)
+/// @date April 2024
+/// </summary>
+
 #include "Assets.h"
 
 Assets::Assets()
@@ -42,6 +48,4 @@ Assets::Assets()
 	}
 }
 
-Assets::~Assets()
-{
-}
+Assets::~Assets(){}

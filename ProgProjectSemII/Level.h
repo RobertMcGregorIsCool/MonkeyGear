@@ -1,3 +1,9 @@
+/// <summary>
+/// Project description: Semester2ProgrammingProject2024
+/// @author RoBert McGregor (C00302210)
+/// @date April 2024
+/// </summary>
+
 #pragma once
 
 #include "Player.h"
@@ -6,15 +12,7 @@
 #include "AmmoBox.h"
 #include "Assets.h"
 
-	// WIP Player / Monkey	= LoseLife/Teleport
-	// WIP Player / Visitor	= Follow
-	// WIP Player / AmmoBox	= More ammo
-	// WIP Player / SafeZone= N/A
-	// WIP Visitor/ Monkey	= Cower
-	// Visitor/ Banana	= N/A
-	// WIP Visitor/ SafeZone= N/A
-	// WIP Monkey / BananaAr= Eat
-	// WIP Monkey / BananaGd= Eat
+// Some collision stuff I'd still like to do:
 	// Visitor/ Solid	= Impassible
 	// Player / Solid	= Impassible
 	// Monkey / Solid	= Impassible
@@ -35,10 +33,13 @@ class Level
 	void colMonkeyBanana();
 	void colMonkeyVisitor();
 	void colVisitorSafeZone();
+	void colVisitorBanana();
 
 	void rallyTimer(sf::Time t_deltaTime);
 
 	const int M_DEF_VISITOR_SCORE = 0;
+	const float M_INITIAL_RALLY_PERIOD = 35.0f;
+	const float M_RALLY_EXTEND = 7.0f;
 
 	Game& m_game;
 
@@ -58,19 +59,18 @@ public:
 	Render& m_render;
 
 	sf::RectangleShape	m_rectShapeBGImage;
-	sf::RectangleShape	m_rectShape8x8Grid;
-	sf::CircleShape		m_circShapeSafeZone;
+	sf::RectangleShape	m_rectShape8x8Grid;	// Overlaid on play area, used by developer to place objects
+	sf::CircleShape		m_circShapeSafeZone;// Debug visual to show safe zone radius
 
 	Player m_player01{ m_assets, sf::Vector2f(9.0f*7.5f*SCREEN_SCALAR, 2.0f*8.0f*SCREEN_SCALAR), m_render};
 
 	std::vector<NPC_Monkey> m_monkeys;
-	// std::vector<NPC_Visitor> m_visitors;
+
 	NPC_Visitor m_visitor{ sf::Vector2f(SCREEN_WIDTH * 0.15f, SCREEN_HEIGHT * 0.25f), m_assets, m_player01 };
+	
 	AmmoBox m_ammoBox{ m_assets };
 
 	int m_visitorScore = M_DEF_VISITOR_SCORE;
 
-	const float M_INITIAL_RALLY_PERIOD = 30.0f;
 	float m_rallyTimer = M_INITIAL_RALLY_PERIOD;
-	float m_rallyExtend = 5.0f;
 };

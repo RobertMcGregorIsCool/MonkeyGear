@@ -1,9 +1,19 @@
+/// <summary>
+/// Project description: Semester2ProgrammingProject2024
+/// @author RoBert McGregor (C00302210)
+/// @date April 2024
+/// </summary>
+
 #include "Level.h"
 
 // INCLUDES FOR FORWARD DEPENDANCY
 #include "Render.h"
 #include "Game.h"
 
+/// <summary>
+/// Called from Update in Game, powers actors
+/// </summary>
+/// <param name="t_deltaTime">Delta time</param>
 void Level::actorUpdate(sf::Time t_deltaTime)
 {
 	m_player01.onUpdate(t_deltaTime);
@@ -18,6 +28,10 @@ void Level::actorUpdate(sf::Time t_deltaTime)
 	m_ammoBox.onUpdate(t_deltaTime);
 }
 
+/// <summary>
+/// Does collisions
+/// </summary>
+/// <param name="t_game">Reference to game for player interaction</param>
 void Level::doCollisions(Game& t_game)
 {
 	colPlayerMonkey(t_game);
@@ -26,8 +40,13 @@ void Level::doCollisions(Game& t_game)
 	colMonkeyBanana();
 	colMonkeyVisitor();
 	colVisitorSafeZone();
+	colVisitorBanana();
 }
 
+/// <summary>
+/// Collision between Player and Monkey
+/// </summary>
+/// <param name="t_game">Reference to game for when player loses lives</param>
 void Level::colPlayerMonkey(Game& t_game)
 {
 	for (int i = 0; i < static_cast<int>(m_monkeys.size()); i++)
@@ -45,17 +64,23 @@ void Level::colPlayerMonkey(Game& t_game)
 	}
 }
 
+/// <summary>
+/// Collision between Player and Visitor
+/// </summary>
 void Level::colPlayerVisitor()
 {
 	if (m_visitor.m_myState != VisitorPreSpawn && m_visitor.m_myState != VisitorRescue)
 	{
 		if (m_player01.m_rectShapeCol.getGlobalBounds().intersects(m_visitor.m_rectShape.getGlobalBounds()))
 		{
-			m_visitor.m_myState = VisitorFollow;
+			m_visitor.startFollow();
 		}
 	}
 }
 
+/// <summary>
+/// Collision between Player and AmmoBox
+/// </summary>
 void Level::colPlayerAmmoBox()
 {
 	if (m_player01.m_rectShapeCol.getGlobalBounds().intersects(m_ammoBox.m_rectShape.getGlobalBounds()))
@@ -66,6 +91,9 @@ void Level::colPlayerAmmoBox()
 	}
 }
 
+/// <summary>
+/// Collision between Monkey and Banana
+/// </summary>
 void Level::colMonkeyBanana()
 {
 	for (int i = 0; i < static_cast<int>(m_monkeys.size()); i++)
@@ -79,7 +107,7 @@ void Level::colMonkeyBanana()
 					sf::Vector2f curDist = m_monkeys[i].m_rectShape.getPosition() - m_player01.m_bananaBullets[o].m_rectShape.getPosition();
 					if (Hlp::v2fGetMagnitude(curDist) < m_player01.m_bananaBullets[o].M_BANANA_ATTRACT_RADIUS)
 					{
-						m_monkeys[i].seesBanana(m_player01.m_bananaBullets[o].m_rectShape.getPosition());
+						m_monkeys[i].seekBanana(m_player01.m_bananaBullets[o].m_rectShape.getPosition());
 					}
 				}
 			}
@@ -87,6 +115,9 @@ void Level::colMonkeyBanana()
 	}
 }
 
+/// <summary>
+/// Collision between Monkey and Visitor
+/// </summary>
 void Level::colMonkeyVisitor()
 {
 	for (int i = 0; i < static_cast<int>(m_monkeys.size()); i++)
@@ -101,6 +132,9 @@ void Level::colMonkeyVisitor()
 	}
 }
 
+/// <summary>
+/// Collision between Visitor and Safe Zone
+/// </summary>
 void Level::colVisitorSafeZone()
 {
 	sf::Vector2f distance = m_circShapeSafeZone.getPosition() - m_visitor.m_rectShape.getPosition();
@@ -111,11 +145,32 @@ void Level::colVisitorSafeZone()
 			m_visitor.rescue();
 			m_visitorScore++;
 			m_render.setHudVisitors(m_visitorScore);
-			rallyAddTime(m_rallyExtend);
+			rallyAddTime(M_RALLY_EXTEND);
 		}
 	}
 }
 
+/// <summary>
+/// Collision between Visitor and thrown Banana
+/// </summary>
+void Level::colVisitorBanana()
+{
+	for (int o = 0; o < static_cast<int>(m_player01.m_bananaBullets.size()); o++)
+	{
+		if (m_player01.m_bananaBullets[o].m_rectShape.getGlobalBounds().intersects(m_visitor.m_rectShape.getGlobalBounds()))
+		{
+			if (m_visitor.m_myState == VisitorFollow && m_player01.m_bananaBullets[o].m_myState == BananaThrown)
+			{
+				m_visitor.bananaBash();
+			}
+		}
+	}
+}
+
+/// <summary>
+/// Timer which can have extra time added if player rescues a visitor.
+/// </summary>
+/// <param name="t_deltaTime">Delta time</param>
 void Level::rallyTimer(sf::Time t_deltaTime)
 {
 	if (m_rallyTimer > 0)
@@ -131,16 +186,29 @@ void Level::rallyTimer(sf::Time t_deltaTime)
 	}
 }
 
+/// <summary>
+/// When visitor is rescued, this adds extra time for player
+/// </summary>
+/// <param name="seconds"></param>
 void Level::rallyAddTime(float seconds)
 {
 	m_rallyTimer += seconds;
 }
 
+/// <summary>
+/// Called when all player lives lost or time has run out
+/// </summary>
 void Level::onGameOver()
 {
 	m_game.setGameState(GameState::GSGameOver);
 }
 
+/// <summary>
+/// Constructor
+/// </summary>
+/// <param name="t_assets">Reference to asset loader / container</param>
+/// <param name="t_render">Reference to rendering code</param>
+/// <param name="t_game">Reference to main game loop</param>
 Level::Level(Assets& t_assets, Render& t_render, Game& t_game) : m_assets{ t_assets }, m_render{ t_render }, m_game{ t_game }
 {
 	m_monkeys.push_back(NPC_Monkey{ sf::Vector2f(SCREEN_WIDTH * 0.15f, SCREEN_HEIGHT * 0.25f), 500.0f, m_assets, m_player01 });
@@ -167,6 +235,11 @@ Level::Level(Assets& t_assets, Render& t_render, Game& t_game) : m_assets{ t_ass
 
 Level::~Level(){}
 
+/// <summary>
+/// Called from Game::Update, powers level functions
+/// </summary>
+/// <param name="t_deltaTime">Delta time</param>
+/// <param name="t_game">Reference to main game loop</param>
 void Level::onUpdate(sf::Time t_deltaTime, Game& t_game)
 {
 	actorUpdate(t_deltaTime);
@@ -176,6 +249,9 @@ void Level::onUpdate(sf::Time t_deltaTime, Game& t_game)
 	rallyTimer(t_deltaTime);
 }
 
+/// <summary>
+/// Resets level to initial state
+/// </summary>
 void Level::onReset()
 {
 	m_visitorScore = M_DEF_VISITOR_SCORE;
@@ -185,5 +261,9 @@ void Level::onReset()
 	for (int i = 0; i < static_cast<int>(m_monkeys.size()); i++)
 	{
 		m_monkeys[i].reset();
+	}
+	for (int o = 0; o < static_cast<int>(m_player01.m_bananaBullets.size()); o++)
+	{
+		m_player01.m_bananaBullets[o].reset();
 	}
 }

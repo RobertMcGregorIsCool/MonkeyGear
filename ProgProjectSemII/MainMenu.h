@@ -1,3 +1,9 @@
+/// <summary>
+/// Project description: Semester2ProgrammingProject2024
+/// @author RoBert McGregor (C00302210)
+/// @date April 2024
+/// </summary>
+
 #pragma once
 #include "SFML/Graphics.hpp"
 #include "Globals.h"
@@ -13,8 +19,10 @@ class MainMenu
 	sf::Text m_textButtons[M_MENU_OPTIONS];
 	sf::Vector2f m_buttonLocations[M_MENU_OPTIONS];
 
-	Assets& m_assets;
+	Assets& m_assets;	// Reference to asset loader / container
 	Game& m_game;
+
+	sf::RectangleShape m_rectShapeButton;
 
 public:
 	MainMenu(Assets& t_assets, Game& t_game);
@@ -27,9 +35,6 @@ public:
 	const float M_BUTTON_HGT = 16.0f;
 	const float M_BUTTON_X_START = (SCREEN_WIDTH - M_BUTTON_WDH) * 0.5f;
 	const float M_BUTTON_Y_START = 32.0f * SCREEN_SCALAR;
-	const float M_BUTTON_GAP = 32.0f * SCREEN_SCALAR;
-
-	sf::RectangleShape m_rectShapeButton;
-	
+	const float M_BUTTON_GAP = 32.0f * SCREEN_SCALAR;	
 };
 
