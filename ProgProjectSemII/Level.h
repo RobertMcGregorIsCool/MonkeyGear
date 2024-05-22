@@ -11,6 +11,7 @@
 #include "NPC_Visitor.h"
 #include "AmmoBox.h"
 #include "Assets.h"
+#include "PropJeep.h"
 
 // Some collision stuff I'd still like to do:
 	// Visitor/ Solid	= Impassible
@@ -69,6 +70,8 @@ public:
 	NPC_Visitor m_visitor{ sf::Vector2f(SCREEN_WIDTH * 0.15f, SCREEN_HEIGHT * 0.25f), m_assets, m_player01 };
 	
 	AmmoBox m_ammoBox{ m_assets };
+
+	PropJeep m_propJeep{ m_assets };
 
 	int m_visitorScore = M_DEF_VISITOR_SCORE;
 

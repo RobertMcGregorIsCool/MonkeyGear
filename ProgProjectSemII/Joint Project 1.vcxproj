@@ -134,6 +134,7 @@
     <ClCompile Include="NPC_Monkey.cpp" />
     <ClCompile Include="NPC_Visitor.cpp" />
     <ClCompile Include="Player.cpp" />
+    <ClCompile Include="PropJeep.cpp" />
     <ClCompile Include="Render.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -149,6 +150,7 @@
     <ClInclude Include="NPC_Monkey.h" />
     <ClInclude Include="NPC_Visitor.h" />
     <ClInclude Include="Player.h" />
+    <ClInclude Include="PropJeep.h" />
     <ClInclude Include="Render.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

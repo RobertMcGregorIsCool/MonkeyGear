@@ -157,6 +157,8 @@ void Render::drawGameplay()
     // DRAW BACKGROUND
     m_window.draw(m_level.m_rectShapeBGImage);
 
+    m_window.draw(m_level.m_propJeep.m_rectShapeJeep);
+
     Player plrRef = m_level.m_player01;
 
     if (plrRef.m_myState == PlayerInvulnerable)

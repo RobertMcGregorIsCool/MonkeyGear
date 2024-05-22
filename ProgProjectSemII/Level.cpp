@@ -247,6 +247,8 @@ void Level::onUpdate(sf::Time t_deltaTime, Game& t_game)
 	doCollisions(t_game);
 
 	rallyTimer(t_deltaTime);
+
+	m_propJeep.onUpdate(t_deltaTime);
 }
 
 /// <summary>
