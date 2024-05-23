@@ -126,6 +126,7 @@
     <ClCompile Include="AmmoBox.cpp" />
     <ClCompile Include="Assets.cpp" />
     <ClCompile Include="Banana.cpp" />
+    <ClCompile Include="DressingParent.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="Hlp.cpp" />
     <ClCompile Include="Input.cpp" />
@@ -141,6 +142,7 @@
     <ClInclude Include="AmmoBox.h" />
     <ClInclude Include="Assets.h" />
     <ClInclude Include="Banana.h" />
+    <ClInclude Include="DressingParent.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="Globals.h" />
     <ClInclude Include="Hlp.h" />

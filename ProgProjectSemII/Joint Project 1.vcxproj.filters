@@ -13,11 +13,11 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="Source Files\Props">
-      <UniqueIdentifier>{cb96f6f2-129f-4dac-8fbe-33eaf974b54f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\Props">
+    <Filter Include="Header Files\Dressing">
       <UniqueIdentifier>{db42c5e3-a1eb-48f3-af52-c85aac2ec40d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Dressing">
+      <UniqueIdentifier>{cb96f6f2-129f-4dac-8fbe-33eaf974b54f}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -58,7 +58,10 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="PropJeep.cpp">
-      <Filter>Source Files\Props</Filter>
+      <Filter>Source Files\Dressing</Filter>
+    </ClCompile>
+    <ClCompile Include="DressingParent.cpp">
+      <Filter>Source Files\Dressing</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -102,7 +105,10 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="PropJeep.h">
-      <Filter>Header Files\Props</Filter>
+      <Filter>Header Files\Dressing</Filter>
+    </ClInclude>
+    <ClInclude Include="DressingParent.h">
+      <Filter>Header Files\Dressing</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
