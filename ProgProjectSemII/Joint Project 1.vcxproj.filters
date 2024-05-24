@@ -60,8 +60,11 @@
     <ClCompile Include="PropJeep.cpp">
       <Filter>Source Files\Dressing</Filter>
     </ClCompile>
-    <ClCompile Include="DressingParent.cpp">
+    <ClCompile Include="Dressing.cpp">
       <Filter>Source Files\Dressing</Filter>
+    </ClCompile>
+    <ClCompile Include="LevelTitle.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -107,8 +110,11 @@
     <ClInclude Include="PropJeep.h">
       <Filter>Header Files\Dressing</Filter>
     </ClInclude>
-    <ClInclude Include="DressingParent.h">
+    <ClInclude Include="Dressing.h">
       <Filter>Header Files\Dressing</Filter>
+    </ClInclude>
+    <ClInclude Include="LevelTitle.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

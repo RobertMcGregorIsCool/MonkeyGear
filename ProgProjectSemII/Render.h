@@ -10,6 +10,7 @@
 #include "Globals.h"
 #include "Level.h"
 #include "MainMenu.h"
+// #include "LevelTitle.h"
 
 class Game; // FORWARD DEPENDENCY
 
@@ -38,7 +39,7 @@ class Render
 
 	Level& m_level;	// Reference to Level container
 	Assets& m_assets;
-	
+}
 
 public:
 

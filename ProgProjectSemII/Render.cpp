@@ -157,7 +157,9 @@ void Render::drawGameplay()
     // DRAW BACKGROUND
     m_window.draw(m_level.m_rectShapeBGImage);
 
-    m_window.draw(m_level.m_propJeep.m_rectShapeJeep);
+    // DRAW DRESSING (non-interactive animated set dressing)
+    m_window.draw(m_level.m_dresJeep.m_rectShape);
+    m_window.draw(m_level.m_dresSmok.m_rectShape);
 
     Player plrRef = m_level.m_player01;
 

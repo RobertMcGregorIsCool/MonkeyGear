@@ -231,6 +231,9 @@ Level::Level(Assets& t_assets, Render& t_render, Game& t_game) : m_assets{ t_ass
 	m_circShapeSafeZone.setFillColor(sf::Color::Transparent);
 
 	m_rallyTimer = M_INITIAL_RALLY_PERIOD;
+
+	m_dresJeep.m_rectShape.setPosition(SCREEN_WIDTH * 0.5f, (13.0f * SCREEN_SCALAR) + m_dresJeep.m_rectShape.getSize().y * 0.5f);
+	m_dresSmok.m_rectShape.setPosition(SCREEN_WIDTH * 0.5f + (20 * SCREEN_SCALAR), 28 * SCREEN_SCALAR);
 }
 
 Level::~Level(){}
@@ -248,7 +251,8 @@ void Level::onUpdate(sf::Time t_deltaTime, Game& t_game)
 
 	rallyTimer(t_deltaTime);
 
-	m_propJeep.onUpdate(t_deltaTime);
+	m_dresJeep.onAnimate();
+	m_dresSmok.onAnimate();
 }
 
 /// <summary>

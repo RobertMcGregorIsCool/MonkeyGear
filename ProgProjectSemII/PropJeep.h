@@ -18,10 +18,7 @@ class PropJeep
 	const int M_FRAME_WIDTH = 32;
 	const int M_FRAME_HEIGHT = 32;
 	
-
-
 public:
-
 	PropJeep(Assets& t_assets);
 	~PropJeep();
 
