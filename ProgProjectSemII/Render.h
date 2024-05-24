@@ -39,7 +39,6 @@ class Render
 
 	Level& m_level;	// Reference to Level container
 	Assets& m_assets;
-}
 
 public:
 
