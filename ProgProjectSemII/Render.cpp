@@ -248,6 +248,12 @@ void Render::drawGameplay()
     // Determine if rallytimer hud should flash for urgency
     if (m_level.m_rallyTimer <= 10.0f)
     {
+        if (m_assets.m_musStage02.getPitch() != 1.5f)
+        {
+            m_assets.m_musStage02.setPitch(1.5f);
+        }
+        
+
         if (m_flashShow)
         {
             m_window.draw(m_hudTimer);
@@ -255,6 +261,11 @@ void Render::drawGameplay()
     }
     else
     {
+        if (m_assets.m_musStage02.getPitch() != 1)
+        {
+            m_assets.m_musStage02.setPitch(1);
+        }
+
         m_window.draw(m_hudTimer);
     }
 

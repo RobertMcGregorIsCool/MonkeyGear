@@ -47,14 +47,14 @@ Assets::Assets()
 		std::cout << "howToPlay01001RS.png failed to load.";
 	}
 
-	if (!m_musStageSelect.openFromFile("ASSETS/AUDIO/Juhani Junkala [Chiptune Adventures] 4. Stage Select.ogg"))
+	if (!m_musStageSelect.openFromFile("ASSETS/AUDIO/Stage Select.ogg"))
 	{
 		std::cout << "Music StageSelect.ogg failed to load";
 	}
 	m_musStageSelect.setLoop(true);
 	m_musStageSelect.setVolume(10);
 
-	if (!m_musStage02.openFromFile("ASSETS/AUDIO/Juhani Junkala [Chiptune Adventures] 2. Stage 2.ogg"))
+	if (!m_musStage02.openFromFile("ASSETS/AUDIO/Stage 2.ogg"))
 	{
 		std::cout << "Music Stage 2.ogg failed to load.";
 	}
@@ -103,6 +103,8 @@ Assets::Assets()
 	m_sfxVisitorOkay.setBuffer(m_bufVisitorOkay);
 	m_sfxVisitorWoohoo.setBuffer(m_bufVisitorWoohoo);
 	m_sfxBikeHorn.setBuffer(m_bufBikeHorn);
+
+	m_sfxPlayerDeath.setVolume(25);
 }
 
 Assets::~Assets(){}
