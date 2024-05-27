@@ -73,7 +73,6 @@ public:
 	AmmoBox m_ammoBox{ m_assets };
 
 	// Remember to set position of Dressings in Level constructor, AND to animate!
-	// Dressing m_propJeep { m_assets, 0.1f, 4, 32,32,128,0, true, false };
 	Dressing m_dresJeep{ m_assets, 0.1f, 1, 4, 32, 32, 128, 0, true, false };
 	Dressing m_dresSmok{ m_assets, 0.1f, 2,2,8,8,112, 64, true, true };
 

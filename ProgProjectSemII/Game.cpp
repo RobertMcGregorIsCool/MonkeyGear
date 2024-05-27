@@ -139,10 +139,20 @@ void Game::setGameState(GameState t_newState)
     switch (t_newState)
     {
     case GSTitleScreen:
+        if (m_assets.m_musStageSelect.getStatus() == sf::SoundSource::Status::Stopped)
+        {
+            m_assets.m_musStage02.stop();
+            m_assets.m_musStageSelect.play();
+        }
         break;
     case GSMainMenu:
         break;
     case GSGameplay:
+        if (m_assets.m_musStage02.getStatus() == sf::SoundSource::Status::Stopped)
+        {
+            m_assets.m_musStageSelect.stop();
+            m_assets.m_musStage02.play();
+        }
         m_level01.onReset();
         break;
     case GSGameOver:

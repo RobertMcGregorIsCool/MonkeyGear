@@ -103,6 +103,16 @@ void Render::onDraw()
     }    
 
     m_window.display();
+
+    if (m_game.getGameState() == GameState::GSMainMenu)
+    {// If we're on the main menu and the level title isn't reset, reset it. Really, this should be in a reset function of Level Title but I'm pushing this out the door and will never look at it again so whatever.
+        if (m_levelTitle.m_introTimer != 1.0f)
+        {
+
+            m_levelTitle.m_rectShape.setPosition(SCREEN_SIZE * 0.5f);
+            m_levelTitle.m_introTimer = 1.0f;
+        }
+    }
 }
 
 /// <summary>
@@ -233,6 +243,8 @@ void Render::drawGameplay()
     m_window.draw(m_hudVisitors);
     m_window.draw(m_hudFruit);
 
+    m_window.draw(m_levelTitle.m_rectShape);
+
     // Determine if rallytimer hud should flash for urgency
     if (m_level.m_rallyTimer <= 10.0f)
     {
@@ -278,6 +290,12 @@ void Render::onUpdate(sf::Time t_deltaTime)
         m_flashTimer = M_FLASH_PERIOD;
         m_flashShow = !m_flashShow;
     }
+
+    if (m_game.getGameState() == GameState::GSGameplay)
+    {// If we're in gameplay, start the level title timer and then move it up.
+        m_levelTitle.onUpdate(t_deltaTime);
+    }
+
 }
 
 /// <summary>

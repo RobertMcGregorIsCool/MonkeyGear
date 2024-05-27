@@ -56,6 +56,12 @@ void Level::colPlayerMonkey(Game& t_game)
 			m_monkeys[i].touchPlayer();
 			m_player01.setLives(-1, m_render, t_game);
 
+			if (m_assets.m_sfxPlayerDeath.getStatus() == sf::SoundSource::Stopped)
+			{
+				m_assets.m_sfxPlayerDeath.play();
+			}
+
+
 			if (m_player01.getLives() <= 0)
 			{
 				onGameOver();
@@ -74,6 +80,11 @@ void Level::colPlayerVisitor()
 		if (m_player01.m_rectShapeCol.getGlobalBounds().intersects(m_visitor.m_rectShape.getGlobalBounds()))
 		{
 			m_visitor.startFollow();
+
+			if (m_assets.m_sfxVisitorOkay.getStatus() == sf::SoundSource::Stopped)
+			{
+				m_assets.m_sfxVisitorOkay.play();
+			}
 		}
 	}
 }
@@ -88,6 +99,11 @@ void Level::colPlayerAmmoBox()
 		// std::cout << "Touching ammoBox! \n\n";
 		m_ammoBox.goPreSpawn();
 		m_player01.setBananas(3);
+
+		if (m_assets.m_sfxPickup.getStatus() == sf::SoundSource::Stopped)
+		{
+			m_assets.m_sfxPickup.play();
+		}
 	}
 }
 
@@ -127,6 +143,11 @@ void Level::colMonkeyVisitor()
 			if (m_visitor.m_myState == VisitorFollow)
 			{
 				m_visitor.startFlee(m_monkeys[i].m_rectShape.getPosition());
+
+				if (m_assets.m_sfxVisitorAahh.getStatus() == sf::SoundSource::Stopped)
+				{
+					m_assets.m_sfxVisitorAahh.play();
+				}
 			}
 		}
 	}
@@ -146,6 +167,11 @@ void Level::colVisitorSafeZone()
 			m_visitorScore++;
 			m_render.setHudVisitors(m_visitorScore);
 			rallyAddTime(M_RALLY_EXTEND);
+
+			if (m_assets.m_sfxVisitorWoohoo.getStatus() == sf::SoundSource::Stopped)
+			{
+				m_assets.m_sfxVisitorWoohoo.play();
+			}
 		}
 	}
 }
@@ -200,6 +226,10 @@ void Level::rallyAddTime(float seconds)
 /// </summary>
 void Level::onGameOver()
 {
+	m_assets.m_musStage02.stop();
+
+	m_assets.m_sfxBikeHorn.play();
+
 	m_game.setGameState(GameState::GSGameOver);
 }
 
