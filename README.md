@@ -1,4 +1,4 @@
-[![Review Assignment Due Date](https://classroom.github.com/assets/deadline-readme-button-24ddc0f5d75046c5622901739e7c5dd533143b0c8e959d652212380cedb1ea36.svg)](https://classroom.github.com/a/5qTj1Xtl)
+MONKEY GEAR
 # Semester 2 Programming Project 2024
 
-This is the starter code for Bernadette Power's programming project
+Save as many clowns as you can from a birthday trip to the zoo gone horribly wrong!
